@@ -7,7 +7,7 @@ import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 
-import io.nem.swift.crypto.SecureMessageSpectroPayloadDecoder;
+import io.nem.spectro.crypto.SecureMessageSpectroPayloadDecoder;
 
 
 /**

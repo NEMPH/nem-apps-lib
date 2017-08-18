@@ -1,4 +1,4 @@
-package io.nem.swift.crypto;
+package io.nem.spectro.crypto;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

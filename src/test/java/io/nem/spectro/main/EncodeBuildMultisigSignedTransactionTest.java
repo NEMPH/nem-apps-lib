@@ -10,9 +10,9 @@ import org.nem.core.test.Utils;
 
 import io.nem.spectro.builders.MultisigTransactionBuilder;
 import io.nem.spectro.builders.TransactionBuilder;
+import io.nem.spectro.crypto.SecureMessageSpectroPayloadEncoder;
 import io.nem.spectro.builders.GenericTransactionBuilder;
 import io.nem.spectro.factories.AttachmentFactory;
-import io.nem.swift.crypto.SecureMessageSpectroPayloadEncoder;
 
 
 /**
