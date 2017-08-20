@@ -1,10 +1,13 @@
 package io.nem.spectro.main;
 
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
+
+import io.nem.spectro.builders.ConfigurationBuilder;
 
 
 /**
@@ -40,6 +43,7 @@ public abstract class TransactionUnitTest {
 	 * Instantiates a new transaction unit test.
 	 */
 	public TransactionUnitTest() {
+		ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http").nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
 		Assume.assumeTrue(this.isTestable());
 	}
 
