@@ -8,11 +8,10 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
-
-import io.nem.spectro.fee.TransactionFeeCalculatorAfterForkForApp;
 import io.nem.spectro.model.SpectroMultisigTransaction;
 import io.nem.spectro.service.BlockchainTransactionService;
 import io.nem.spectro.service.Globals;
+
 
 /**
  * The Class MultisigTransactionBuilder.
@@ -95,7 +94,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * @param timeInstant the time instant
 		 * @return the i build
 		 */
-//		IBuild fee(Amount amount);
+		IBuild fee(Amount amount);
 
 		/**
 		 * Deadline.
@@ -251,11 +250,11 @@ public class MultisigSignatureTransactionBuilder {
 		 * io.nem.builders.MultisigTransactionBuilder.IBuild#fee(org.nem.core.
 		 * model.primitive.Amount)
 		 */
-//		@Override
-//		public IBuild fee(Amount amount) {
-//			instance.setFee(amount);
-//			return this;
-//		}
+		@Override
+		public IBuild fee(Amount amount) {
+			instance.setFee(amount);
+			return this;
+		}
 
 		/*
 		 * (non-Javadoc)

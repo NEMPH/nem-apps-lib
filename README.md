@@ -53,8 +53,12 @@ TransactionBuilder.initiateTransactionBuild()
 
 <h2>Fee Calculation</h2>
 
+There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
+
 <h2>Accounts</h2>
 <h3>Generate a new Account</h3>
+
+
 <h3>Get Account Info using Address</h3>
 <h3>Get All Transactions for an Account</h3>
 <h3>Get All Confirmed Transactions for an Account</h3>

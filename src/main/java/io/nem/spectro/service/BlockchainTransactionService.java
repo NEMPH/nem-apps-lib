@@ -24,10 +24,10 @@ public class BlockchainTransactionService {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(BlockchainTransactionService.class.getName());
-
-	static {
-		NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(AppPropertiesUtil.getProperty("node.endpoint.networkname")));
-	}
+//
+//	static {
+////		NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(AppPropertiesUtil.getProperty("node.endpoint.networkname")));
+//	}
 
 	/**
 	 * Creates the and send transaction.

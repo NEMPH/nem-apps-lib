@@ -6,6 +6,7 @@ import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
 import org.nem.core.model.Address;
 
+
 /**
  * A factory for creating Entity objects.
  */

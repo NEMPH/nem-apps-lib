@@ -8,6 +8,7 @@ import org.nem.core.model.Account;
 
 import io.nem.spectro.factories.EntityFactory;
 
+
 /**
  * The Class SecureMessagePayloadEncoder.
  *
