@@ -1,12 +1,9 @@
 package io.nem.spectro.util;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
-
 import org.nem.core.connect.HttpJsonPostRequest;
 import org.nem.core.connect.client.NisApiId;
-import org.nem.core.model.NetworkInfos;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
@@ -50,8 +47,8 @@ public class TransactionSenderUtil {
 			}).exceptionally(e -> {
 				LOGGER.warning(String.format("could not send xem:" + e.getMessage()));
 				return null;
-			}).get();
-		} catch (InterruptedException | ExecutionException e) {
+			}).join();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
