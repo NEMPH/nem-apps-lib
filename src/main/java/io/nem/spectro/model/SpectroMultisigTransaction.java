@@ -10,6 +10,7 @@ import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 
+
 /**
  * The Class MultisigTransaction.
  */
@@ -21,15 +22,26 @@ public class SpectroMultisigTransaction implements Serializable {
 	/** The fee. */
 	private Amount fee;
 	
+	/** The fee calculator. */
 	private TransactionFeeCalculator feeCalculator;
 
 	/** The signature. */
 	private Signature signature;
 
+	/**
+	 * Gets the fee calculator.
+	 *
+	 * @return the fee calculator
+	 */
 	public TransactionFeeCalculator getFeeCalculator() {
 		return feeCalculator;
 	}
 
+	/**
+	 * Sets the fee calculator.
+	 *
+	 * @param feeCalculator the new fee calculator
+	 */
 	public void setFeeCalculator(TransactionFeeCalculator feeCalculator) {
 		this.feeCalculator = feeCalculator;
 	}

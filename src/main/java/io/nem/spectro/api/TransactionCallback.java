@@ -3,6 +3,7 @@ package io.nem.spectro.api;
 import org.nem.core.model.Transaction;
 
 
+
 /**
  * The Interface TransactionCallback.
  */

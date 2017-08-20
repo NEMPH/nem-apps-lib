@@ -7,6 +7,7 @@ import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.primitive.Quantity;
 
 
+
 /**
  * The Class SecureMessageAttachmentBuilder.
  */

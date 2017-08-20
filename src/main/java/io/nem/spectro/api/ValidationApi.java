@@ -7,6 +7,7 @@ import io.nem.spectro.util.NemSpectroNetworkResponse;
 import io.nem.spectro.util.NetworkUtils;
 
 
+
 /**
  * The Class ValidationApi.
  */

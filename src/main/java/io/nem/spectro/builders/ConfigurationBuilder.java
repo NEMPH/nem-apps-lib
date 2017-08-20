@@ -7,6 +7,7 @@ import org.nem.core.node.NodeEndpoint;
 import io.nem.spectro.api.TransactionCallback;
 import io.nem.spectro.service.Globals;
 
+
 /**
  * The Class ConfigurationBuilder.
  */
@@ -90,8 +91,18 @@ public class ConfigurationBuilder {
 	 */
 	public interface IBuild {
 
+		/**
+		 * Transaction fee.
+		 *
+		 * @param feeCalculator the fee calculator
+		 */
 		void transactionFee(TransactionFeeCalculator feeCalculator);
 
+		/**
+		 * Transaction multisig fee.
+		 *
+		 * @param feeCalculator the fee calculator
+		 */
 		void transactionMultisigFee(TransactionFeeCalculator feeCalculator);
 
 		/**
@@ -229,10 +240,17 @@ public class ConfigurationBuilder {
 			return this;
 		}
 		
+		/* (non-Javadoc)
+		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionFee(org.nem.core.model.TransactionFeeCalculator)
+		 */
 		@Override
 		public void transactionFee(TransactionFeeCalculator feeCalculator) {
 			
 		}
+		
+		/* (non-Javadoc)
+		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionMultisigFee(org.nem.core.model.TransactionFeeCalculator)
+		 */
 		@Override
 		public void transactionMultisigFee(TransactionFeeCalculator feeCalculator) {
 			

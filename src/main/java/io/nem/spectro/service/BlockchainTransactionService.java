@@ -19,6 +19,7 @@ import io.nem.spectro.model.SpectroTransaction;
 import io.nem.spectro.util.AppPropertiesUtil;
 import io.nem.spectro.util.TransactionSenderUtil;
 
+
 /**
  * The Class TransactionService.
  */
@@ -152,6 +153,12 @@ public class BlockchainTransactionService {
 		return transaction;
 	}
 	
+	/**
+	 * Creates the transaction.
+	 *
+	 * @param tBlock the t block
+	 * @return the transaction
+	 */
 	public static Transaction createTransaction(final SpectroTransaction tBlock) {
 
 		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant
@@ -175,6 +182,12 @@ public class BlockchainTransactionService {
 		return transaction;
 	}
 	
+	/**
+	 * Creates the transaction.
+	 *
+	 * @param tBlock the t block
+	 * @return the transaction
+	 */
 	public static Transaction createTransaction(final SpectroMultisigTransaction tBlock) {
 
 		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant
@@ -198,6 +211,12 @@ public class BlockchainTransactionService {
 		return transaction;
 	}
 	
+	/**
+	 * Creates the transaction.
+	 *
+	 * @param tBlock the t block
+	 * @return the transaction
+	 */
 	public static Transaction createTransaction(final SpectroMultisigSignatureTransaction tBlock) {
 
 		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant

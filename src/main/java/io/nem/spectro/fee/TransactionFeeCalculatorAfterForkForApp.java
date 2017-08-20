@@ -18,13 +18,19 @@ import org.nem.core.model.primitive.Supply;
 
 import io.nem.spectro.model.NISQuery;
 
+
 /**
  * Implementation for calculating and validating transaction fees since the fee fork.
  */
 public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCalculator {
+	
+	/** The Constant FEE_UNIT. */
 	private static final Amount FEE_UNIT = Amount.fromNem(2);
+	
+	/** The Constant FEE_MULTIPLIER. */
 	private static final int FEE_MULTIPLIER = 3;
 
+	/** The mosaic fee information lookup. */
 	private final MosaicFeeInformationLookup mosaicFeeInformationLookup;
 
 	/**
@@ -67,6 +73,12 @@ public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCa
 		return FEE_UNIT.multiply(FEE_MULTIPLIER);
 	}
 
+	/**
+	 * Calculate minimum fee.
+	 *
+	 * @param transaction the transaction
+	 * @return the amount
+	 */
 	private Amount calculateMinimumFee(final TransferTransaction transaction) {
 		final long messageFee = null == transaction.getMessage()
 				? 0
@@ -93,10 +105,24 @@ public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCa
 		return Amount.fromNem(messageFee + transferFee);
 	}
 
+	/**
+	 * Calculate xem transfer fee.
+	 *
+	 * @param numXem the num xem
+	 * @return the long
+	 */
 	private static long calculateXemTransferFee(final long numXem) {
 		return Math.min(25, Math.max(1L, numXem / 10_000L));
 	}
 
+	/**
+	 * Calculate mosaic transfer fee.
+	 *
+	 * @param amount the amount
+	 * @param mosaic the mosaic
+	 * @param information the information
+	 * @return the long
+	 */
 	private static long calculateMosaicTransferFee(
 			final Amount amount,
 			final Mosaic mosaic,
@@ -114,6 +140,15 @@ public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCa
 		return Math.max(1L, xemFee - supplyRelatedAdjustment);
 	}
 
+	/**
+	 * Calculate xem equivalent.
+	 *
+	 * @param amount the amount
+	 * @param mosaic the mosaic
+	 * @param supply the supply
+	 * @param divisibility the divisibility
+	 * @return the long
+	 */
 	private static long calculateXemEquivalent(final Amount amount, final Mosaic mosaic, final Supply supply, final int divisibility) {
 		if (Supply.ZERO.equals(supply)) {
 			return 0;
@@ -127,12 +162,21 @@ public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCa
 				.longValue();
 	}
 
+	/**
+	 * Calculate minimum fee.
+	 *
+	 * @param transaction the transaction
+	 * @return the amount
+	 */
 	private static Amount calculateMinimumFee(final MultisigAggregateModificationTransaction transaction) {
 		final int numModifications = transaction.getCosignatoryModifications().size();
 		final int minCosignatoriesFee = null == transaction.getMinCosignatoriesModification() ? 0 : FEE_MULTIPLIER;
 		return FEE_UNIT.multiply(5 + FEE_MULTIPLIER * numModifications + minCosignatoriesFee);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.nem.core.model.TransactionFeeCalculator#isFeeValid(org.nem.core.model.Transaction, org.nem.core.model.primitive.BlockHeight)
+	 */
 	@Override
 	public boolean isFeeValid(Transaction transaction, BlockHeight blockHeight) {
 		final Amount minimumFee = this.calculateMinimumFee(transaction);

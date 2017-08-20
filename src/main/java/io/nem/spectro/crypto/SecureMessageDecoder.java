@@ -9,6 +9,7 @@ import org.nem.core.model.Account;
 import org.nem.core.utils.HexEncoder;
 
 
+
 /**
  * The Class SecureMessagePayloadDecoder.
  */

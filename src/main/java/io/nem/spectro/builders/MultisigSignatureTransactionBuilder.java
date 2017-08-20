@@ -16,6 +16,7 @@ import io.nem.spectro.service.BlockchainTransactionService;
 import io.nem.spectro.service.Globals;
 
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -94,11 +95,17 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Fee.
 		 *
-		 * @param timeInstant the time instant
+		 * @param amount the amount
 		 * @return the i build
 		 */
 		IBuild fee(Amount amount);
 		
+		/**
+		 * Fee calculator.
+		 *
+		 * @param feeCalculator the fee calculator
+		 * @return the i build
+		 */
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
 
 		/**
@@ -298,6 +305,9 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 		
+		/* (non-Javadoc)
+		 * @see io.nem.spectro.builders.MultisigSignatureTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
+		 */
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
 			instance.setFeeCalculator(feeCalculator);

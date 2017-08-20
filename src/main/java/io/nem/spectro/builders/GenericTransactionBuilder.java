@@ -17,6 +17,7 @@ import io.nem.spectro.model.SpectroTransaction;
 import io.nem.spectro.service.BlockchainTransactionService;
 import io.nem.spectro.service.Globals;
 
+
 /**
  * The Class TransactionBuilder.
  */
@@ -60,8 +61,20 @@ public class GenericTransactionBuilder {
 	 */
 	public interface IBuild {
 
+		/**
+		 * Fee.
+		 *
+		 * @param amount the amount
+		 * @return the i build
+		 */
 		IBuild fee(Amount amount);
 
+		/**
+		 * Fee calculator.
+		 *
+		 * @param feeCalculator the fee calculator
+		 * @return the i build
+		 */
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
 
 		/**
@@ -297,12 +310,18 @@ public class GenericTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.spectro.builders.GenericTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
+		 */
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
 			instance.setFeeCalculator(feeCalculator);
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(org.nem.core.model.Account)
+		 */
 		@Override
 		public IBuild recipient(Account recipient) {
 			instance.setRecipientAccount(recipient);
