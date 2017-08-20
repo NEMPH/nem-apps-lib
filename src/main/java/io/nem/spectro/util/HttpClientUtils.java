@@ -13,20 +13,29 @@ import org.apache.http.util.EntityUtils;
 
 import io.nem.spectro.service.Globals;
 
+
+/**
+ * The Class HttpClientUtils.
+ */
 public class HttpClientUtils {
 
+	/** The default host. */
 	public static String defaultHost = "127.0.0.1";
+	
+	/** The default port. */
 	public static String defaultPort = "7895";
+	
+	/** The default ws port. */
 	public static String defaultWsPort = "7778";
 	
 	
 
 	/**
-	 * Http Post
-	 * 
-	 * @param requestUrl
-	 * @param params
-	 * @return
+	 * Http Post.
+	 *
+	 * @param requestUrl the request url
+	 * @param params the params
+	 * @return the string
 	 */
 	public static String post(String requestUrl, String params) {
 		
@@ -59,10 +68,10 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * Http Get
-	 * 
-	 * @param requestUrl
-	 * @return
+	 * Http Get.
+	 *
+	 * @param requestUrl the request url
+	 * @return the string
 	 */
 	public static String get(String requestUrl) {
 		String result = "";

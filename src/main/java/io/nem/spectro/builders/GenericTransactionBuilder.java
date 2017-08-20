@@ -62,7 +62,7 @@ public class GenericTransactionBuilder {
 
 		IBuild fee(Amount amount);
 
-		IBuild fee(TransactionFeeCalculator feeCalculator);
+		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Amount.
@@ -298,7 +298,7 @@ public class GenericTransactionBuilder {
 		}
 
 		@Override
-		public IBuild fee(TransactionFeeCalculator feeCalculator) {
+		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
 			instance.setFeeCalculator(feeCalculator);
 			return this;
 		}

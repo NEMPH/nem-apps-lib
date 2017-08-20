@@ -9,8 +9,18 @@ import io.nem.spectro.util.NetworkUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+
+/**
+ * The Class NISQuery.
+ */
 public class NISQuery {
 
+	/**
+	 * Find mosaic fee information by NIS.
+	 *
+	 * @param mosaicId the mosaic id
+	 * @return the mosaic fee information
+	 */
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(MosaicId mosaicId){
 		
 		

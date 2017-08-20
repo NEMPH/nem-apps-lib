@@ -25,6 +25,7 @@ package io.nem.spectro.util;
 
 import java.io.Serializable;
 
+
 /**
  * Base class for BotMill network operations response.
  * 

@@ -1,5 +1,6 @@
 package io.nem.spectro.model;
 
+
 /**
  * The Class NetworkConstants.
  */

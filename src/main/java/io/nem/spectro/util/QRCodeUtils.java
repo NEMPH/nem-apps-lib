@@ -16,8 +16,22 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+
+/**
+ * The Class QRCodeUtils.
+ */
 public class QRCodeUtils {
 
+	/**
+	 * Creates the QR image.
+	 *
+	 * @param qrFile the qr file
+	 * @param qrCodeText the qr code text
+	 * @param size the size
+	 * @param fileType the file type
+	 * @throws WriterException the writer exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@SuppressWarnings("unchecked")
 	public static void createQRImage(File qrFile, String qrCodeText, int size, String fileType)
 			throws WriterException, IOException {

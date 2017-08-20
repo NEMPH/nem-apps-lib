@@ -31,7 +31,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	 */
 	@Test
 	public void testCbBuildTransaction() {
-
+		
 		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
 				.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l).attachment(null).buildAndSendTransaction();
 	}

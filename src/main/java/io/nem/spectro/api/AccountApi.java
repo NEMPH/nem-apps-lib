@@ -9,6 +9,7 @@ import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 import io.nem.spectro.service.Globals;
+
 /**
  * The Class AccountApi.
  */
