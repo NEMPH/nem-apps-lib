@@ -10,7 +10,7 @@ import org.nem.core.test.Utils;
 
 import io.nem.spectro.builders.MultisigTransactionBuilder;
 import io.nem.spectro.builders.TransactionBuilder;
-import io.nem.spectro.crypto.SecureMessageSpectroPayloadEncoder;
+import io.nem.spectro.crypto.SecureMessageEncoder;
 import io.nem.spectro.builders.GenericTransactionBuilder;
 import io.nem.spectro.factories.AttachmentFactory;
 
@@ -83,7 +83,7 @@ public class EncodeBuildMultisigSignedTransactionTest extends TransactionUnitTes
 		// Build a transaction and send it.
 		try {
 			TransactionBuilder.initiateTransactionBuild().sender(null).recipient(null).message("".getBytes(),MessageTypes.SECURE);
-			SecureMessage message = SecureMessageSpectroPayloadEncoder.encode(this.senderPrivateAccount,
+			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg);
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));

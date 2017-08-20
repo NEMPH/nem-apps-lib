@@ -24,6 +24,7 @@ public class GenericTransactionBuilder {
 	 * Instantiates a new transaction builder.
 	 */
 	public GenericTransactionBuilder() {
+		//	create this object via TransactionBuilder.
 	}
 
 	/**

@@ -14,20 +14,20 @@ public class AccountApi {
 
 	public static AccountMetaDataPair getAccountByAddress(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address).join();
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address).join();
 		return new AccountMetaDataPair(des);
 	}
 
 	public static List<TransactionMetaDataPair> getAllTransactions(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address).join();
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address).join();
 		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
 	}
 
 	public static List<TransactionMetaDataPair> getIncomingTransactions(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
 				.join();
 		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -35,28 +35,28 @@ public class AccountApi {
 
 	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
 				.join();
 		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
 	}
 
-	public static List<TransactionMetaDataPair> getUnconfirmTransactions(String address) {
+	public static List<TransactionMetaDataPair> getUnconfirmedTransactions(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).join();
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).join();
 		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
 	}
 
 	public static List<MosaicDefinitionMetaDataPair> getAccountOwnedMosaic(String address) {
 		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address).join();
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address).join();
 		List<MosaicDefinitionMetaDataPair> list = (ArrayList<MosaicDefinitionMetaDataPair>) des.readObjectArray("data", MosaicDefinitionMetaDataPair::new);
 		return list;
 	}
 
 	public static KeyPairViewModel generateAccount() {
-		Deserializer des = Globals.CONNECTOR.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_GENERATE, null)
+		Deserializer des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_GENERATE, null)
 				.join();
 		return new KeyPairViewModel(des);
 	}

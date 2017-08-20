@@ -16,7 +16,7 @@ public class Globals {
 
 	public static final String NETWORK_NAME = "mijinnet"; // testnet, mainnet,
 															// mijinnet
-	public static final long NETWORK_TYPE = 2; // 0:testnet, 1:mainnet,
+	public static final long NETWORK_TYPE = 2; // 0:testnet, 1:mainnet, 
 												// 2:mijinnet
 	public static final long NEMSISTIME = 1427587585; // the first block time
 	public static final long MICRONEMS_IN_NEM = 1000000;
@@ -52,9 +52,18 @@ public class Globals {
 	public static final TimeProvider TIME_PROVIDER = new SystemTimeProvider();
 
 	/** The Constant NODE_ENDPOINT. */
-	public static final NodeEndpoint NODE_ENDPOINT = new NodeEndpoint(
-			AppPropertiesUtil.getProperty("node.endpoint.protocol"), AppPropertiesUtil.getProperty("node.endpoint.uri"),
-			Integer.valueOf(AppPropertiesUtil.getProperty("node.endpoint.port")));
+	private static NodeEndpoint NODE_ENDPOINT;
+	
+	public static NodeEndpoint getNodeEndpoint() {
+		return NODE_ENDPOINT;
+	}
+	//= new NodeEndpoint(
+//			AppPropertiesUtil.getProperty("node.endpoint.protocol"), AppPropertiesUtil.getProperty("node.endpoint.uri"),
+//			Integer.valueOf(AppPropertiesUtil.getProperty("node.endpoint.port")));
+	
+	public static void setNodeEndpoint(NodeEndpoint endpoint) {
+		Globals.NODE_ENDPOINT = endpoint;
+	}
 	
 	/** The Constant CONNECTOR. */
 	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();

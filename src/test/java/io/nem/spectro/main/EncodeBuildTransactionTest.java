@@ -11,7 +11,7 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
 import io.nem.spectro.builders.TransactionBuilder;
-import io.nem.spectro.crypto.SecureMessageSpectroPayloadEncoder;
+import io.nem.spectro.crypto.SecureMessageEncoder;
 import io.nem.spectro.factories.AttachmentFactory;
 import io.nem.spectro.util.TransactionSenderUtil;
 
@@ -109,7 +109,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 		// Build a transaction and send it.
 		try {
 
-			SecureMessage message = SecureMessageSpectroPayloadEncoder.encode(this.senderPrivateAccount,
+			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg);
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));

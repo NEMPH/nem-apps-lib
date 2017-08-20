@@ -12,7 +12,7 @@ import org.nem.core.utils.HexEncoder;
 /**
  * The Class SecureMessagePayloadDecoder.
  */
-public class SecureMessageSpectroPayloadDecoder {
+public class SecureMessageDecoder {
 
 	/**
 	 * Decode.

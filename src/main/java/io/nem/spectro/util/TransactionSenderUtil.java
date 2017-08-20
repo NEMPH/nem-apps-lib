@@ -32,7 +32,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = send(Globals.NODE_ENDPOINT, request);
+		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
 		try {
 			future.thenAcceptAsync(d -> {
 				final NemAnnounceResult result = new NemAnnounceResult(d);

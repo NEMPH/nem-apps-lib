@@ -13,7 +13,7 @@ import io.nem.spectro.factories.EntityFactory;
  *
  * @author Alvin
  */
-public class SecureMessageSpectroPayloadEncoder {
+public class SecureMessageEncoder {
 
 	/**
 	 * Encode.

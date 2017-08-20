@@ -7,7 +7,7 @@ import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 
-import io.nem.spectro.crypto.SecureMessageSpectroPayloadDecoder;
+import io.nem.spectro.crypto.SecureMessageDecoder;
 
 
 /**
@@ -30,8 +30,8 @@ public class DecodeBuildTransactionTest extends TransactionUnitTest {
 		this.recipientPrivateKeyPair = new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"));
 		
 		try {
-			System.out.println(SecureMessageSpectroPayloadDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
-			if(isTestable())assertNotNull("Decode process completed.", SecureMessageSpectroPayloadDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
+			System.out.println(SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
+			if(isTestable())assertNotNull("Decode process completed.", SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
 			else assertTrue("Unit Test is not testable", !isTestable());
 		} catch (Exception e) {
 			e.printStackTrace();

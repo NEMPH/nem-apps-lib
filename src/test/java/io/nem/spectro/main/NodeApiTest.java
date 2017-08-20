@@ -12,7 +12,12 @@ public class NodeApiTest {
 	}
 	
 	@Test
-	public void nodeInfoExtended() {
+	public void nodeInfoExtendedTest() {
 		System.out.println(NodeApi.getNodeExtendedInfo().getNode().getEndpoint());
+	}
+	
+	@Test
+	public void nodeHeartBeatTest() {
+		System.out.println(NodeApi.getNemNodeHeartBeat().getMessage());
 	}
 }
