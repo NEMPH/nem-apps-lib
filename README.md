@@ -2,10 +2,56 @@
 
 <h2>Configuration Setup</h2>
 
+Before starting, make sure you have the configuration setup.
+
+```java
+  ConfigurationBuilder.nodeNetworkName("mijinnet")
+      .nodeNetworkProtocol("http")
+      .nodeNetworkUri("a1.nem.foundation")
+      .nodeNetworkPort("7895")
+      .setup();
+```
+
 <h2>Transactions</h2>
+
+
+
+        
+          
 <h3>Generic Transaction</h3>
+
+```java
+TransactionBuilder.initiateTransactionBuild()
+    .sender(new Account(this.senderPrivateKeyPair))
+    .recipient(new Account(this.recipientPublicKeyPair))
+    .amount(0l)
+    .buildAndSendTransaction();
+```  
+
+
 <h3>MultiSig Transaction</h3>
+
+```java
+  TransactionBuilder.initiateMultisigTransactionBuild()
+    .sender(this.senderPrivateAccount)
+    .recipient(this.recipientPublicAccount)
+    .amount(0l)
+    .multisig(this.multiSigAccount)
+    .buildAndSendMultisigTransaction();
+  ```  
+  
 <h3>MultiSigSignature Transaction</h3>
+
+```java
+  TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+    .sender(this.senderPrivateAccount)
+    .recipient(this.recipientPublicAccount)
+    .amount(0l)
+    .multisig(this.multiSigAccount)
+    .buildAndSendMultisigTransaction();
+  ```  
+
+<h2>Fee Calculation</h2>
 
 <h2>Accounts</h2>
 <h3>Generate a new Account</h3>
@@ -20,5 +66,7 @@
 <h2>Nodes</h2>
 <h3>Check Node Info</h3>
 <h3>Check Node Extenteded Info</h3>
-<h3>CHeck Node Heartbeat</h3>
+<h3>Check Node Heartbeat</h3>
+<h2>Generate QR Code</h2>
+
 <sub>Copyright (c) 2017</sub>
