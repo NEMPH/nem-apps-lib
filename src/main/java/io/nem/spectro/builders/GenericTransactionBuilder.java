@@ -6,6 +6,8 @@ import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
+import org.nem.core.model.Transaction;
+import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
@@ -14,7 +16,6 @@ import io.nem.spectro.factories.AttachmentFactory;
 import io.nem.spectro.model.SpectroTransaction;
 import io.nem.spectro.service.BlockchainTransactionService;
 import io.nem.spectro.service.Globals;
-
 
 /**
  * The Class TransactionBuilder.
@@ -25,7 +26,7 @@ public class GenericTransactionBuilder {
 	 * Instantiates a new transaction builder.
 	 */
 	public GenericTransactionBuilder() {
-		//	create this object via TransactionBuilder.
+		// create this object via TransactionBuilder.
 	}
 
 	/**
@@ -58,6 +59,10 @@ public class GenericTransactionBuilder {
 	 * The Interface IBuild.
 	 */
 	public interface IBuild {
+
+		IBuild fee(Amount amount);
+
+		IBuild fee(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Amount.
@@ -98,15 +103,6 @@ public class GenericTransactionBuilder {
 		 * @return the i build
 		 */
 		IBuild attachment(TransferTransactionAttachment attachment);
-
-		/**
-		 * Fee.
-		 *
-		 * @param amount
-		 *            the amount
-		 * @return the i build
-		 */
-		IBuild fee(Amount amount);
 
 		/**
 		 * Deadline.
@@ -168,18 +164,6 @@ public class GenericTransactionBuilder {
 		@Override
 		public IBuild amount(Long amount) {
 			instance.setAmount(amount);
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.builders.TransactionBuilder.ISender#recipient(org.nem.
-		 * core.model.Account)
-		 */
-		@Override
-		public IBuild recipient(Account recipient) {
-			instance.setRecipientAccount(recipient);
 			return this;
 		}
 
@@ -257,9 +241,9 @@ public class GenericTransactionBuilder {
 			if (instance.getTimeInstant() == null) {
 				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
 			}
-			return (TransferTransaction) BlockchainTransactionService.createTransaction(instance.getTimeInstant(),
-					instance.getSenderAccount(), instance.getRecipientAccount(), instance.getAmount(),
-					instance.getAttachment());
+			TransferTransaction trans = (TransferTransaction) BlockchainTransactionService.createTransaction(instance);
+
+			return trans;
 		}
 
 		/*
@@ -310,6 +294,18 @@ public class GenericTransactionBuilder {
 			} else {
 				instance.getAttachment().setMessage(transactionMessage);
 			}
+			return this;
+		}
+
+		@Override
+		public IBuild fee(TransactionFeeCalculator feeCalculator) {
+			instance.setFeeCalculator(feeCalculator);
+			return this;
+		}
+
+		@Override
+		public IBuild recipient(Account recipient) {
+			instance.setRecipientAccount(recipient);
 			return this;
 		}
 

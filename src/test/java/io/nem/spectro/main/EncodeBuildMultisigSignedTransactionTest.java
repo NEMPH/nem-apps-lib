@@ -5,6 +5,7 @@ import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
 
@@ -82,7 +83,7 @@ public class EncodeBuildMultisigSignedTransactionTest extends TransactionUnitTes
 
 		// Build a transaction and send it.
 		try {
-			TransactionBuilder.initiateTransactionBuild().sender(null).recipient(null).message("".getBytes(),MessageTypes.SECURE);
+			TransactionBuilder.initiateTransactionBuild().sender(null).recipient(null).fee(Amount.ZERO).message("".getBytes(),MessageTypes.SECURE);
 			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg);
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);

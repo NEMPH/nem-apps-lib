@@ -4,29 +4,27 @@ import java.io.Serializable;
 
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
+import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 
 /**
- * The Class Transaction.
+ * The Class MultisigTransaction.
  */
-public class SpectroTransaction implements Serializable {
+public class SpectroMultisigSignatureTransaction implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
-	/** The sender. */
-	private Account sender;
-
-	/** The recipient. */
-	private Account recipient;
 
 	/** The fee. */
 	private Amount fee;
 	
 	private TransactionFeeCalculator feeCalculator;
+
+	/** The signature. */
+	private Signature signature;
 
 	public TransactionFeeCalculator getFeeCalculator() {
 		return feeCalculator;
@@ -36,11 +34,36 @@ public class SpectroTransaction implements Serializable {
 		this.feeCalculator = feeCalculator;
 	}
 
-	/** The signature. */
-	private Signature signature;
+	/**
+	 * Gets the deadline.
+	 *
+	 * @return the deadline
+	 */
+	public TimeInstant getDeadline() {
+		return deadline;
+	}
+
+	/**
+	 * Sets the deadline.
+	 *
+	 * @param deadline
+	 *            the new deadline
+	 */
+	public void setDeadline(TimeInstant deadline) {
+		this.deadline = deadline;
+	}
 
 	/** The deadline. */
 	private TimeInstant deadline;
+
+	/** The multisig signature. */
+	private MultisigSignatureTransaction multisigSignature;
+
+	/** The sender. */
+	private Account senderAccount;
+
+	/** The recipient. */
+	private Account recipientAccount;
 
 	/**
 	 * Gets the fee.
@@ -81,22 +104,22 @@ public class SpectroTransaction implements Serializable {
 	}
 
 	/**
-	 * Gets the deadline.
+	 * Gets the multisig signature.
 	 *
-	 * @return the deadline
+	 * @return the multisig signature
 	 */
-	public TimeInstant getDeadline() {
-		return deadline;
+	public MultisigSignatureTransaction getMultisigSignature() {
+		return multisigSignature;
 	}
 
 	/**
-	 * Sets the deadline.
+	 * Adds the multisig signature.
 	 *
-	 * @param deadline
-	 *            the new deadline
+	 * @param multisigSignature
+	 *            the multisig signature
 	 */
-	public void setDeadline(TimeInstant deadline) {
-		this.deadline = deadline;
+	public void addMultisigSignature(MultisigSignatureTransaction multisigSignature) {
+		this.multisigSignature = multisigSignature;
 	}
 
 	/**
@@ -105,21 +128,21 @@ public class SpectroTransaction implements Serializable {
 	 * @return the mulit sig
 	 */
 	public Account getMultisigAccount() {
-		return mulitSig;
+		return multisig;
 	}
 
 	/**
 	 * Sets the mulit sig.
 	 *
-	 * @param mulitSig
-	 *            the new mulit sig
+	 * @param multisig
+	 *            the new multisig account
 	 */
-	public void setMultisigAccount(Account mulitSig) {
-		this.mulitSig = mulitSig;
+	public void setMultisigAccount(Account multisig) {
+		this.multisig = multisig;
 	}
 
 	/** The mulit sig. */
-	private Account mulitSig;
+	private Account multisig;
 
 	/** The amount. */
 	private Long amount = 0l;
@@ -142,7 +165,7 @@ public class SpectroTransaction implements Serializable {
 	 * @return the sender
 	 */
 	public Account getSenderAccount() {
-		return sender;
+		return senderAccount;
 	}
 
 	/**
@@ -152,7 +175,7 @@ public class SpectroTransaction implements Serializable {
 	 *            the new sender
 	 */
 	public void setSenderAccount(Account sender) {
-		this.sender = sender;
+		this.senderAccount = sender;
 	}
 
 	/**
@@ -161,7 +184,7 @@ public class SpectroTransaction implements Serializable {
 	 * @return the recipient
 	 */
 	public Account getRecipientAccount() {
-		return recipient;
+		return recipientAccount;
 	}
 
 	/**
@@ -171,7 +194,7 @@ public class SpectroTransaction implements Serializable {
 	 *            the new recipient
 	 */
 	public void setRecipientAccount(Account recipient) {
-		this.recipient = recipient;
+		this.recipientAccount = recipient;
 	}
 
 	/**
@@ -282,18 +305,18 @@ public class SpectroTransaction implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SpectroTransaction other = (SpectroTransaction) obj;
+		SpectroMultisigSignatureTransaction other = (SpectroMultisigSignatureTransaction) obj;
 
-		if (recipient == null) {
-			if (other.recipient != null)
+		if (recipientAccount == null) {
+			if (other.recipientAccount != null)
 				return false;
-		} else if (!recipient.equals(other.recipient))
+		} else if (!recipientAccount.equals(other.recipientAccount))
 			return false;
 
-		if (sender == null) {
-			if (other.sender != null)
+		if (senderAccount == null) {
+			if (other.senderAccount != null)
 				return false;
-		} else if (!sender.equals(other.sender))
+		} else if (!senderAccount.equals(other.senderAccount))
 			return false;
 
 		if (timeInstant == null) {
@@ -317,7 +340,7 @@ public class SpectroTransaction implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "TransactionBlock [sender=" + sender + ", recipient=" + recipient + ", amount=" + amount
+		return "TransactionBlock [sender=" + senderAccount + ", recipient=" + recipientAccount + ", amount=" + amount
 				+ ", attachment=" + attachment.toString() + ", timeInstant=" + timeInstant + "]";
 	}
 

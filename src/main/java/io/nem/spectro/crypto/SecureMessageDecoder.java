@@ -1,7 +1,6 @@
 package io.nem.spectro.crypto;
 
 import java.io.IOException;
-
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;

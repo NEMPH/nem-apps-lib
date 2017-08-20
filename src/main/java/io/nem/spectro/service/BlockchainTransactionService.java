@@ -6,12 +6,14 @@ import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.NetworkInfos;
 import org.nem.core.model.Transaction;
+import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 
 import io.nem.spectro.fee.TransactionFeeCalculatorAfterForkForApp;
+import io.nem.spectro.model.SpectroMultisigSignatureTransaction;
 import io.nem.spectro.model.SpectroMultisigTransaction;
 import io.nem.spectro.model.SpectroTransaction;
 import io.nem.spectro.util.AppPropertiesUtil;
@@ -55,8 +57,7 @@ public class BlockchainTransactionService {
 	 */
 	public static void createAndSendTransaction(final SpectroTransaction tBlock) {
 
-		final Transaction transaction = createTransaction(tBlock.getTimeInstant(), tBlock.getSenderAccount(),
-				tBlock.getRecipientAccount(), tBlock.getAmount(), tBlock.getAttachment());
+		final Transaction transaction = createTransaction(tBlock);
 		transaction.sign();
 		TransactionSenderUtil.sendTransaction(transaction);
 
@@ -70,8 +71,7 @@ public class BlockchainTransactionService {
 	 */
 	public static void createAndSendMultisigTransaction(final SpectroMultisigTransaction tBlock) {
 
-		final Transaction transaction = createTransaction(tBlock.getTimeInstant(), tBlock.getMultisigAccount(),
-				tBlock.getRecipientAccount(), tBlock.getAmount(), tBlock.getAttachment());
+		final Transaction transaction = createTransaction(tBlock);
 
 		final Transaction multiSigSignedTransaction = createMultisigTransaction(tBlock.getTimeInstant(),
 				tBlock.getSenderAccount(), tBlock.getRecipientAccount(), tBlock.getAmount(), transaction);
@@ -86,10 +86,9 @@ public class BlockchainTransactionService {
 	 * @param tBlock
 	 *            the t block
 	 */
-	public static void createAndSendMultisigSignatureTransaction(final SpectroMultisigTransaction tBlock) {
+	public static void createAndSendMultisigSignatureTransaction(final SpectroMultisigSignatureTransaction tBlock) {
 
-		final Transaction transaction = createTransaction(tBlock.getTimeInstant(), tBlock.getMultisigAccount(),
-				tBlock.getRecipientAccount(), tBlock.getAmount(), tBlock.getAttachment());
+		final Transaction transaction = createTransaction(tBlock);
 
 		final Transaction multiSigSignedTransaction = createMultisigSignatureTransaction(tBlock.getTimeInstant(),
 				tBlock.getSenderAccount(), tBlock.getMultisigAccount(), tBlock.getAmount(), transaction);
@@ -150,6 +149,75 @@ public class BlockchainTransactionService {
 		}
 		
 		transaction.setDeadline(timeInstant.addHours(23));
+		return transaction;
+	}
+	
+	public static Transaction createTransaction(final SpectroTransaction tBlock) {
+
+		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant
+				tBlock.getSenderAccount(), tBlock.getRecipientAccount(), // recipient
+				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
+				tBlock.getAttachment()); // attachment (message, mosaics)
+
+		if(transaction.getFee()==null){
+			TransactionFeeCalculator feeCalculator;
+			if(tBlock.getFeeCalculator() != null) {
+				feeCalculator = tBlock.getFeeCalculator();
+			}else {
+				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			}
+			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
+		} else {
+			transaction.setFee(Amount.fromNem(0));
+		}
+		
+		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
+		return transaction;
+	}
+	
+	public static Transaction createTransaction(final SpectroMultisigTransaction tBlock) {
+
+		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant
+				tBlock.getSenderAccount(), tBlock.getRecipientAccount(), // recipient
+				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
+				tBlock.getAttachment()); // attachment (message, mosaics)
+
+		if(transaction.getFee()==null){
+			TransactionFeeCalculator feeCalculator;
+			if(tBlock.getFeeCalculator() != null) {
+				feeCalculator = tBlock.getFeeCalculator();
+			}else {
+				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			}
+			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
+		} else {
+			transaction.setFee(Amount.fromNem(0));
+		}
+		
+		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
+		return transaction;
+	}
+	
+	public static Transaction createTransaction(final SpectroMultisigSignatureTransaction tBlock) {
+
+		final TransferTransaction transaction = new TransferTransaction(tBlock.getTimeInstant(), // instant
+				tBlock.getSenderAccount(), tBlock.getRecipientAccount(), // recipient
+				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
+				tBlock.getAttachment()); // attachment (message, mosaics)
+
+		if(transaction.getFee()==null){
+			TransactionFeeCalculator feeCalculator;
+			if(tBlock.getFeeCalculator() != null) {
+				feeCalculator = tBlock.getFeeCalculator();
+			}else {
+				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			}
+			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
+		} else {
+			transaction.setFee(Amount.fromNem(0));
+		}
+		
+		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
 		return transaction;
 	}
 

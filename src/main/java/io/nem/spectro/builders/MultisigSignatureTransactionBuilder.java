@@ -8,6 +8,8 @@ import org.nem.core.model.Transaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
+
+import io.nem.spectro.model.SpectroMultisigSignatureTransaction;
 import io.nem.spectro.model.SpectroMultisigTransaction;
 import io.nem.spectro.service.BlockchainTransactionService;
 import io.nem.spectro.service.Globals;
@@ -128,14 +130,14 @@ public class MultisigSignatureTransactionBuilder {
 		 *
 		 * @return the multisig transaction
 		 */
-		MultisigTransaction buildMultisigSignatureTransaction();
+		MultisigSignatureTransaction buildMultisigSignatureTransaction();
 
 		/**
 		 * Builds the and send multisig transaction.
 		 *
 		 * @return the multisig transaction
 		 */
-		SpectroMultisigTransaction buildAndSendMultisigSignatureTransaction();
+		SpectroMultisigSignatureTransaction buildAndSendMultisigSignatureTransaction();
 	}
 
 	/**
@@ -144,7 +146,7 @@ public class MultisigSignatureTransactionBuilder {
 	private static class Builder implements ISender, IRecipient, IBuild {
 
 		/** The instance. */
-		private SpectroMultisigTransaction instance = new SpectroMultisigTransaction();
+		private SpectroMultisigSignatureTransaction instance = new SpectroMultisigSignatureTransaction();
 
 		/**
 		 * Instantiates a new builder.
@@ -215,15 +217,13 @@ public class MultisigSignatureTransactionBuilder {
 		 * buildMultisigTransaction()
 		 */
 		@Override
-		public MultisigTransaction buildMultisigSignatureTransaction() {
+		public MultisigSignatureTransaction buildMultisigSignatureTransaction() {
 			if (instance.getTimeInstant() == null) {
 				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
 			}
-			Transaction transaction = BlockchainTransactionService.createTransaction(instance.getTimeInstant(),
-					instance.getSenderAccount(), instance.getRecipientAccount(), instance.getAmount(),
-					instance.getAttachment());
+			Transaction transaction = BlockchainTransactionService.createTransaction(instance);
 
-			return (MultisigTransaction) BlockchainTransactionService.createMultisigSignatureTransaction(
+			return (MultisigSignatureTransaction) BlockchainTransactionService.createMultisigSignatureTransaction(
 					instance.getTimeInstant(), instance.getSenderAccount(), instance.getRecipientAccount(),
 					instance.getAmount(), transaction);
 		}
@@ -235,7 +235,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * buildAndSendMultisigTransaction()
 		 */
 		@Override
-		public SpectroMultisigTransaction buildAndSendMultisigSignatureTransaction() {
+		public SpectroMultisigSignatureTransaction buildAndSendMultisigSignatureTransaction() {
 			if (instance.getTimeInstant() == null) {
 				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
 			}

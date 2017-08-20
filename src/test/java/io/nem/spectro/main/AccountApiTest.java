@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nem.core.connect.client.NisApiId;

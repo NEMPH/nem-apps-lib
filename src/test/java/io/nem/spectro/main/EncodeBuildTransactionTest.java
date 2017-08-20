@@ -15,13 +15,12 @@ import io.nem.spectro.crypto.SecureMessageEncoder;
 import io.nem.spectro.factories.AttachmentFactory;
 import io.nem.spectro.util.TransactionSenderUtil;
 
-
 /**
  * The Class BuildTransactionTest.
  */
 public class EncodeBuildTransactionTest extends TransactionUnitTest {
 
-	/** The sample  msg. */
+	/** The sample msg. */
 	final String sampleMsg = "{1:F21FOOLHKH0AXXX0304009999}{4:{177:1608140809}{451:0}}{1:F01FOOLHKH0AXXX0304009999}{2:O9401609160814FOOLHKH0AXXX03040027341608141609N}{4:\n"
 			+ ":20:USD940NO1\n" + ":21:123456/DEV\n" + ":25:USD234567\n" + ":28C:1/1\n" + ":60F:C160418USD672,\n"
 			+ ":61:160827C642,S1032\n" + ":86:ANDY\n" + ":61:160827D42,S1032\n" + ":86:BANK CHARGES\n"
@@ -33,8 +32,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	@Test
 	public void testCbBuildTransaction() {
 
-		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(0l)
-				.attachment(null).buildAndSendTransaction();
+		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+				.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l).attachment(null).buildAndSendTransaction();
 	}
 
 	/**
@@ -42,14 +41,17 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	 */
 	@Test
 	public void testCbBuildAndSendTransactionWOAttachment() {
-		
-		this.senderPrivateKeyPair = new KeyPair(PrivateKey.fromHexString("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"));
-		this.recipientPublicKeyPair = new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"));
-		
+
+		this.senderPrivateKeyPair = new KeyPair(
+				PrivateKey.fromHexString("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"));
+		this.recipientPublicKeyPair = new KeyPair(
+				PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"));
+
 		// Build a transaction and send it.
 		try {
-			TransactionBuilder.initiateTransactionBuild().sender(new Account(this.senderPrivateKeyPair)).recipient(new Account(this.recipientPublicKeyPair)).amount(0l)
-					.attachment(null).buildAndSendTransaction();
+			TransactionBuilder.initiateTransactionBuild().sender(new Account(this.senderPrivateKeyPair))
+					.recipient(new Account(this.recipientPublicKeyPair)).fee(Amount.ZERO).amount(0l).attachment(null)
+					.buildAndSendTransaction();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,13 +65,13 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	public void testCbBuildAndSendStringTransaction() {
 
 		// Build a transaction and send it.
-		
-		
+
 		try {
 
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg.getBytes());
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(0l)
+			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 
@@ -80,7 +82,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	}
 
 	/**
-	 * Test cb build and send  string XML transaction.
+	 * Test cb build and send string XML transaction.
 	 */
 	@Test
 	public void testCbBuildAndSendStringXMLTransaction() {
@@ -91,7 +93,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, this.sampleMsg.getBytes());
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(0l)
+			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
@@ -101,7 +104,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	}
 
 	/**
-	 * Test cb build and send  transaction with mosaic.
+	 * Test cb build and send transaction with mosaic.
 	 */
 	@Test
 	public void testCbBuildAndSendTransactionWithMosaic() {
@@ -109,12 +112,13 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 		// Build a transaction and send it.
 		try {
 
-			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount,
-					this.recipientPublicAccount, sampleMsg);
+			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount, this.recipientPublicAccount,
+					sampleMsg);
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(0l)
+			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
@@ -123,7 +127,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	}
 
 	/**
-	 * Test cb build and send  file transaction.
+	 * Test cb build and send file transaction.
 	 */
 	@Test
 	public void testCbBuildAndSendFileTransaction() {
@@ -137,8 +141,9 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 		}
 		// Build a transaction and send it.
 		try {
-			MultisigTransaction multiSigTrans = TransactionBuilder.initiateMultisigTransactionBuild().sender(this.senderPrivateAccount)
-					.recipient(this.recipientPublicAccount).multisig(this.multiSigAccount).amount(0l)
+			MultisigTransaction multiSigTrans = TransactionBuilder.initiateMultisigTransactionBuild()
+					.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+					.multisig(this.multiSigAccount).amount(0l)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildMultisigTransaction();
 

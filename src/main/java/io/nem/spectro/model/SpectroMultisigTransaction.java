@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
+import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
@@ -19,9 +20,19 @@ public class SpectroMultisigTransaction implements Serializable {
 
 	/** The fee. */
 	private Amount fee;
+	
+	private TransactionFeeCalculator feeCalculator;
 
 	/** The signature. */
 	private Signature signature;
+
+	public TransactionFeeCalculator getFeeCalculator() {
+		return feeCalculator;
+	}
+
+	public void setFeeCalculator(TransactionFeeCalculator feeCalculator) {
+		this.feeCalculator = feeCalculator;
+	}
 
 	/**
 	 * Gets the deadline.

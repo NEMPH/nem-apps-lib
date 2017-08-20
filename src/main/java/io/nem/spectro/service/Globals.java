@@ -1,6 +1,7 @@
 package io.nem.spectro.service;
 
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
@@ -16,7 +17,7 @@ public class Globals {
 
 	public static final String NETWORK_NAME = "mijinnet"; // testnet, mainnet,
 															// mijinnet
-	public static final long NETWORK_TYPE = 2; // 0:testnet, 1:mainnet, 
+	public static final long NETWORK_TYPE = 2; // 0:testnet, 1:mainnet,
 												// 2:mijinnet
 	public static final long NEMSISTIME = 1427587585; // the first block time
 	public static final long MICRONEMS_IN_NEM = 1000000;
@@ -53,18 +54,27 @@ public class Globals {
 
 	/** The Constant NODE_ENDPOINT. */
 	private static NodeEndpoint NODE_ENDPOINT;
-	
+
 	public static NodeEndpoint getNodeEndpoint() {
 		return NODE_ENDPOINT;
 	}
-	//= new NodeEndpoint(
-//			AppPropertiesUtil.getProperty("node.endpoint.protocol"), AppPropertiesUtil.getProperty("node.endpoint.uri"),
-//			Integer.valueOf(AppPropertiesUtil.getProperty("node.endpoint.port")));
-	
+
+	public static void setGlobalTransactionFee() {
+
+	}
+
+	public static TransactionFeeCalculator getGlobalTransactionFee() {
+		return null;
+	}
+	// = new NodeEndpoint(
+	// AppPropertiesUtil.getProperty("node.endpoint.protocol"),
+	// AppPropertiesUtil.getProperty("node.endpoint.uri"),
+	// Integer.valueOf(AppPropertiesUtil.getProperty("node.endpoint.port")));
+
 	public static void setNodeEndpoint(NodeEndpoint endpoint) {
 		Globals.NODE_ENDPOINT = endpoint;
 	}
-	
+
 	/** The Constant CONNECTOR. */
 	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();
 }
