@@ -66,7 +66,9 @@ public class TransactionSenderUtil {
 	 * @return the completable future
 	 */
 	private static CompletableFuture<Deserializer> send(final NodeEndpoint endpoint, final RequestAnnounce request) {
-		return Globals.CONNECTOR.postAsync(endpoint, NisApiId.NIS_REST_TRANSACTION_ANNOUNCE,
+		final CompletableFuture<Deserializer> des = Globals.CONNECTOR.postAsync(endpoint, NisApiId.NIS_REST_TRANSACTION_ANNOUNCE,
 				new HttpJsonPostRequest(request));
+		
+		return des;
 	}
 }

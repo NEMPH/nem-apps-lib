@@ -1,44 +1,64 @@
 package io.nem.spectro.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.nem.core.connect.client.NisApiId;
-
+import org.nem.core.model.KeyPairViewModel;
+import org.nem.core.model.ncc.AccountMetaDataPair;
+import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
+import org.nem.core.model.ncc.TransactionMetaDataPair;
+import org.nem.core.serialization.Deserializer;
 import io.nem.spectro.service.Globals;
-import io.nem.spectro.util.NemSpectroNetworkResponse;
-import io.nem.spectro.util.NetworkUtils;
 
 public class AccountApi {
-	
-	public static void getAccountByAddress(String address) {
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_LOOK_UP.toString() + "?address="+address);
+
+	public static AccountMetaDataPair getAccountByAddress(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address).join();
+		return new AccountMetaDataPair(des);
 	}
-	
-	public static void getAllTransactions(String address, String id) {
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL.toString() + "?address="+address+"&id="+id);
+
+	public static List<TransactionMetaDataPair> getAllTransactions(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address).join();
+		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
-	
-	public static void getIncomingTransactions(String address) {
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING.toString() + "?address="+address);
+
+	public static List<TransactionMetaDataPair> getIncomingTransactions(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
+				.join();
+		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
-	public static void getIncomingTransactions(String address, String id) {
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING.toString() + "?address="+address+"&id="+id);
+
+	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
+				.join();
+		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
-	
-	public static void getOutgoingTransactions(String address){
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING.toString() + "?address="+address);
+
+	public static List<TransactionMetaDataPair> getUnconfirmTransactions(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).join();
+		List<TransactionMetaDataPair> list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
-	
-	public static void getUnconfirmTransactions(String address){
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED.toString() + "?address="+address);
+
+	public static List<MosaicDefinitionMetaDataPair> getAccountOwnedMosaic(String address) {
+		Deserializer des = Globals.CONNECTOR
+				.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address).join();
+		List<MosaicDefinitionMetaDataPair> list = (ArrayList<MosaicDefinitionMetaDataPair>) des.readObjectArray("data", MosaicDefinitionMetaDataPair::new);
+		return list;
 	}
-	
-	public static void getUnconfirmTransactions(String address, String id){
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED.toString() + "?address="+address+"&id="+id);
+
+	public static KeyPairViewModel generateAccount() {
+		Deserializer des = Globals.CONNECTOR.getAsync(Globals.NODE_ENDPOINT, NisApiId.NIS_REST_ACCOUNT_GENERATE, null)
+				.join();
+		return new KeyPairViewModel(des);
 	}
-	
-	public static void getMosaics(String address){
-		NemSpectroNetworkResponse response = NetworkUtils.get(Globals.NODE_ENDPOINT + Globals.URL_ACCOUNT_MOSAIC_OWNED.toString() + "?address="+address);
-	}
-	
+
 }
-
-

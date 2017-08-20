@@ -3,21 +3,15 @@ package io.nem.spectro.main;
 import org.junit.Test;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
-import org.nem.core.crypto.PublicKey;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
-import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
-
-import io.nem.spectro.builders.MultisigTransactionBuilder;
-import io.nem.spectro.builders.SecureMessageAttachmentBuilder;
 import io.nem.spectro.builders.TransactionBuilder;
 import io.nem.spectro.crypto.SecureMessageSpectroPayloadEncoder;
-import io.nem.spectro.builders.GenericTransactionBuilder;
 import io.nem.spectro.factories.AttachmentFactory;
 import io.nem.spectro.util.TransactionSenderUtil;
 

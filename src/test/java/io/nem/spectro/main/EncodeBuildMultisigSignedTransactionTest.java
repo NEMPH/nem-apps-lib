@@ -91,6 +91,7 @@ public class EncodeBuildMultisigSignedTransactionTest extends TransactionUnitTes
 					.multisig(this.multiSigAccount).amount(0l)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendMultisigTransaction();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
