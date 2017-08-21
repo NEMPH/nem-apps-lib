@@ -11,11 +11,11 @@ Java 1.8 | nem.core
 Before starting, make sure you have the configuration setup.
 
 ```java
-  ConfigurationBuilder.nodeNetworkName("mijinnet")
-      .nodeNetworkProtocol("http")
-      .nodeNetworkUri("a1.nem.foundation")
-      .nodeNetworkPort("7895")
-      .setup();
+ConfigurationBuilder.nodeNetworkName("mijinnet")
+    .nodeNetworkProtocol("http")
+    .nodeNetworkUri("a1.nem.foundation")
+    .nodeNetworkPort("7895")
+    .setup();
 ```
 
 <h2>Transaction Callbacks</h2>
@@ -44,7 +44,7 @@ TransactionBuilder.initiateTransactionBuild()
 <h3>MultiSig Transaction</h3>
 
 ```java
-  TransactionBuilder.initiateMultisigTransactionBuild()
+TransactionBuilder.initiateMultisigTransactionBuild()
     .sender(this.senderPrivateAccount)
     .recipient(this.recipientPublicAccount)
     .amount(0l)
@@ -55,7 +55,7 @@ TransactionBuilder.initiateTransactionBuild()
 <h3>MultiSigSignature Transaction</h3>
 
 ```java
-  TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .sender(this.senderPrivateAccount)
     .recipient(this.recipientPublicAccount)
     .amount(0l)
