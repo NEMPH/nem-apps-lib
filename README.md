@@ -1,6 +1,6 @@
 # NEM Apps Library
 
-Java API library for NEM.io blockchain platform. This directly calls the nem.core that then calls the endpoints based on https://bob.nem.ninja/docs/
+Java API library for NEM.io blockchain platform. This directly calls the https://github.com/NEMModules/nem.core that then calls the endpoints based on https://bob.nem.ninja/docs/
 
 <h2>Technology Stack</h2>
 
