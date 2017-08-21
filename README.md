@@ -18,6 +18,14 @@ Before starting, make sure you have the configuration setup.
       .setup();
 ```
 
+<h2>Transaction Callbacks</h2>
+
+Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
+
+<h2>Global and Transaction Level Fees</h2>
+
+Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
+
 <h2>Transactions</h2>
 
 Use the following set of builders to create transactions.
@@ -147,7 +155,7 @@ NisNodeInfo NodeApi.getNodeExtendedInfo()
 NemRequestResult NodeApi.getNemNodeHeartBeat()
 ```
 
-<h2>Generate QR Code</h2>
+<h2>Extra: Generate QR Code</h2>
 
 ```java
 String qrCodeText = "<your key>";
