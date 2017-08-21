@@ -86,7 +86,7 @@ public class AccountApiTest extends ApiUnitTest {
 	}
 
 	@Test
-	@Ignore
+	@Ignore	
 	public void testGenerteNewAccount() {
 		System.out.println(AccountApi.generateAccount().getKeyPair().hasPrivateKey());
 	}

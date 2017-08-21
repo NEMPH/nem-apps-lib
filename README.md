@@ -7,7 +7,7 @@ Java API library for NEM.io blockchain platform. This directly calls the https:/
 Java 1.8 | nem.core
 
 <h2>How to build</h2>
-Make sure to clone NEMModules fork of nem.core and build
+Make sure to clone NEMModules fork of nem.core and build.
 
 ```bash
 git clone https://github.com/NEMModules/nem.core
@@ -15,7 +15,7 @@ cd nem.core
 mvn clean install
 ```
 
-Build the nem-apps-lib
+build the nem-apps-lib after.
 
 ```bash
 git clone https://github.com/NEMModules/nem-apps-lib.git
@@ -33,8 +33,6 @@ Import it as a maven dependency
 </dependency>
 ```
 
-Use the built version for nem-apps-lib project.
-
 <h2>Configuration Setup</h2>
 
 Before starting, make sure you have the configuration setup.
@@ -51,9 +49,7 @@ ConfigurationBuilder.nodeNetworkName("mijinnet")
 
 Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
 
-<h2>Global and Transaction Level Fees</h2>
-
-Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
+TBD
 
 <h2>Transactions</h2>
 
@@ -106,14 +102,24 @@ SecureMessageEncoder.encode(String senderPrivateKey, String recipientPublicKey, 
 <h3>Decode</h3>
 
 ```java
-SecureMessageEncoder.decode(Account senderPrivateKey, Account recipientPublicKey, String encryptedPayload) 
+SecureMessageDecoder.decode(Account senderPrivateKey, Account recipientPublicKey, String encryptedPayload) 
 //or 
-SecureMessageEncoder.decode(String senderPrivateKey, String recipientPublicKey, String encryptedPayload) 
+SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, String encryptedPayload) 
 ```
 
 <h2>Fee Calculation</h2>
 
 There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
+
+<h3>Fee on the Transaction</h3>
+TBD
+
+<h3>Fee Calculation via Fee Calculation Object</h3>
+TBD
+
+<h3>Global and Transaction Level Fees</h3>
+
+Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
 
 <h2>Accounts</h2>
 <h3>Generate a new Account</h3>
@@ -198,7 +204,5 @@ try {
     e.printStackTrace();
 }
 ```
-
-
 
 <sub>Copyright (c) 2017</sub>
