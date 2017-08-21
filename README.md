@@ -6,6 +6,35 @@ Java API library for NEM.io blockchain platform. This directly calls the https:/
 
 Java 1.8 | nem.core
 
+<h2>How to build</h2>
+Make sure to clone NEMModules fork of nem.core and build
+
+```bash
+git clone https://github.com/NEMModules/nem.core
+cd nem.core
+mvn clean install
+```
+
+Build the nem-apps-lib
+
+```bash
+git clone https://github.com/NEMModules/nem-apps-lib.git
+cd nem-apps-lib
+mvn clean install
+```
+
+Import it as a maven dependency
+
+```xml
+<dependency>
+    <groupId>io.nem.apps</groupId>
+	<artifactId>nem-apps-lib</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+Use the built version for nem-apps-lib project.
+
 <h2>Configuration Setup</h2>
 
 Before starting, make sure you have the configuration setup.
