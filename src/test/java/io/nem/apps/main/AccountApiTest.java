@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.model.ncc.AccountMetaDataPair;
@@ -16,8 +17,7 @@ import io.nem.apps.api.AccountApi;
 import io.nem.apps.builders.ConfigurationBuilder;
 import io.nem.apps.service.Globals;
 
-public class AccountApiTest {
-
+public class AccountApiTest extends ApiUnitTest {
 	
 	@BeforeClass
 	public static void init() {
@@ -26,7 +26,6 @@ public class AccountApiTest {
 
 	@Test
 	public void testDeserializeAccount() {
-		
 		
 		try {
 			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
@@ -47,6 +46,7 @@ public class AccountApiTest {
 	}
 
 	@Test
+	@Ignore
 	public void testDeserializeAccountPk() {
 		try {
 			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
@@ -74,17 +74,19 @@ public class AccountApiTest {
 	}
 
 	@Test
+	@Ignore
 	public void testAccountApiAllTransaction() {
 		System.out.println(AccountApi.getAllTransactions("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW").size());
 	}
 
 	@Test
+	@Ignore
 	public void testAccountApiAllOwnedMosaic() {
-
 		System.out.println(AccountApi.getAccountOwnedMosaic("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW"));
 	}
 
 	@Test
+	@Ignore
 	public void testGenerteNewAccount() {
 		System.out.println(AccountApi.generateAccount().getKeyPair().hasPrivateKey());
 	}

@@ -6,13 +6,8 @@ import org.junit.Test;
 import io.nem.apps.api.NodeApi;
 import io.nem.apps.builders.ConfigurationBuilder;
 
-public class NodeApiTest {
+public class NodeApiTest extends ApiUnitTest {
 
-	@BeforeClass
-	public static void init() {
-		ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http").nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
-	}
-	
 	@Test
 	public void nodeInfoTest() {
 		System.out.println(NodeApi.getNodeInfo().getMetaData().getPlatform());

@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.model.KeyPairViewModel;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
@@ -143,15 +145,15 @@ public class AccountApi {
 	 *            the address
 	 * @return the account owned mosaic
 	 */
-	public static List<MosaicDefinitionMetaDataPair> getAccountOwnedMosaic(String address) {
+	public static List<MosaicId> getAccountOwnedMosaic(String address) {
 		Deserializer des;
-		List<MosaicDefinitionMetaDataPair> list;
+		List<MosaicId> list;
 		try {
 			des = Globals.CONNECTOR
 					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
 					.get();
-			list = (ArrayList<MosaicDefinitionMetaDataPair>) des.readObjectArray("data",
-					MosaicDefinitionMetaDataPair::new);
+			list = (ArrayList<MosaicId>) des.readObjectArray("data",
+					MosaicId::new);
 			return list;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block

@@ -151,6 +151,7 @@ public class ConfigurationBuilder {
 		 *            the network name
 		 */
 		public Builder(String networkName) {
+			if(NetworkInfos.getDefault() != null) return;
 			NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(networkName));
 		}
 
@@ -221,6 +222,7 @@ public class ConfigurationBuilder {
 		 */
 		@Override
 		public void setup() {
+			if(Globals.getNodeEndpoint() != null) return;
 			if (nodeEndpoint == null) {
 				nodeEndpoint = new NodeEndpoint(this.nodeNetworkProtocol, this.nodeNetworkUri,
 						Integer.valueOf(this.nodeNetworkPort));

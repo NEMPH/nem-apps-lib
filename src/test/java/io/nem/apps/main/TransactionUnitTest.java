@@ -43,7 +43,6 @@ public abstract class TransactionUnitTest {
 	 * Instantiates a new transaction unit test.
 	 */
 	public TransactionUnitTest() {
-		ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http").nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
 		Assume.assumeTrue(this.isTestable());
 	}
 
