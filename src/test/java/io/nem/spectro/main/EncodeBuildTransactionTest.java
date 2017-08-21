@@ -42,11 +42,6 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	@Test
 	public void testCbBuildAndSendTransactionWOAttachment() {
 
-		this.senderPrivateKeyPair = new KeyPair(
-				PrivateKey.fromHexString("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"));
-		this.recipientPublicKeyPair = new KeyPair(
-				PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"));
-
 		// Build a transaction and send it.
 		try {
 			TransactionBuilder.initiateTransactionBuild().sender(new Account(this.senderPrivateKeyPair))

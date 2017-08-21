@@ -26,8 +26,6 @@ public class DecodeBuildTransactionTest extends TransactionUnitTest {
 	 */
 	@Test
 	public void testDecode() {
-		this.senderPublicKeyPair = new KeyPair(PublicKey.fromHexString("d72ebcdf243f9d217f448d937ac9431ba6ee4984b167015abcfc5b22e169ca23"));
-		this.recipientPrivateKeyPair = new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"));
 		
 		try {
 			System.out.println(SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
