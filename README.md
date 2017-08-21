@@ -1,5 +1,9 @@
 # NEM/SpectroCoin Java API Library
 
+<h2>Technology Stack</h2>
+
+Java 1.8 | nem.core
+
 <h2>Configuration Setup</h2>
 
 Before starting, make sure you have the configuration setup.
@@ -14,9 +18,7 @@ Before starting, make sure you have the configuration setup.
 
 <h2>Transactions</h2>
 
-
-
-        
+Use the following set of builders to create transactions.
           
 <h3>Generic Transaction</h3>
 
@@ -48,10 +50,13 @@ TransactionBuilder.initiateTransactionBuild()
     .recipient(this.recipientPublicAccount)
     .amount(0l)
     .multisig(this.multiSigAccount)
-    .buildAndSendMultisigTransaction();
+    .buildMultisigSignatureTransaction();
   ```  
-
+  
 <h2>Decode/Encode Secure Message/Payload</h2>
+
+Use the following static methods to encode and decode Secure Message Payloads.
+
 <h3>Encode</h3>
 
 ```java
@@ -124,20 +129,20 @@ List<MosaicDefinitionMetaDataPair> AccountApi.getAccountOwnedMosaic(String addre
 <h3>Check Node Info</h3>
 
 ```java
-NodeApi.getNodeInfo()
+Node NodeApi.getNodeInfo()
 ```
 
 <h3>Check Node Extenteded Info</h3>
 
 ```java
-NodeApi.getNodeExtendedInfo()
+NisNodeInfo NodeApi.getNodeExtendedInfo()
 ```
 
 
 <h3>Check Nem Node Heartbeat</h3>
 
 ```java
-NodeApi.getNemNodeHeartBeat()
+NemRequestResult NodeApi.getNemNodeHeartBeat()
 ```
 
 <h2>Generate QR Code</h2>
@@ -149,10 +154,12 @@ int size = 125;
 String fileType = "png";
 File qrFile = new File(filePath);
 try {
-	QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
+    QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
 } catch (WriterException | IOException e) {
-	e.printStackTrace();
+    e.printStackTrace();
 }
 ```
+
+
 
 <sub>Copyright (c) 2017</sub>

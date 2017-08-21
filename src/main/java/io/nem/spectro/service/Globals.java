@@ -8,6 +8,7 @@ import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
 
 import io.nem.spectro.factories.ConnectorFactory;
+import io.nem.spectro.fee.TransactionFeeCalculatorAfterForkForApp;
 import io.nem.spectro.util.AppPropertiesUtil;
 
 
@@ -101,6 +102,8 @@ public class Globals {
 
 	/** The Constant NODE_ENDPOINT. */
 	private static NodeEndpoint NODE_ENDPOINT;
+	
+	private static TransactionFeeCalculator feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
 
 	/**
 	 * Gets the node endpoint.
@@ -114,8 +117,8 @@ public class Globals {
 	/**
 	 * Sets the global transaction fee.
 	 */
-	public static void setGlobalTransactionFee() {
-
+	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
+		Globals.feeCalculator = feeCalculator;
 	}
 
 	/**
@@ -124,7 +127,7 @@ public class Globals {
 	 * @return the global transaction fee
 	 */
 	public static TransactionFeeCalculator getGlobalTransactionFee() {
-		return null;
+		return feeCalculator;
 	}
 	// = new NodeEndpoint(
 	// AppPropertiesUtil.getProperty("node.endpoint.protocol"),

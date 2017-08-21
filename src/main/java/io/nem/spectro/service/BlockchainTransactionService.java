@@ -19,7 +19,6 @@ import io.nem.spectro.model.SpectroTransaction;
 import io.nem.spectro.util.AppPropertiesUtil;
 import io.nem.spectro.util.TransactionSenderUtil;
 
-
 /**
  * The Class TransactionService.
  */
@@ -27,10 +26,10 @@ public class BlockchainTransactionService {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(BlockchainTransactionService.class.getName());
-//
-//	static {
-////		NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(AppPropertiesUtil.getProperty("node.endpoint.networkname")));
-//	}
+	//
+	// static {
+	//// NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(AppPropertiesUtil.getProperty("node.endpoint.networkname")));
+	// }
 
 	/**
 	 * Creates the and send transaction.
@@ -142,21 +141,21 @@ public class BlockchainTransactionService {
 				Amount.fromMicroNem(amount), // amount in micro xem
 				attachment); // attachment (message, mosaics)
 
-		if(transaction.getFee()==null){
-			TransactionFeeCalculatorAfterForkForApp feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
-			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
+		if (transaction.getFee() == null) {
+			transaction.setFee(Globals.getGlobalTransactionFee().calculateMinimumFee(transaction));
 		} else {
 			transaction.setFee(Amount.fromNem(0));
 		}
-		
+
 		transaction.setDeadline(timeInstant.addHours(23));
 		return transaction;
 	}
-	
+
 	/**
 	 * Creates the transaction.
 	 *
-	 * @param tBlock the t block
+	 * @param tBlock
+	 *            the t block
 	 * @return the transaction
 	 */
 	public static Transaction createTransaction(final SpectroTransaction tBlock) {
@@ -166,26 +165,27 @@ public class BlockchainTransactionService {
 				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
 				tBlock.getAttachment()); // attachment (message, mosaics)
 
-		if(transaction.getFee()==null){
+		if (transaction.getFee() == null) {
 			TransactionFeeCalculator feeCalculator;
-			if(tBlock.getFeeCalculator() != null) {
+			if (tBlock.getFeeCalculator() != null) {
 				feeCalculator = tBlock.getFeeCalculator();
-			}else {
-				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			} else {
+				feeCalculator = Globals.getGlobalTransactionFee();
 			}
 			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
 		} else {
 			transaction.setFee(Amount.fromNem(0));
 		}
-		
+
 		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
 		return transaction;
 	}
-	
+
 	/**
 	 * Creates the transaction.
 	 *
-	 * @param tBlock the t block
+	 * @param tBlock
+	 *            the t block
 	 * @return the transaction
 	 */
 	public static Transaction createTransaction(final SpectroMultisigTransaction tBlock) {
@@ -195,26 +195,27 @@ public class BlockchainTransactionService {
 				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
 				tBlock.getAttachment()); // attachment (message, mosaics)
 
-		if(transaction.getFee()==null){
+		if (transaction.getFee() == null) {
 			TransactionFeeCalculator feeCalculator;
-			if(tBlock.getFeeCalculator() != null) {
+			if (tBlock.getFeeCalculator() != null) {
 				feeCalculator = tBlock.getFeeCalculator();
-			}else {
-				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			} else {
+				feeCalculator = Globals.getGlobalTransactionFee();
 			}
 			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
 		} else {
 			transaction.setFee(Amount.fromNem(0));
 		}
-		
+
 		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
 		return transaction;
 	}
-	
+
 	/**
 	 * Creates the transaction.
 	 *
-	 * @param tBlock the t block
+	 * @param tBlock
+	 *            the t block
 	 * @return the transaction
 	 */
 	public static Transaction createTransaction(final SpectroMultisigSignatureTransaction tBlock) {
@@ -224,18 +225,18 @@ public class BlockchainTransactionService {
 				Amount.fromMicroNem(tBlock.getAmount()), // amount in micro xem
 				tBlock.getAttachment()); // attachment (message, mosaics)
 
-		if(transaction.getFee()==null){
+		if (transaction.getFee() == null) {
 			TransactionFeeCalculator feeCalculator;
-			if(tBlock.getFeeCalculator() != null) {
+			if (tBlock.getFeeCalculator() != null) {
 				feeCalculator = tBlock.getFeeCalculator();
-			}else {
-				feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+			} else {
+				feeCalculator = Globals.getGlobalTransactionFee();
 			}
 			transaction.setFee(feeCalculator.calculateMinimumFee(transaction));
 		} else {
 			transaction.setFee(Amount.fromNem(0));
 		}
-		
+
 		transaction.setDeadline(tBlock.getTimeInstant().addHours(23));
 		return transaction;
 	}
@@ -261,13 +262,13 @@ public class BlockchainTransactionService {
 		final MultisigTransaction multiSigTransaction = new MultisigTransaction(timeInstant, sender, transaction);
 		multiSigTransaction.setDeadline(timeInstant.addHours(23));
 
-		if(multiSigTransaction.getFee()==null){
-			TransactionFeeCalculatorAfterForkForApp feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+		if (multiSigTransaction.getFee() == null) {
+			TransactionFeeCalculator feeCalculator = Globals.getGlobalTransactionFee();
 			multiSigTransaction.setFee(feeCalculator.calculateMinimumFee(multiSigTransaction));
 		} else {
 			multiSigTransaction.setFee(Amount.fromNem(0));
 		}
-		
+
 		return multiSigTransaction;
 	}
 
@@ -292,9 +293,9 @@ public class BlockchainTransactionService {
 		final MultisigSignatureTransaction multiSigSignedTransaction = new MultisigSignatureTransaction(timeInstant,
 				sender, multisig, transaction);
 		multiSigSignedTransaction.setDeadline(timeInstant.addHours(23));
-		
-		if(multiSigSignedTransaction.getFee()==null){
-			TransactionFeeCalculatorAfterForkForApp feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
+
+		if (multiSigSignedTransaction.getFee() == null) {
+			TransactionFeeCalculator feeCalculator = Globals.getGlobalTransactionFee();
 			multiSigSignedTransaction.setFee(feeCalculator.calculateMinimumFee(multiSigSignedTransaction));
 		} else {
 			multiSigSignedTransaction.setFee(Amount.fromNem(0));

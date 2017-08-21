@@ -6,6 +6,7 @@ import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.TransferTransactionAttachment;
 
+import io.nem.spectro.api.AccountApi;
 import io.nem.spectro.builders.GenericTransactionBuilder;
 import io.nem.spectro.builders.TransactionBuilder;
 import io.nem.spectro.factories.AttachmentFactory;
@@ -29,23 +30,24 @@ public class StressTestAppTransaction extends TransactionUnitTest {
 		try {
 
 			for (int i = 0; i < 500; i++) {
-
-				final Account senderAccount = EntityFactory.buildAccountFromPrivateKey("<privatekey>");
-				final Account recipientAccount = EntityFactory.buildAccountFromPublicKey("<public>");
-
-				SecureMessage message;
-				try {
-					message = SecureMessage.fromDecodedPayload(senderAccount, recipientAccount,
-							sampleMsg.getBytes());
-
-					TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
-
-					TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
-							.amount(0l).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
-							.buildAndSendTransaction();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				System.out.println(
+						AccountApi.getAccountByAddress("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW").getMetaData().getStatus());
+//				final Account senderAccount = EntityFactory.buildAccountFromPrivateKey("<privatekey>");
+//				final Account recipientAccount = EntityFactory.buildAccountFromPublicKey("<public>");
+//
+//				SecureMessage message;
+//				try {
+//					message = SecureMessage.fromDecodedPayload(senderAccount, recipientAccount,
+//							sampleMsg.getBytes());
+//
+//					TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
+//
+//					TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+//							.amount(0l).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+//							.buildAndSendTransaction();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 
 		} catch (Exception e) {
