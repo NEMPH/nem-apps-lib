@@ -1,5 +1,7 @@
 # NEM/SpectroCoin Java API Library
 
+Wrapper/Helper class for SpectroCoin Integration. This directly calls the nem.core that then calls the endpoints based on https://bob.nem.ninja/docs/
+
 <h2>Technology Stack</h2>
 
 Java 1.8 | nem.core
