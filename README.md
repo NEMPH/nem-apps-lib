@@ -2,6 +2,14 @@
 
 Java API library for NEM.io blockchain platform. This directly calls the https://github.com/NEMModules/nem.core that then calls the endpoints based on https://bob.nem.ninja/docs/
 
+Library has the following features/functionalities
+
+  * initiate a transfer transactoin (including mosaic)
+  * initiate a multisig transaction (including mosaic)
+  * cosign a multisig transaction
+  * monitor incoming transactions of specific account
+  * monitor multisig transactions of specific account
+
 <h2>Technology Stack</h2>
 
 Java 1.8 | nem.core
