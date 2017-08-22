@@ -6,13 +6,11 @@ import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
-import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
-
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.model.SpectroTransaction;
 import io.nem.apps.service.BlockchainTransactionService;
@@ -308,6 +306,7 @@ public class GenericTransactionBuilder {
 			} else {
 				instance.getAttachment().setMessage(transactionMessage);
 			}
+			
 			return this;
 		}
 

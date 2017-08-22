@@ -2,6 +2,7 @@ package io.nem.apps.model;
 
 import java.io.Serializable;
 
+import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
@@ -27,6 +28,16 @@ public class SpectroMultisigSignatureTransaction implements Serializable {
 
 	/** The signature. */
 	private Signature signature;
+	
+	private Hash otherTransactionHash;
+
+	public Hash getOtherTransactionHash() {
+		return otherTransactionHash;
+	}
+
+	public void setOtherTransactionHash(Hash otherTransactionHash) {
+		this.otherTransactionHash = otherTransactionHash;
+	}
 
 	/**
 	 * Gets the fee calculator.

@@ -1,5 +1,6 @@
 package io.nem.apps.builders;
 
+import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
@@ -51,22 +52,14 @@ public class MultisigSignatureTransactionBuilder {
 		 *            the recipient
 		 * @return the i recipient
 		 */
-		IRecipient recipient(Account recipient);
+		IHash recipient(Account recipient);
+		
+		IHash multisig(Account multisig);
 	}
+	
+	public interface IHash {
 
-	/**
-	 * The Interface IRecipient.
-	 */
-	public interface IRecipient {
-
-		/**
-		 * Multisig.
-		 *
-		 * @param multisig
-		 *            the multisig
-		 * @return the i build
-		 */
-		IBuild multisig(Account multisig);
+		IBuild hash(Hash hash);
 	}
 
 	/**
@@ -136,13 +129,6 @@ public class MultisigSignatureTransactionBuilder {
 		IBuild addSignature(MultisigSignatureTransaction signature);
 
 		/**
-		 * Builds the multisig transaction.
-		 *
-		 * @return the multisig transaction
-		 */
-		MultisigSignatureTransaction buildMultisigSignatureTransaction();
-
-		/**
 		 * Builds the and send multisig transaction.
 		 *
 		 * @return the multisig transaction
@@ -153,7 +139,7 @@ public class MultisigSignatureTransactionBuilder {
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IRecipient, IBuild {
+	private static class Builder implements ISender, IHash, IBuild {
 
 		/** The instance. */
 		private SpectroMultisigSignatureTransaction instance = new SpectroMultisigSignatureTransaction();
@@ -189,7 +175,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * nem.core.model.Account)
 		 */
 		@Override
-		public IBuild multisig(Account multisig) {
+		public IHash multisig(Account multisig) {
 			instance.setMultisigAccount(multisig);
 			return this;
 		}
@@ -202,7 +188,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * core.model.Account)
 		 */
 		@Override
-		public IRecipient recipient(Account recipient) {
+		public IHash recipient(Account recipient) {
 			instance.setRecipientAccount(recipient);
 			return this;
 		}
@@ -218,24 +204,6 @@ public class MultisigSignatureTransactionBuilder {
 		public IBuild attachment(TransferTransactionAttachment attachment) {
 			instance.setAttachment(attachment);
 			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.builders.MultisigTransactionBuilder.IBuild#
-		 * buildMultisigTransaction()
-		 */
-		@Override
-		public MultisigSignatureTransaction buildMultisigSignatureTransaction() {
-			if (instance.getTimeInstant() == null) {
-				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
-			}
-			Transaction transaction = BlockchainTransactionService.createTransaction(instance);
-
-			return (MultisigSignatureTransaction) BlockchainTransactionService.createMultisigSignatureTransaction(
-					instance.getTimeInstant(), instance.getSenderAccount(), instance.getRecipientAccount(),
-					instance.getAmount(), transaction);
 		}
 
 		/*
@@ -311,6 +279,12 @@ public class MultisigSignatureTransactionBuilder {
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
 			instance.setFeeCalculator(feeCalculator);
+			return this;
+		}
+
+		@Override
+		public IBuild hash(Hash hash) {
+			instance.setOtherTransactionHash(hash);
 			return this;
 		}
 

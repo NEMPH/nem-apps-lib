@@ -1,6 +1,8 @@
 package io.nem.apps.service;
 
 import java.util.logging.Logger;
+
+import org.nem.core.crypto.Hash;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
@@ -88,10 +90,8 @@ public class BlockchainTransactionService {
 	 */
 	public static void createAndSendMultisigSignatureTransaction(final SpectroMultisigSignatureTransaction tBlock) {
 
-		final Transaction transaction = createTransaction(tBlock);
-
 		final Transaction multiSigSignedTransaction = createMultisigSignatureTransaction(tBlock.getTimeInstant(),
-				tBlock.getSenderAccount(), tBlock.getMultisigAccount(), tBlock.getAmount(), transaction);
+				tBlock.getSenderAccount(), tBlock.getMultisigAccount(), tBlock.getAmount(), tBlock.getOtherTransactionHash());
 
 		multiSigSignedTransaction.sign();
 		TransactionSenderUtil.sendTransaction(multiSigSignedTransaction);
@@ -288,10 +288,10 @@ public class BlockchainTransactionService {
 	 * @return the transaction
 	 */
 	public static Transaction createMultisigSignatureTransaction(final TimeInstant timeInstant, final Account sender,
-			final Account multisig, final long amount, final Transaction transaction) {
+			final Account multisig, final long amount, final Hash hashTransaction) {
 
 		final MultisigSignatureTransaction multiSigSignedTransaction = new MultisigSignatureTransaction(timeInstant,
-				sender, multisig, transaction);
+				sender, multisig, hashTransaction);
 		multiSigSignedTransaction.setDeadline(timeInstant.addHours(23));
 
 		if (multiSigSignedTransaction.getFee() == null) {
