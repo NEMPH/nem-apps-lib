@@ -7,8 +7,6 @@ Library has the following features/functionalities
   * initiate a transfer transactoin (including mosaic)
   * initiate a multisig transaction (including mosaic)
   * cosign a multisig transaction
-  * monitor incoming transactions of specific account
-  * monitor multisig transactions of specific account
 
 <h2>Technology Stack</h2>
 
