@@ -192,7 +192,7 @@ List<TransactionMetaDataPair> AccountApi.getOutgoingTransactions(String address)
 <h3>Get All Mosaics for an Account</h3>
 
 ```java
-List<MosaicDefinitionMetaDataPair> AccountApi.getAccountOwnedMosaic(String address)
+List<Mosaic> AccountApi.getAccountOwnedMosaic(String address)
 ```
 
 <h2>Nodes</h2>
