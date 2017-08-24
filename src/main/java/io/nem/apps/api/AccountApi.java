@@ -145,20 +145,20 @@ public class AccountApi {
 	 *            the address
 	 * @return the account owned mosaic
 	 */
-	public static List<MosaicId> getAccountOwnedMosaic(String address) {
+	public static List<Mosaic> getAccountOwnedMosaic(String address) {
 		Deserializer des;
-		List<MosaicId> list;
+		List<Mosaic> list;
 		try {
 			des = Globals.CONNECTOR
 					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
 					.get();
-			list = (ArrayList<MosaicId>) des.readObjectArray("data",
-					MosaicId::new);
+			list = (ArrayList<Mosaic>) des.readObjectArray("data",Mosaic::new);
 			return list;
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 		return null;
 	}
 

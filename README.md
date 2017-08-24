@@ -61,7 +61,7 @@ TBD
 
 Use the following set of builders to create transactions.
           
-<h3>Generic Transaction</h3>
+<h3>Transfer Transaction</h3>
 
 ```java
 TransactionBuilder.initiateTransactionBuild()
@@ -71,7 +71,7 @@ TransactionBuilder.initiateTransactionBuild()
     .buildAndSendTransaction();
 ```  
 
-<h3>MultiSig Transaction</h3>
+<h3>Multisig Transaction</h3>
 
 ```java
 
@@ -87,7 +87,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 	.buildAndSendMultisigTransaction();
  ```  
   
-<h3>MultiSigSignature Transaction</h3>
+<h3>MultiigSignature Transaction</h3>
 
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()

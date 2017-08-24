@@ -1,7 +1,5 @@
 package io.nem.apps.builders;
 
-
-
 /**
  * The Class TransactionBuilder.
  */

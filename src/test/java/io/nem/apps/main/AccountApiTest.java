@@ -71,19 +71,19 @@ public class AccountApiTest extends ApiUnitTest {
 	}
 
 	@Test
-	@Ignore
 	public void testAccountApiAllTransaction() {
 		System.out.println(AccountApi.getAllTransactions("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW").size());
 	}
 
 	@Test
-	@Ignore
 	public void testAccountApiAllOwnedMosaic() {
 		System.out.println(AccountApi.getAccountOwnedMosaic("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW"));
+		
+		
 	}
 
 	@Test
 	public void testGenerteNewAccount() {
-		System.out.println(AccountApi.generateAccount().getNetworkVersion());
+		System.out.println(AccountApi.generateAccount());
 	}
 }

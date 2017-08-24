@@ -18,7 +18,7 @@ import io.nem.apps.util.TransactionSenderUtil;
 /**
  * The Class MultisigTransactionBuilder.
  */
-public class MultisigTransactionBuilder {
+public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 
 	/**
 	 * Instantiates a new multisig transaction builder.
