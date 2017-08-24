@@ -33,9 +33,9 @@ Import it as a maven dependency
 
 ```xml
 <dependency>
-	<groupId>io.nem.apps</groupId>
-	<artifactId>nem-apps-lib</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>io.nem.apps</groupId>
+    <artifactId>nem-apps-lib</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
 
