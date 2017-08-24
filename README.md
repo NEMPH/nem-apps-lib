@@ -87,7 +87,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 	.buildAndSendMultisigTransaction();
  ```  
   
-<h3>MultiigSignature Transaction</h3>
+<h3>MultisigSignature Transaction</h3>
 
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
