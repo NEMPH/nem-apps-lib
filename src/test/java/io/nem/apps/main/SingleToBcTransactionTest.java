@@ -36,7 +36,7 @@ public class SingleToBcTransactionTest extends TransactionUnitTest {
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			// attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new
 			// Quantity(12));
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l)
+			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 
@@ -61,7 +61,7 @@ public class SingleToBcTransactionTest extends TransactionUnitTest {
 			// attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new
 			// Quantity(12));
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(0l)
+			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {

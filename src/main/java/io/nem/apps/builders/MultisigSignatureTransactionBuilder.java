@@ -7,16 +7,10 @@ import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
-
-import io.nem.apps.model.SpectroMultisigSignatureTransaction;
-import io.nem.apps.model.SpectroMultisigTransaction;
-import io.nem.apps.service.BlockchainTransactionService;
 import io.nem.apps.service.Globals;
-
-
+import io.nem.apps.util.TransactionSenderUtil;
 
 /**
  * The Class MultisigTransactionBuilder.
@@ -36,30 +30,21 @@ public class MultisigSignatureTransactionBuilder {
 	 *            the sender
 	 * @return the i sender
 	 */
-	public ISender sender(Account sender) {
+	public IMultiSig sender(Account sender) {
 		return new MultisigSignatureTransactionBuilder.Builder(sender);
 	}
 
-	/**
-	 * The Interface ISender.
-	 */
-	public interface ISender {
+	public interface IMultiSig {
 
-		/**
-		 * Recipient.
-		 *
-		 * @param recipient
-		 *            the recipient
-		 * @return the i recipient
-		 */
-		IHash recipient(Account recipient);
-		
-		IHash multisig(Account multisig);
+		ITransaction multisig(Account multisig);
 	}
-	
-	public interface IHash {
 
-		IBuild hash(Hash hash);
+	public interface ITransaction {
+
+		IBuild otherTransaction(Transaction transaction);
+
+		IBuild otherTransaction(Hash hashTransaction);
+
 	}
 
 	/**
@@ -67,82 +52,42 @@ public class MultisigSignatureTransactionBuilder {
 	 */
 	public interface IBuild {
 
-		/**
-		 * Amount.
-		 *
-		 * @param amount
-		 *            the amount
-		 * @return the i build
-		 */
-		IBuild amount(Long amount);
+		IBuild timeStamp(TimeInstant timeInstance);
 
-		/**
-		 * Attachment.
-		 *
-		 * @param attachment
-		 *            the attachment
-		 * @return the i build
-		 */
-		IBuild attachment(TransferTransactionAttachment attachment);
+		IBuild signBy(Account account);
 
-		/**
-		 * Fee.
-		 *
-		 * @param amount the amount
-		 * @return the i build
-		 */
 		IBuild fee(Amount amount);
-		
-		/**
-		 * Fee calculator.
-		 *
-		 * @param feeCalculator the fee calculator
-		 * @return the i build
-		 */
+
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
 
-		/**
-		 * Deadline.
-		 *
-		 * @param timeInstant
-		 *            the time instant
-		 * @return the i build
-		 */
 		IBuild deadline(TimeInstant timeInstant);
 
-		/**
-		 * Signature.
-		 *
-		 * @param signature
-		 *            the signature
-		 * @return the i build
-		 */
 		IBuild signature(Signature signature);
 
-		/**
-		 * Adds the signature.
-		 *
-		 * @param signature
-		 *            the signature
-		 * @return the i build
-		 */
-		IBuild addSignature(MultisigSignatureTransaction signature);
-
-		/**
-		 * Builds the and send multisig transaction.
-		 *
-		 * @return the multisig transaction
-		 */
-		SpectroMultisigSignatureTransaction buildAndSendMultisigSignatureTransaction();
+		MultisigSignatureTransaction coSign();
 	}
 
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements ISender, IHash, IBuild {
+	private static class Builder implements IMultiSig, ITransaction, IBuild {
 
 		/** The instance. */
-		private SpectroMultisigSignatureTransaction instance = new SpectroMultisigSignatureTransaction();
+		private MultisigSignatureTransaction instance;
+
+		// constructor
+		private TimeInstant timeStamp;
+		private Account sender;
+		private Account multisig;
+		private Transaction otherTransaction;
+		private Hash hashTransaction;
+		private Signature signature;
+
+		// secondary
+		private Amount fee;
+		private TransactionFeeCalculator feeCalculator;
+		private Account signBy;
+		private TimeInstant deadline;
 
 		/**
 		 * Instantiates a new builder.
@@ -151,59 +96,8 @@ public class MultisigSignatureTransactionBuilder {
 		 *            the sender
 		 */
 		public Builder(Account sender) {
-			instance.setSenderAccount(sender);
-		}
+			this.sender = sender;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * io.nem.builders.MultisigTransactionBuilder.IBuild#amount(java.lang.
-		 * Long)
-		 */
-		@Override
-		public IBuild amount(Long amount) {
-			instance.setAmount(amount);
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * io.nem.builders.MultisigTransactionBuilder.IRecipient#multisig(org.
-		 * nem.core.model.Account)
-		 */
-		@Override
-		public IHash multisig(Account multisig) {
-			instance.setMultisigAccount(multisig);
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * io.nem.builders.MultisigTransactionBuilder.ISender#recipient(org.nem.
-		 * core.model.Account)
-		 */
-		@Override
-		public IHash recipient(Account recipient) {
-			instance.setRecipientAccount(recipient);
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * io.nem.builders.MultisigTransactionBuilder.IBuild#attachment(org.nem.
-		 * core.model.TransferTransactionAttachment)
-		 */
-		@Override
-		public IBuild attachment(TransferTransactionAttachment attachment) {
-			instance.setAttachment(attachment);
-			return this;
 		}
 
 		/*
@@ -213,11 +107,45 @@ public class MultisigSignatureTransactionBuilder {
 		 * buildAndSendMultisigTransaction()
 		 */
 		@Override
-		public SpectroMultisigSignatureTransaction buildAndSendMultisigSignatureTransaction() {
-			if (instance.getTimeInstant() == null) {
-				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
+		public MultisigSignatureTransaction coSign() {
+			if (this.timeStamp == null) {
+				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
 			}
-			BlockchainTransactionService.createAndSendMultisigSignatureTransaction(instance);
+
+			if (this.otherTransaction != null) {
+				instance = new MultisigSignatureTransaction(this.timeStamp, this.sender, this.multisig,
+						this.otherTransaction);
+			}
+			if (this.hashTransaction != null) {
+				instance = new MultisigSignatureTransaction(this.timeStamp, this.sender, this.multisig,
+						this.hashTransaction);
+			}
+
+			if (this.fee == null) {
+				TransactionFeeCalculator feeCalculator;
+				if (this.feeCalculator != null) {
+					feeCalculator = this.feeCalculator;
+				} else {
+					feeCalculator = Globals.getGlobalTransactionFee();
+				}
+				instance.setFee(feeCalculator.calculateMinimumFee(instance));
+			} else {
+				instance.setFee(Amount.fromNem(0));
+			}
+
+			if (this.deadline != null) {
+				instance.setDeadline(this.deadline);
+			} else {
+				instance.setDeadline(this.timeStamp.addHours(23));
+			}
+			if (this.signature != null) {
+				instance.setSignature(this.signature);
+			}
+			if (this.signBy != null) {
+				instance.signBy(this.signBy);
+			}
+			instance.sign();
+			TransactionSenderUtil.sendMultisigSignatureTransaction(instance);
 			return instance;
 		}
 
@@ -230,7 +158,7 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public IBuild fee(Amount amount) {
-			instance.setFee(amount);
+			this.fee = amount;
 			return this;
 		}
 
@@ -242,8 +170,8 @@ public class MultisigSignatureTransactionBuilder {
 		 * core.time.TimeInstant)
 		 */
 		@Override
-		public IBuild deadline(TimeInstant timeInstant) {
-			instance.setDeadline(timeInstant);
+		public IBuild deadline(TimeInstant deadline) {
+			this.deadline = deadline;
 			return this;
 		}
 
@@ -256,35 +184,43 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		@Override
 		public IBuild signature(Signature signature) {
-			instance.setSignature(signature);
+			this.signature = signature;
 			return this;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * io.nem.builders.MultisigTransactionBuilder.IBuild#addSignature(org.
-		 * nem.core.model.MultisigSignatureTransaction)
-		 */
 		@Override
-		public IBuild addSignature(MultisigSignatureTransaction signature) {
-			instance.addMultisigSignature(signature);
+		public IBuild timeStamp(TimeInstant timeInstance) {
+			this.timeStamp = timeInstance;
 			return this;
 		}
-		
-		/* (non-Javadoc)
-		 * @see io.nem.spectro.builders.MultisigSignatureTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
-		 */
+
+		@Override
+		public IBuild signBy(Account account) {
+			this.signBy = account;
+			return this;
+		}
+
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
-			instance.setFeeCalculator(feeCalculator);
+			this.feeCalculator = feeCalculator;
 			return this;
 		}
 
 		@Override
-		public IBuild hash(Hash hash) {
-			instance.setOtherTransactionHash(hash);
+		public IBuild otherTransaction(Transaction transaction) {
+			this.otherTransaction = transaction;
+			return this;
+		}
+
+		@Override
+		public ITransaction multisig(Account multisig) {
+			this.multisig = multisig;
+			return this;
+		}
+
+		@Override
+		public IBuild otherTransaction(Hash hashTransaction) {
+			this.hashTransaction = hashTransaction;
 			return this;
 		}
 

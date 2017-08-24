@@ -43,7 +43,7 @@ public abstract class TransactionUnitTest {
 	 * Instantiates a new transaction unit test.
 	 */
 	public TransactionUnitTest() {
-		Assume.assumeTrue(this.isTestable());
+		//Assume.assumeTrue(this.isTestable());
 	}
 
 	/**

@@ -151,7 +151,6 @@ public class ConfigurationBuilder {
 		 *            the network name
 		 */
 		public Builder(String networkName) {
-			if(NetworkInfos.getDefault() != null) return;
 			NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(networkName));
 		}
 

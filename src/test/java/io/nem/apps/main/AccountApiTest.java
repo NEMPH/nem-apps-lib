@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,10 +20,6 @@ import io.nem.apps.service.Globals;
 
 public class AccountApiTest extends ApiUnitTest {
 	
-	@BeforeClass
-	public static void init() {
-		ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http").nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
-	}
 
 	@Test
 	public void testDeserializeAccount() {
@@ -70,7 +67,7 @@ public class AccountApiTest extends ApiUnitTest {
 	@Test
 	public void testAccountApiAddress() {
 		System.out.println(
-				AccountApi.getAccountByAddress("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW").getMetaData().getStatus());
+				AccountApi.getAccountByAddress("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW").getEntity().getBalance());
 	}
 
 	@Test
@@ -86,8 +83,7 @@ public class AccountApiTest extends ApiUnitTest {
 	}
 
 	@Test
-	@Ignore	
 	public void testGenerteNewAccount() {
-		System.out.println(AccountApi.generateAccount().getKeyPair().hasPrivateKey());
+		System.out.println(AccountApi.generateAccount().getNetworkVersion());
 	}
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
 
@@ -30,7 +31,7 @@ public class StressTransactionTest extends TransactionUnitTest {
 	public void testCbBuildTransaction() {
 
 		// Build a transaction.
-		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(0l)
+		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).amount(Amount.ZERO)
 				.buildTransaction();
 
 	}
@@ -53,7 +54,7 @@ public class StressTransactionTest extends TransactionUnitTest {
 				TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 
 				TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
-						.amount(0l).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+						.amount(Amount.ZERO).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 						.buildAndSendTransaction();
 			}
 		} catch (Exception e) {
@@ -80,7 +81,7 @@ public class StressTransactionTest extends TransactionUnitTest {
 				attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));
 
 				TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
-						.amount(0l).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+						.amount(Amount.ZERO).attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 						.buildAndSendTransaction();
 			}
 		} catch (Exception e) {

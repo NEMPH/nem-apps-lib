@@ -12,10 +12,8 @@ import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
-import io.nem.apps.model.SpectroTransaction;
-import io.nem.apps.service.BlockchainTransactionService;
 import io.nem.apps.service.Globals;
-
+import io.nem.apps.util.TransactionSenderUtil;
 
 /**
  * The Class TransactionBuilder.
@@ -26,7 +24,6 @@ public class GenericTransactionBuilder {
 	 * Instantiates a new transaction builder.
 	 */
 	public GenericTransactionBuilder() {
-		// create this object via TransactionBuilder.
 	}
 
 	/**
@@ -60,10 +57,17 @@ public class GenericTransactionBuilder {
 	 */
 	public interface IBuild {
 
+		IBuild version(int version);
+
+		IBuild signBy(Account account);
+
+		IBuild timeStamp(TimeInstant timeInstance);
+
 		/**
 		 * Fee.
 		 *
-		 * @param amount the amount
+		 * @param amount
+		 *            the amount
 		 * @return the i build
 		 */
 		IBuild fee(Amount amount);
@@ -71,7 +75,8 @@ public class GenericTransactionBuilder {
 		/**
 		 * Fee calculator.
 		 *
-		 * @param feeCalculator the fee calculator
+		 * @param feeCalculator
+		 *            the fee calculator
 		 * @return the i build
 		 */
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
@@ -83,7 +88,7 @@ public class GenericTransactionBuilder {
 		 *            the amount
 		 * @return the i build
 		 */
-		IBuild amount(Long amount);
+		IBuild amount(Amount amount);
 
 		/**
 		 * Message.
@@ -146,7 +151,7 @@ public class GenericTransactionBuilder {
 		 *
 		 * @return the transaction
 		 */
-		SpectroTransaction buildAndSendTransaction();
+		TransferTransaction buildAndSendTransaction();
 	}
 
 	/**
@@ -155,7 +160,23 @@ public class GenericTransactionBuilder {
 	private static class Builder implements ISender, IBuild {
 
 		/** The instance. */
-		private SpectroTransaction instance = new SpectroTransaction();
+		// private SpectroTransaction instance = new SpectroTransaction();
+		private TransferTransaction instance;
+
+		// constructor
+		private int version;
+		private TimeInstant timeStamp;
+		private Account sender;
+		private Account recipient;
+		private Amount amount;
+		private TransferTransactionAttachment attachment;
+		private Signature signature;
+		private TimeInstant deadline;
+
+		// secondary
+		private Amount fee;
+		private TransactionFeeCalculator feeCalculator;
+		private Account signBy;
 
 		/**
 		 * Instantiates a new builder.
@@ -164,7 +185,20 @@ public class GenericTransactionBuilder {
 		 *            the sender
 		 */
 		public Builder(Account sender) {
-			instance.setSenderAccount(sender);
+			this.sender = sender;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(
+		 * org.nem.core.model.Account)
+		 */
+		@Override
+		public IBuild recipient(Account recipient) {
+			this.recipient = recipient;
+			return this;
 		}
 
 		/*
@@ -174,8 +208,8 @@ public class GenericTransactionBuilder {
 		 * Long)
 		 */
 		@Override
-		public IBuild amount(Long amount) {
-			instance.setAmount(amount);
+		public IBuild amount(Amount amount) {
+			this.amount = amount;
 			return this;
 		}
 
@@ -187,8 +221,54 @@ public class GenericTransactionBuilder {
 		 */
 		@Override
 		public IBuild attachment(TransferTransactionAttachment attachment) {
-			instance.setAttachment(attachment);
+			this.attachment = attachment;
 			return this;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.builders.TransactionBuilder.IBuild#buildTransaction()
+		 */
+		@Override
+		public TransferTransaction buildTransaction() {
+			if (this.timeStamp == null) {
+				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
+			}
+			
+			if(this.version == 0) {
+				instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+						this.attachment);
+			}else {
+				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient, this.amount,
+						this.attachment);
+			}
+
+			if (this.fee == null) {
+				TransactionFeeCalculator feeCalculator;
+				if (this.feeCalculator != null) {
+					feeCalculator = this.feeCalculator;
+				} else {
+					feeCalculator = Globals.getGlobalTransactionFee();
+				}
+				instance.setFee(feeCalculator.calculateMinimumFee(instance));
+			} else {
+				instance.setFee(Amount.fromNem(0));
+			}
+
+			if(this.deadline != null) {
+				instance.setDeadline(this.deadline);
+			}else {
+				instance.setDeadline(this.timeStamp.addHours(23));
+			}
+			if (this.signature != null) {
+				instance.setSignature(this.signature);
+			} 
+			if (this.signBy != null) {
+				instance.signBy(this.signBy);
+			}
+			instance.sign();
+			return instance;
 		}
 
 		/*
@@ -198,13 +278,8 @@ public class GenericTransactionBuilder {
 		 * buildAndSendTransaction()
 		 */
 		@Override
-		public SpectroTransaction buildAndSendTransaction() {
-			if (instance.getTimeInstant() == null) {
-				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
-			}
-
-			BlockchainTransactionService.createAndSendTransaction(instance);
-			return instance;
+		public TransferTransaction buildAndSendTransaction() {
+			return TransactionSenderUtil.sendTransferTransaction(this.buildTransaction());
 		}
 
 		/*
@@ -215,7 +290,7 @@ public class GenericTransactionBuilder {
 		 */
 		@Override
 		public IBuild fee(Amount amount) {
-			instance.setFee(amount);
+			this.fee = amount;
 			return this;
 		}
 
@@ -226,8 +301,8 @@ public class GenericTransactionBuilder {
 		 * time.TimeInstant)
 		 */
 		@Override
-		public IBuild deadline(TimeInstant timeInstant) {
-			instance.setDeadline(timeInstant);
+		public IBuild deadline(TimeInstant deadline) {
+			this.deadline = deadline;
 			return this;
 		}
 
@@ -239,23 +314,8 @@ public class GenericTransactionBuilder {
 		 */
 		@Override
 		public IBuild signature(Signature signature) {
-			instance.setSignature(signature);
+			this.signature = signature;
 			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.builders.TransactionBuilder.IBuild#buildTransaction()
-		 */
-		@Override
-		public TransferTransaction buildTransaction() {
-			if (instance.getTimeInstant() == null) {
-				instance.setTimeInstant(Globals.TIME_PROVIDER.getCurrentTime());
-			}
-			TransferTransaction trans = (TransferTransaction) BlockchainTransactionService.createTransaction(instance);
-
-			return trans;
 		}
 
 		/*
@@ -269,16 +329,15 @@ public class GenericTransactionBuilder {
 		public IBuild message(String message, int messageType) {
 			Message transactionMessage = null;
 			if (messageType == MessageTypes.SECURE) {
-				transactionMessage = SecureMessage.fromDecodedPayload(instance.getSenderAccount(),
-						instance.getRecipientAccount(), message.getBytes());
+				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message.getBytes());
 			} else {
 				transactionMessage = new PlainMessage(message.getBytes());
 			}
 
-			if (instance.getAttachment() == null) {
-				instance.setAttachment(AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+			if (this.attachment == null) {
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
 			} else {
-				instance.getAttachment().setMessage(transactionMessage);
+				this.attachment.setMessage(transactionMessage);
 			}
 
 			return this;
@@ -295,36 +354,47 @@ public class GenericTransactionBuilder {
 		public IBuild message(byte[] message, int messageType) {
 			Message transactionMessage = null;
 			if (messageType == MessageTypes.SECURE) {
-				transactionMessage = SecureMessage.fromDecodedPayload(instance.getSenderAccount(),
-						instance.getRecipientAccount(), message);
+				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message);
 			} else {
 				transactionMessage = new PlainMessage(message);
 			}
 
-			if (instance.getAttachment() == null) {
-				instance.setAttachment(AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+			if (this.attachment == null) {
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
 			} else {
-				instance.getAttachment().setMessage(transactionMessage);
+				this.attachment.setMessage(transactionMessage);
 			}
-			
+
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.spectro.builders.GenericTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.spectro.builders.GenericTransactionBuilder.IBuild#
+		 * feeCalculator(org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
-			instance.setFeeCalculator(feeCalculator);
+			this.feeCalculator = feeCalculator;
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(org.nem.core.model.Account)
-		 */
 		@Override
-		public IBuild recipient(Account recipient) {
-			instance.setRecipientAccount(recipient);
+		public IBuild version(int version) {
+			this.version = version;
+			return this;
+		}
+
+		@Override
+		public IBuild timeStamp(TimeInstant timeInstance) {
+			this.timeStamp = timeInstance;
+			return this;
+		}
+
+		@Override
+		public IBuild signBy(Account account) {
+			this.signBy = account;
 			return this;
 		}
 

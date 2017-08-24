@@ -171,7 +171,8 @@ public class AccountApi {
 		Deserializer des;
 		try {
 			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_GENERATE, null).get();
+					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_GENERATE, "")
+					.get();
 			return new KeyPairViewModel(des);
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
