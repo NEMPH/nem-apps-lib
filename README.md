@@ -4,9 +4,9 @@ Java API library for NEM.io blockchain platform. This directly calls the https:/
 
 Library has the following features/functionalities
 
-  * initiate a transfer transactoin (including mosaic)
-  * initiate a multisig transaction (including mosaic)
-  * cosign a multisig transaction
+  * Initiate a transfer transactoin (including mosaic)
+  * Initiate a multisig transaction (including mosaic)
+  * Cosign a multisig transaction
   * Configurable Custom Fee Calculation 
   * Get All Transaction (Confirmed/Unconfirmed/Incoming/Outgoing) for an Account
   * Get All Owned Mosaics of an Account
