@@ -33,7 +33,7 @@ Import it as a maven dependency
 
 ```xml
 <dependency>
-    <groupId>io.nem.apps</groupId>
+	<groupId>io.nem.apps</groupId>
 	<artifactId>nem-apps-lib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 </dependency>
@@ -71,29 +71,32 @@ TransactionBuilder.initiateTransactionBuild()
     .buildAndSendTransaction();
 ```  
 
-
 <h3>MultiSig Transaction</h3>
 
 ```java
-TransactionBuilder.initiateMultisigTransactionBuild()
-    .sender(this.senderPrivateAccount)
-    .recipient(this.recipientPublicAccount)
+
+TransferTransaction transaction = TransactionBuilder.initiateTransactionBuild()
+    .sender(new Account(this.senderPrivateKeyPair)) // multisig account
+    .recipient(new Account(this.recipientPublicKeyPair)) 
     .amount(0l)
-    .multisig(this.multiSigAccount)
-    .buildAndSendMultisigTransaction();
-  ```  
+    .buildAndSendTransaction();
+    
+TransactionBuilder.initiateMultisigTransactionBuild()
+	.sender(this.senderPrivateAccount) // co-signer as sender
+	.otherTransaction(transaction)
+	.buildAndSendMultisigTransaction();
+ ```  
   
 <h3>MultiSigSignature Transaction</h3>
 
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-    .sender(this.senderPrivateAccount)
-    .recipient(this.recipientPublicAccount)
-    .amount(0l)
-    .multisig(this.multiSigAccount)
+    .sender(this.senderPrivateAccount) // signer
+    .multisig(this.multisigPublicAccount) // multisig account
+    .otherTransaction(Hash.fromHexString("hash")) // hash
     .buildMultisigSignatureTransaction();
-  ```  
-  
+ ```  
+ 
 <h2>Decode/Encode Secure Message/Payload</h2>
 
 Use the following static methods to encode and decode Secure Message Payloads.
@@ -118,10 +121,26 @@ SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, 
 There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
 
 <h3>Fee on the Transaction</h3>
-TBD
+
+```java
+TransactionBuilder.initiateTransactionBuild()
+    .sender(new Account(this.senderPrivateKeyPair))
+    .recipient(new Account(this.recipientPublicKeyPair))
+    .amount(0l)
+    .fee(Amount.fromMicroNem(0l)) // fee
+    .buildAndSendTransaction();
+``` 
 
 <h3>Fee Calculation via Fee Calculation Object</h3>
-TBD
+
+```java
+TransactionBuilder.initiateTransactionBuild()
+    .sender(new Account(this.senderPrivateKeyPair))
+    .recipient(new Account(this.recipientPublicKeyPair))
+    .amount(0l)
+    .feeCalculator(new TransactionFeeCalculatorAfterForkForApp()) // custom fee calculator
+    .buildAndSendTransaction();
+``` 
 
 <h3>Global and Transaction Level Fees</h3>
 
