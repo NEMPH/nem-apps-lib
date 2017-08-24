@@ -94,7 +94,7 @@ TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .sender(this.senderPrivateAccount) // signer
     .multisig(this.multisigPublicAccount) // multisig account
     .otherTransaction(Hash.fromHexString("hash")) // hash
-    .buildMultisigSignatureTransaction();
+    .cosign();
  ```  
  
 <h2>Decode/Encode Secure Message/Payload</h2>
