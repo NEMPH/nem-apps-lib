@@ -78,12 +78,13 @@ TransferTransaction transaction = TransactionBuilder.initiateTransactionBuild()
     .sender(new Account(this.senderPrivateKeyPair)) // multisig account
     .recipient(new Account(this.recipientPublicKeyPair)) 
     .amount(0l)
-    .buildAndSendTransaction();
+    .buildTransaction();
     
 TransactionBuilder.initiateMultisigTransactionBuild()
 	.sender(this.senderPrivateAccount) // co-signer as sender
 	.otherTransaction(transaction)
 	.buildAndSendMultisigTransaction();
+	
  ```  
   
 <h3>MultisigSignature Transaction</h3>
@@ -92,7 +93,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .sender(this.senderPrivateAccount) // signer
     .multisig(this.multisigPublicAccount) // multisig account
-    .otherTransaction(Hash.fromHexString("hash")) // hash
+    .otherTransaction(Hash.fromHexString("hash")) // hash or transaction
     .cosign();
  ```  
  
