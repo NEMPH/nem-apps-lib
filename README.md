@@ -7,6 +7,11 @@ Library has the following features/functionalities
   * initiate a transfer transactoin (including mosaic)
   * initiate a multisig transaction (including mosaic)
   * cosign a multisig transaction
+  * Configurable Custom Fee Calculation 
+  * Get All Transaction (Confirmed/Unconfirmed/Incoming/Outgoing) for an Account
+  * Get All Owned Mosaics of an Account
+  * Node Information and Check Node Heartbeats
+  * Extra: Code to Generate QR Code.
 
 <h2>Technology Stack</h2>
 
