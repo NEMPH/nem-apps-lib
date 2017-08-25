@@ -100,12 +100,12 @@ MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // mult
 
 ```java
 MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // multisig
-			.startAssignSigners()
-				.addSigner(this.senderPrivateAccount1) // signer 1
-				.addSigner(this.senderPrivateAccount2) // signer 2
-			.endAssignSigners()
-		.otherTransaction(Hash.fromHexString("hash"))
-		.coSign();
+		.startAssignSigners()
+			.addSigner(this.senderPrivateAccount1) // signer 1
+			.addSigner(this.senderPrivateAccount2) // signer 2
+		.endAssignSigners()
+	.otherTransaction(Hash.fromHexString("hash"))
+	.coSign();
 ``` 
  
 <h2>Transaction Callbacks</h2>
