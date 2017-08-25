@@ -90,6 +90,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 <h3>MultisigSignature Transaction</h3>
 
 <h4>Single Signer</h4>
+
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .multisig(this.multisigPublicAccount) // multisig account
@@ -102,13 +103,13 @@ TransactionBuilder.initiateMultisigSignatureTransactionBuild()
 
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-		.multisig(this.multisigPublicAccount) // multisig
-			.startAssignSigners()
-				.addSigner(this.senderPrivateAccount1) // signer 1
-				.addSigner(this.senderPrivateAccount2) // signer 2
-			.endAssignSigners()
-		.otherTransaction(Hash.fromHexString("hash"))
-		.coSign();
+	.multisig(this.multisigPublicAccount) // multisig
+		.startAssignSigners()
+			.addSigner(this.senderPrivateAccount1) // signer 1
+			.addSigner(this.senderPrivateAccount2) // signer 2
+		.endAssignSigners()
+	.otherTransaction(Hash.fromHexString("hash"))
+	.coSign();
 ``` 
  
 <h2>Transaction Callbacks</h2>
