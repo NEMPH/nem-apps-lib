@@ -9,6 +9,7 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
@@ -151,7 +152,7 @@ public class GenericTransactionBuilder {
 		 *
 		 * @return the transaction
 		 */
-		TransferTransaction buildAndSendTransaction();
+		NemAnnounceResult buildAndSendTransaction();
 	}
 
 	/**
@@ -278,7 +279,7 @@ public class GenericTransactionBuilder {
 		 * buildAndSendTransaction()
 		 */
 		@Override
-		public TransferTransaction buildAndSendTransaction() {
+		public NemAnnounceResult buildAndSendTransaction() {
 			return TransactionSenderUtil.sendTransferTransaction(this.buildTransaction());
 		}
 

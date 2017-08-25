@@ -59,7 +59,7 @@ public class TransactionSenderUtil {
 		}
 	}
 	
-	public static TransferTransaction sendTransferTransaction(TransferTransaction transaction) {
+	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
@@ -68,7 +68,7 @@ public class TransactionSenderUtil {
 		try {
 			Deserializer transDes = future.get();
 			
-			return new TransferTransaction(DeserializationOptions.NON_VERIFIABLE, transDes);
+			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("");
 			//e.printStackTrace();
@@ -76,7 +76,7 @@ public class TransactionSenderUtil {
 		return null;
 	}
 	
-	public static MultisigTransaction sendMultiSigTransaction(MultisigTransaction transaction) {
+	public static NemAnnounceResult sendMultiSigTransaction(MultisigTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
@@ -84,15 +84,15 @@ public class TransactionSenderUtil {
 		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
-			return new MultisigTransaction(DeserializationOptions.NON_VERIFIABLE, transDes);
+			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("");
 			//e.printStackTrace();
 		}
-		return transaction;
+		return null;
 	}
 
-	public static MultisigSignatureTransaction sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction) {
+	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
@@ -100,12 +100,12 @@ public class TransactionSenderUtil {
 		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
-			return new MultisigSignatureTransaction(DeserializationOptions.NON_VERIFIABLE, transDes);
+			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("");
 			//e.printStackTrace();
 		}
-		return transaction;
+		return null;
 	}
 	
 	/**

@@ -22,14 +22,26 @@ public class EncodeMultisigSignatureTransactionTest extends TransactionUnitTest 
 		this.setAccountRecipientPublicKey("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee");
 	}
 	
+	
 	@Test
 	public void testCoSign() {
 		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-		.sender(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer
-		.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
-		.otherTransaction(Hash.fromHexString("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee"))
-		.coSign();
-
+				.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
+				.signer(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"))))
+				.otherTransaction(Hash.fromHexString("20c882f582e6fb086f92de97714e2eebbf5576841be33747c8108b20130059aa"))
+				.coSign();
+	}
+	
+	@Test
+	public void testCoSigners() {
+		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+				.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
+					.startAssignSigners()
+						.addSigner(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer 1
+						.addSigner(new Account(new KeyPair(PrivateKey.fromHexString("553d202f0e3793c52ec0e20f18d2eeeb6b54c3e76b005ef0567eca48aab1c2dd")))) // signer 2
+					.endAssignSigners()
+				.otherTransaction(Hash.fromHexString("8c41757e54b0d1f07f2517aefe1f3f70d28434e56920b78e12aeea31cf89852f"))
+				.coSign();
 	}
 	
 }

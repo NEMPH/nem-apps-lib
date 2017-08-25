@@ -87,15 +87,29 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 	.buildAndSendMultisigTransaction();
  ```  
   
-<h3>MultiigSignature Transaction</h3>
+<h3>MultisigSignature Transaction</h3>
+
+<h4>Single Signer</h4>
+```java
+TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+    .multisig(this.multisigPublicAccount) // multisig account
+    .signer(this.senderPrivateAccount) // signer
+    .otherTransaction(Hash.fromHexString("hash")) // hash
+    .buildMultisigSignatureTransaction();
+```  
+ 
+<h4>Multiple Signer</h4>
 
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-    .sender(this.senderPrivateAccount) // signer
-    .multisig(this.multisigPublicAccount) // multisig account
-    .otherTransaction(Hash.fromHexString("hash")) // hash
-    .buildMultisigSignatureTransaction();
- ```  
+		.multisig(this.multisigPublicAccount) // multisig
+			.startAssignSigners()
+				.addSigner(this.senderPrivateAccount1) // signer 1
+				.addSigner(this.senderPrivateAccount2) // signer 2
+			.endAssignSigners()
+		.otherTransaction(Hash.fromHexString("hash"))
+		.coSign();
+``` 
  
 <h2>Decode/Encode Secure Message/Payload</h2>
 

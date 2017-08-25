@@ -10,6 +10,8 @@ import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.ncc.NemAnnounceResult;
+import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.Globals;
@@ -63,7 +65,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 
 		MultisigTransaction buildMultisigTransaction();
 
-		MultisigTransaction buildAndSendMultisigTransaction();
+		NemAnnounceResult buildAndSendMultisigTransaction();
 	}
 
 	/**
@@ -151,7 +153,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 		 * buildAndSendMultisigTransaction()
 		 */
 		@Override
-		public MultisigTransaction buildAndSendMultisigTransaction() {
+		public NemAnnounceResult buildAndSendMultisigTransaction() {
 			return TransactionSenderUtil.sendMultiSigTransaction(this.buildMultisigTransaction());
 		}
 

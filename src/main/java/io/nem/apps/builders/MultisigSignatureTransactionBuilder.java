@@ -1,5 +1,8 @@
 package io.nem.apps.builders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
@@ -30,13 +33,19 @@ public class MultisigSignatureTransactionBuilder {
 	 *            the sender
 	 * @return the i sender
 	 */
-	public IMultiSig sender(Account sender) {
-		return new MultisigSignatureTransactionBuilder.Builder(sender);
+
+
+	public ISigner multisig(Account multisig) {
+		return new MultisigSignatureTransactionBuilder.Builder(multisig);
 	}
-
-	public interface IMultiSig {
-
-		ITransaction multisig(Account multisig);
+	
+	public interface ISigner {
+		
+		ITransaction signer(Account signer);
+		ISigner startAssignSigners();
+		ISigner addSigner(Account signer);
+		ISigner addSigners(List<Account> signers);
+		ITransaction endAssignSigners();
 	}
 
 	public interface ITransaction {
@@ -70,14 +79,23 @@ public class MultisigSignatureTransactionBuilder {
 	/**
 	 * The Class Builder.
 	 */
-	private static class Builder implements IMultiSig, ITransaction, IBuild {
+	private static class Builder implements ISigner, ITransaction, IBuild {
+		
+		@Override
+		public ISigner startAssignSigners() {
+			return this;
+		}
+		
+		@Override
+		public ITransaction endAssignSigners() {
+			return this;
+		}
 
 		/** The instance. */
 		private MultisigSignatureTransaction instance;
 
 		// constructor
 		private TimeInstant timeStamp;
-		private Account sender;
 		private Account multisig;
 		private Transaction otherTransaction;
 		private Hash hashTransaction;
@@ -88,6 +106,7 @@ public class MultisigSignatureTransactionBuilder {
 		private TransactionFeeCalculator feeCalculator;
 		private Account signBy;
 		private TimeInstant deadline;
+		private List<Account> signers = new ArrayList<Account>();
 
 		/**
 		 * Instantiates a new builder.
@@ -95,8 +114,8 @@ public class MultisigSignatureTransactionBuilder {
 		 * @param sender
 		 *            the sender
 		 */
-		public Builder(Account sender) {
-			this.sender = sender;
+		public Builder(Account multisig) {
+			this.multisig = multisig;
 
 		}
 
@@ -111,41 +130,43 @@ public class MultisigSignatureTransactionBuilder {
 			if (this.timeStamp == null) {
 				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
 			}
-
-			if (this.otherTransaction != null) {
-				instance = new MultisigSignatureTransaction(this.timeStamp, this.sender, this.multisig,
-						this.otherTransaction);
-			}
-			if (this.hashTransaction != null) {
-				instance = new MultisigSignatureTransaction(this.timeStamp, this.sender, this.multisig,
-						this.hashTransaction);
-			}
-
-			if (this.fee == null) {
-				TransactionFeeCalculator feeCalculator;
-				if (this.feeCalculator != null) {
-					feeCalculator = this.feeCalculator;
-				} else {
-					feeCalculator = Globals.getGlobalTransactionFee();
+			
+			for(Account signer:this.signers) {
+				if (this.otherTransaction != null) {
+					instance = new MultisigSignatureTransaction(this.timeStamp, signer, this.multisig,
+							this.otherTransaction);
 				}
-				instance.setFee(feeCalculator.calculateMinimumFee(instance));
-			} else {
-				instance.setFee(Amount.fromNem(0));
+				if (this.hashTransaction != null) {
+					instance = new MultisigSignatureTransaction(this.timeStamp, signer, this.multisig,
+							this.hashTransaction);
+				}
+	
+				if (this.fee == null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = Globals.getGlobalTransactionFee();
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				} else {
+					instance.setFee(Amount.fromNem(0));
+				}
+	
+				if (this.deadline != null) {
+					instance.setDeadline(this.deadline);
+				} else {
+					instance.setDeadline(this.timeStamp.addHours(23));
+				}
+				if (this.signature != null) {
+					instance.setSignature(this.signature);
+				}
+				if (this.signBy != null) {
+					instance.signBy(this.signBy);
+				}
+				instance.sign();
+				TransactionSenderUtil.sendMultisigSignatureTransaction(instance);
 			}
-
-			if (this.deadline != null) {
-				instance.setDeadline(this.deadline);
-			} else {
-				instance.setDeadline(this.timeStamp.addHours(23));
-			}
-			if (this.signature != null) {
-				instance.setSignature(this.signature);
-			}
-			if (this.signBy != null) {
-				instance.signBy(this.signBy);
-			}
-			instance.sign();
-			TransactionSenderUtil.sendMultisigSignatureTransaction(instance);
 			return instance;
 		}
 
@@ -212,15 +233,30 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		@Override
-		public ITransaction multisig(Account multisig) {
-			this.multisig = multisig;
-			return this;
-		}
 
 		@Override
 		public IBuild otherTransaction(Hash hashTransaction) {
 			this.hashTransaction = hashTransaction;
+			return this;
+		}
+
+
+
+		@Override
+		public ISigner addSigner(Account signer) {
+			this.signers.add(signer);
+			return this;
+		}
+
+		@Override
+		public ISigner addSigners(List<Account> signers) {
+			this.signers.addAll(signers);
+			return this;
+		}
+
+		@Override
+		public ITransaction signer(Account signer) {
+			this.signers.add(signer);
 			return this;
 		}
 

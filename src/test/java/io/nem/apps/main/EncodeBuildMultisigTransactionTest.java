@@ -12,6 +12,8 @@ import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.TransferTransaction;
+import org.nem.core.model.ncc.NemAnnounceResult;
+import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.node.NodeEndpoint;
 
@@ -40,8 +42,8 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 	@Test
 	public void testCoSign() {
 		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-		.sender(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer
 		.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
+		.signer(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer
 		.otherTransaction(Hash.fromHexString("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee"))
 		.coSign();
 
@@ -154,10 +156,11 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 					.version(0)
 					.buildTransaction();
 
-			MultisigTransaction multisigTrans = TransactionBuilder.initiateMultisigTransactionBuild()
+			NemAnnounceResult multisigTrans = TransactionBuilder.initiateMultisigTransactionBuild()
 					.sender(this.senderPrivateAccount)
 					.otherTransaction(trans)
 					.buildAndSendMultisigTransaction();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
