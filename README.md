@@ -93,7 +93,6 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .multisig(this.multisigPublicAccount) // multisig account
-<<<<<<< HEAD
     .signer(this.senderPrivateAccount) // signer
     .otherTransaction(Hash.fromHexString("hash")) // hash
     .buildMultisigSignatureTransaction();
