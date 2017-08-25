@@ -125,7 +125,7 @@ There are 2 ways to put a Fee. One can either just indicate a Fee using the Amou
 <h3>Fee on the Transaction</h3>
 
 ```java
-TransactionBuilder.initiateTransactionBuild()
+TransferTransactionBuilder
     .sender(new Account(this.senderPrivateKeyPair))
     .recipient(new Account(this.recipientPublicKeyPair))
     .amount(0l)
@@ -136,7 +136,7 @@ TransactionBuilder.initiateTransactionBuild()
 <h3>Fee Calculation via Fee Calculation Object</h3>
 
 ```java
-TransactionBuilder.initiateTransactionBuild()
+TransferTransactionBuilder
     .sender(new Account(this.senderPrivateKeyPair))
     .recipient(new Account(this.recipientPublicKeyPair))
     .amount(0l)
