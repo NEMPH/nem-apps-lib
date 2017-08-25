@@ -122,6 +122,10 @@ TBD
 
 There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
 
+<h3>Global and Transaction Level Fees</h3>
+
+Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
+
 <h3>Fee on the Transaction</h3>
 
 ```java
@@ -143,10 +147,6 @@ TransferTransactionBuilder
     .feeCalculator(new TransactionFeeCalculatorAfterForkForApp()) // custom fee calculator
     .buildAndSendTransaction();
 ``` 
-
-<h3>Global and Transaction Level Fees</h3>
-
-Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
 
 <h2>Decode/Encode Secure Message/Payload</h2>
 
