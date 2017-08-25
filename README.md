@@ -4,9 +4,14 @@ Java API library for NEM.io blockchain platform. This directly calls the https:/
 
 Library has the following features/functionalities
 
-  * initiate a transfer transactoin (including mosaic)
-  * initiate a multisig transaction (including mosaic)
-  * cosign a multisig transaction
+  * Initiate a transfer transactoin (including mosaic)
+  * Initiate a multisig transaction (including mosaic)
+  * Cosign a multisig transaction
+  * Configurable Custom Fee Calculation 
+  * Get All Transaction (Confirmed/Unconfirmed/Incoming/Outgoing) for an Account
+  * Get All Owned Mosaics of an Account
+  * Node Information and Check Node Heartbeats
+  * Extra: Code to Generate QR Code.
 
 <h2>Technology Stack</h2>
 
@@ -41,7 +46,7 @@ Import it as a maven dependency
 
 <h2>Configuration Setup</h2>
 
-Before starting, make sure you have the configuration setup.
+Before starting, make sure you have the node endpoint is all set. Note that this should only be called once.
 
 ```java
 ConfigurationBuilder.nodeNetworkName("mijinnet")
@@ -50,12 +55,6 @@ ConfigurationBuilder.nodeNetworkName("mijinnet")
     .nodeNetworkPort("7895")
     .setup();
 ```
-
-<h2>Transaction Callbacks</h2>
-
-Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
-
-TBD
 
 <h2>Transactions</h2>
 
@@ -79,12 +78,13 @@ TransferTransaction transaction = TransactionBuilder.initiateTransactionBuild()
     .sender(new Account(this.senderPrivateKeyPair)) // multisig account
     .recipient(new Account(this.recipientPublicKeyPair)) 
     .amount(0l)
-    .buildAndSendTransaction();
+    .buildTransaction();
     
 TransactionBuilder.initiateMultisigTransactionBuild()
 	.sender(this.senderPrivateAccount) // co-signer as sender
 	.otherTransaction(transaction)
 	.buildAndSendMultisigTransaction();
+	
  ```  
   
 <h3>MultisigSignature Transaction</h3>
@@ -93,6 +93,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 ```java
 TransactionBuilder.initiateMultisigSignatureTransactionBuild()
     .multisig(this.multisigPublicAccount) // multisig account
+<<<<<<< HEAD
     .signer(this.senderPrivateAccount) // signer
     .otherTransaction(Hash.fromHexString("hash")) // hash
     .buildMultisigSignatureTransaction();
@@ -111,24 +112,15 @@ TransactionBuilder.initiateMultisigSignatureTransactionBuild()
 		.coSign();
 ``` 
  
-<h2>Decode/Encode Secure Message/Payload</h2>
+<h2>Transaction Callbacks</h2>
 
-Use the following static methods to encode and decode Secure Message Payloads.
+Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
 
-<h3>Encode</h3>
+<h3>Before Sending The Transaction</h3>
+TBD
 
-```java
-SecureMessageEncoder.encode(Account senderPrivateKey, Account recipientPublicKey, String message) 
-//or 
-SecureMessageEncoder.encode(String senderPrivateKey, String recipientPublicKey, String message) 
-```
-<h3>Decode</h3>
-
-```java
-SecureMessageDecoder.decode(Account senderPrivateKey, Account recipientPublicKey, String encryptedPayload) 
-//or 
-SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, String encryptedPayload) 
-```
+<h3>After Sending The Transaction</h3>
+TBD
 
 <h2>Fee Calculation</h2>
 
@@ -159,6 +151,25 @@ TransactionBuilder.initiateTransactionBuild()
 <h3>Global and Transaction Level Fees</h3>
 
 Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
+
+<h2>Decode/Encode Secure Message/Payload</h2>
+
+Use the following static methods to encode and decode Secure Message Payloads.
+
+<h3>Encode</h3>
+
+```java
+SecureMessageEncoder.encode(Account senderPrivateKey, Account recipientPublicKey, String message) 
+//or 
+SecureMessageEncoder.encode(String senderPrivateKey, String recipientPublicKey, String message) 
+```
+<h3>Decode</h3>
+
+```java
+SecureMessageDecoder.decode(Account senderPrivateKey, Account recipientPublicKey, String encryptedPayload) 
+//or 
+SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, String encryptedPayload) 
+```
 
 <h2>Accounts</h2>
 <h3>Generate a new Account</h3>
