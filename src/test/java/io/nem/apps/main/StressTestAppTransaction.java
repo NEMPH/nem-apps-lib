@@ -7,8 +7,7 @@ import org.nem.core.model.Account;
 import org.nem.core.model.TransferTransactionAttachment;
 
 import io.nem.apps.api.AccountApi;
-import io.nem.apps.builders.GenericTransactionBuilder;
-import io.nem.apps.builders.TransactionBuilder;
+import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.factories.EntityFactory;
 

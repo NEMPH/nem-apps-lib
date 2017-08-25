@@ -16,7 +16,8 @@ import org.nem.core.node.NodeEndpoint;
 import org.nem.core.test.Utils;
 
 import io.nem.apps.builders.ConfigurationBuilder;
-import io.nem.apps.builders.TransactionBuilder;
+import io.nem.apps.builders.MultisigTransactionBuilder;
+import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.crypto.SecureMessageEncoder;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.util.TransactionSenderUtil;
@@ -46,7 +47,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	@Test
 	public void testCbBuildTransaction() {
 
-		TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+		TransferTransactionBuilder.sender(this.senderPrivateAccount)
 				.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 				.version(1)
 				.buildAndSendTransaction();
@@ -60,7 +61,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 
 		// Build a transaction and send it.
 		try {
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount)
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(null).buildAndSendTransaction();
 		} catch (Exception e) {
@@ -78,7 +79,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg.getBytes());
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount)
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
@@ -101,7 +102,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, this.sampleMsg.getBytes());
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount)
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
@@ -125,7 +126,7 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount)
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
@@ -153,12 +154,12 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 		// Build a transaction and send it.
 		try {
 
-			TransferTransaction trans = TransactionBuilder.initiateTransactionBuild()
+			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.buildTransaction();
 
-			TransactionBuilder.initiateMultisigTransactionBuild()
+			MultisigTransactionBuilder
 					.sender(this.senderPrivateAccount)
 					.otherTransaction(trans)
 					.buildAndSendMultisigTransaction();

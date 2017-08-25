@@ -25,7 +25,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 	/**
 	 * Instantiates a new multisig transaction builder.
 	 */
-	public MultisigTransactionBuilder() {
+	private MultisigTransactionBuilder() {
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 	 *            the sender
 	 * @return the i sender
 	 */
-	public ITransaction sender(Account sender) {
+	public static ITransaction sender(Account sender) {
 		return new MultisigTransactionBuilder.Builder(sender);
 	}
 

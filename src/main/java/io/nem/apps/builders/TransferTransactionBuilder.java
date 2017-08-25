@@ -19,12 +19,12 @@ import io.nem.apps.util.TransactionSenderUtil;
 /**
  * The Class TransactionBuilder.
  */
-public class GenericTransactionBuilder {
+public class TransferTransactionBuilder {
 
 	/**
 	 * Instantiates a new transaction builder.
 	 */
-	public GenericTransactionBuilder() {
+	private TransferTransactionBuilder() {
 	}
 
 	/**
@@ -34,8 +34,8 @@ public class GenericTransactionBuilder {
 	 *            the sender
 	 * @return the i sender
 	 */
-	public ISender sender(Account sender) {
-		return new GenericTransactionBuilder.Builder(sender);
+	public static ISender sender(Account sender) {
+		return new TransferTransactionBuilder.Builder(sender);
 	}
 
 	/**

@@ -4,9 +4,7 @@ import org.junit.Test;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
-
-import io.nem.apps.builders.GenericTransactionBuilder;
-import io.nem.apps.builders.TransactionBuilder;
+import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.factories.AttachmentFactory;
 
 
@@ -36,7 +34,7 @@ public class SingleToBcTransactionTest extends TransactionUnitTest {
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			// attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new
 			// Quantity(12));
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 
@@ -61,7 +59,7 @@ public class SingleToBcTransactionTest extends TransactionUnitTest {
 			// attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new
 			// Quantity(12));
 
-			TransactionBuilder.initiateTransactionBuild().sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.ZERO)
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {

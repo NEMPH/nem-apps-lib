@@ -23,7 +23,7 @@ public class MultisigSignatureTransactionBuilder {
 	/**
 	 * Instantiates a new multisig transaction builder.
 	 */
-	public MultisigSignatureTransactionBuilder() {
+	private MultisigSignatureTransactionBuilder() {
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class MultisigSignatureTransactionBuilder {
 	 */
 
 
-	public ISigner multisig(Account multisig) {
+	public static ISigner multisig(Account multisig) {
 		return new MultisigSignatureTransactionBuilder.Builder(multisig);
 	}
 	

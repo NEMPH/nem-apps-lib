@@ -10,7 +10,7 @@ import org.nem.core.model.Account;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.apps.builders.ConfigurationBuilder;
-import io.nem.apps.builders.TransactionBuilder;
+import io.nem.apps.builders.MultisigSignatureTransactionBuilder;
 
 public class EncodeMultisigSignatureTransactionTest extends TransactionUnitTest {
 
@@ -25,7 +25,7 @@ public class EncodeMultisigSignatureTransactionTest extends TransactionUnitTest 
 	
 	@Test
 	public void testCoSign() {
-		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+		MultisigSignatureTransactionBuilder
 				.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
 				.signer(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"))))
 				.otherTransaction(Hash.fromHexString("20c882f582e6fb086f92de97714e2eebbf5576841be33747c8108b20130059aa"))
@@ -34,7 +34,7 @@ public class EncodeMultisigSignatureTransactionTest extends TransactionUnitTest 
 	
 	@Test
 	public void testCoSigners() {
-		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
+		MultisigSignatureTransactionBuilder
 				.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
 					.startAssignSigners()
 						.addSigner(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer 1

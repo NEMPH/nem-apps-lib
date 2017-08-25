@@ -63,8 +63,7 @@ Use the following set of builders to create transactions.
 <h3>Transfer Transaction</h3>
 
 ```java
-TransactionBuilder.initiateTransactionBuild()
-    .sender(new Account(this.senderPrivateKeyPair))
+TransferTransactionBuilder.sender(new Account(this.senderPrivateKeyPair))
     .recipient(new Account(this.recipientPublicKeyPair))
     .amount(0l)
     .buildAndSendTransaction();
@@ -74,14 +73,13 @@ TransactionBuilder.initiateTransactionBuild()
 
 ```java
 
-TransferTransaction transaction = TransactionBuilder.initiateTransactionBuild()
+TransferTransaction transaction = TransferTransactionBuilder
     .sender(new Account(this.senderPrivateKeyPair)) // multisig account
     .recipient(new Account(this.recipientPublicKeyPair)) 
     .amount(0l)
     .buildTransaction();
     
-TransactionBuilder.initiateMultisigTransactionBuild()
-	.sender(this.senderPrivateAccount) // co-signer as sender
+MultisigTransactionBuilder.sender(this.senderPrivateAccount) // co-signer as sender
 	.otherTransaction(transaction)
 	.buildAndSendMultisigTransaction();
 	
@@ -91,8 +89,7 @@ TransactionBuilder.initiateMultisigTransactionBuild()
 
 <h4>Single Signer</h4>
 ```java
-TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-    .multisig(this.multisigPublicAccount) // multisig account
+MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // multisig account
     .signer(this.senderPrivateAccount) // signer
     .otherTransaction(Hash.fromHexString("hash")) // hash
     .buildMultisigSignatureTransaction();
@@ -101,8 +98,7 @@ TransactionBuilder.initiateMultisigSignatureTransactionBuild()
 <h4>Multiple Signer</h4>
 
 ```java
-TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-		.multisig(this.multisigPublicAccount) // multisig
+MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // multisig
 			.startAssignSigners()
 				.addSigner(this.senderPrivateAccount1) // signer 1
 				.addSigner(this.senderPrivateAccount2) // signer 2

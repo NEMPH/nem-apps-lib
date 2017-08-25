@@ -18,7 +18,9 @@ import org.nem.core.model.primitive.Amount;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.apps.builders.ConfigurationBuilder;
-import io.nem.apps.builders.TransactionBuilder;
+import io.nem.apps.builders.MultisigSignatureTransactionBuilder;
+import io.nem.apps.builders.MultisigTransactionBuilder;
+import io.nem.apps.builders.TransferTransactionBuilder;
 
 /**
  * The Class BuildTransactionTest.
@@ -38,17 +40,20 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 		this.setAccountSenderPrivateKey("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec");
 		this.setAccountRecipientPublicKey("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee");
 	}
-	
+
 	@Test
 	public void testCoSign() {
-		TransactionBuilder.initiateMultisigSignatureTransactionBuild()
-		.multisig(new Account(new KeyPair(PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
-		.signer(new Account(new KeyPair(PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer
-		.otherTransaction(Hash.fromHexString("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee"))
-		.coSign();
+		MultisigSignatureTransactionBuilder
+				.multisig(new Account(new KeyPair(
+						PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
+				.signer(new Account(new KeyPair(
+						PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1")))) // signer
+				.otherTransaction(
+						Hash.fromHexString("fa20ea216d7b95d61223f99baf60871af933de1264113c2445987244a2aaaaee"))
+				.coSign();
 
 	}
-	
+
 	/**
 	 * Test cb build and send transaction.
 	 */
@@ -60,19 +65,15 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 
 			this.setAccountSenderPrivateKey("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"); // cosigner
 			this.setAccountRecipientPublicKey("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"); // recipient
-			
-			TransferTransaction trans = TransactionBuilder.initiateTransactionBuild()
+
+			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.buildTransaction();
 
-			MultisigTransaction multiSigTrans = TransactionBuilder.initiateMultisigTransactionBuild()
-					.sender(this.senderPrivateAccount)
-					.otherTransaction(trans)
-					.buildMultisigTransaction();
-			
-			
+			MultisigTransaction multiSigTrans = MultisigTransactionBuilder.sender(this.senderPrivateAccount)
+					.otherTransaction(trans).buildMultisigTransaction();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,17 +93,15 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, this.sampleMsg.getBytes());
 
-			TransferTransaction trans = TransactionBuilder.initiateTransactionBuild()
+			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.buildTransaction();
 
-			TransactionBuilder.initiateMultisigTransactionBuild()
-					.sender(this.senderPrivateAccount)
-					.otherTransaction(trans)
+			MultisigTransactionBuilder.sender(this.senderPrivateAccount).otherTransaction(trans)
 					.buildAndSendMultisigTransaction();
-			
+
 			// it!
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,15 +117,13 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 
 		// Build a transaction and send it.
 		try {
-			TransferTransaction trans = TransactionBuilder.initiateTransactionBuild()
+			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.buildTransaction();
 
-			TransactionBuilder.initiateMultisigTransactionBuild()
-					.sender(this.senderPrivateAccount)
-					.otherTransaction(trans)
+			MultisigTransactionBuilder.sender(this.senderPrivateAccount).otherTransaction(trans)
 					.buildAndSendMultisigTransaction();
 
 		} catch (Exception e) {
@@ -149,18 +146,14 @@ public class EncodeBuildMultisigTransactionTest extends TransactionUnitTest {
 		}
 		// Build a transaction and send it.
 		try {
-			TransferTransaction trans = TransactionBuilder.initiateTransactionBuild()
+			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
-					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.version(0)
+					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).version(0)
 					.buildTransaction();
 
-			NemAnnounceResult multisigTrans = TransactionBuilder.initiateMultisigTransactionBuild()
-					.sender(this.senderPrivateAccount)
-					.otherTransaction(trans)
-					.buildAndSendMultisigTransaction();
-			
+			NemAnnounceResult multisigTrans = MultisigTransactionBuilder.sender(this.senderPrivateAccount)
+					.otherTransaction(trans).buildAndSendMultisigTransaction();
 
 		} catch (Exception e) {
 			e.printStackTrace();
