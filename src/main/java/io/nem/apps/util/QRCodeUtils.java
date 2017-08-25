@@ -17,6 +17,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 
+
 /**
  * The Class QRCodeUtils.
  */

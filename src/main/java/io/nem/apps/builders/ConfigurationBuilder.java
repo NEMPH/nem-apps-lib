@@ -8,6 +8,7 @@ import io.nem.apps.api.TransactionCallback;
 import io.nem.apps.service.Globals;
 
 
+
 /**
  * The Class ConfigurationBuilder.
  */

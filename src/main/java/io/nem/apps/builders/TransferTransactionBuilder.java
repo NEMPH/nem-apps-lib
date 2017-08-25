@@ -16,6 +16,7 @@ import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.service.Globals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+
 /**
  * The Class TransactionBuilder.
  */
@@ -58,10 +59,28 @@ public class TransferTransactionBuilder {
 	 */
 	public interface IBuild {
 
+		/**
+		 * Version.
+		 *
+		 * @param version the version
+		 * @return the i build
+		 */
 		IBuild version(int version);
 
+		/**
+		 * Sign by.
+		 *
+		 * @param account the account
+		 * @return the i build
+		 */
 		IBuild signBy(Account account);
 
+		/**
+		 * Time stamp.
+		 *
+		 * @param timeInstance the time instance
+		 * @return the i build
+		 */
 		IBuild timeStamp(TimeInstant timeInstance);
 
 		/**
@@ -164,19 +183,39 @@ public class TransferTransactionBuilder {
 		// private SpectroTransaction instance = new SpectroTransaction();
 		private TransferTransaction instance;
 
+		/** The version. */
 		// constructor
 		private int version;
+		
+		/** The time stamp. */
 		private TimeInstant timeStamp;
+		
+		/** The sender. */
 		private Account sender;
+		
+		/** The recipient. */
 		private Account recipient;
+		
+		/** The amount. */
 		private Amount amount;
+		
+		/** The attachment. */
 		private TransferTransactionAttachment attachment;
+		
+		/** The signature. */
 		private Signature signature;
+		
+		/** The deadline. */
 		private TimeInstant deadline;
 
+		/** The fee. */
 		// secondary
 		private Amount fee;
+		
+		/** The fee calculator. */
 		private TransactionFeeCalculator feeCalculator;
+		
+		/** The sign by. */
 		private Account signBy;
 
 		/**
@@ -381,18 +420,27 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
+		 */
 		@Override
 		public IBuild version(int version) {
 			this.version = version;
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.nem.core.time.TimeInstant)
+		 */
 		@Override
 		public IBuild timeStamp(TimeInstant timeInstance) {
 			this.timeStamp = timeInstance;
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem.core.model.Account)
+		 */
 		@Override
 		public IBuild signBy(Account account) {
 			this.signBy = account;

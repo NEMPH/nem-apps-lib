@@ -15,6 +15,7 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
 
+
 /**
  * The Class AccountApi.
  */

@@ -8,6 +8,7 @@ import io.nem.apps.util.NetworkUtils;
 
 
 
+
 /**
  * The Class ValidationApi.
  */

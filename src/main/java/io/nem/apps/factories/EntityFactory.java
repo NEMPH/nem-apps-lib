@@ -8,6 +8,7 @@ import org.nem.core.model.Address;
 
 
 
+
 /**
  * A factory for creating Entity objects.
  */

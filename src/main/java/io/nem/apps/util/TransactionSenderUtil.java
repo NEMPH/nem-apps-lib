@@ -18,6 +18,7 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.apps.service.Globals;
 
 
+
 /**
  * The Class TransactionSenderUtil.
  */
@@ -55,10 +56,17 @@ public class TransactionSenderUtil {
 				return null;
 			}).get();
 		} catch (Exception e) {
+			LOGGER.warning("Error Occured: " + e.getMessage());
 			//e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Send transfer transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the nem announce result
+	 */
 	public static NemAnnounceResult sendTransferTransaction(TransferTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -70,12 +78,18 @@ public class TransactionSenderUtil {
 			
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("");
+			LOGGER.warning("Error Occured: " + e.getMessage());
 			//e.printStackTrace();
 		}
 		return null;
 	}
 	
+	/**
+	 * Send multi sig transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the nem announce result
+	 */
 	public static NemAnnounceResult sendMultiSigTransaction(MultisigTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -86,12 +100,18 @@ public class TransactionSenderUtil {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("");
+			LOGGER.warning("Error Occured: " + e.getMessage());
 			//e.printStackTrace();
 		}
 		return null;
 	}
 
+	/**
+	 * Send multisig signature transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the nem announce result
+	 */
 	public static NemAnnounceResult sendMultisigSignatureTransaction(MultisigSignatureTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -102,7 +122,7 @@ public class TransactionSenderUtil {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
-			LOGGER.warning("");
+			LOGGER.warning("Error Occured: " + e.getMessage());
 			//e.printStackTrace();
 		}
 		return null;

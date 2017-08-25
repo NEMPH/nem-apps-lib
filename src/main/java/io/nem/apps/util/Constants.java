@@ -1,6 +1,7 @@
 package io.nem.apps.util;
  
 
+
 /**
  * The Class Constants.
  */

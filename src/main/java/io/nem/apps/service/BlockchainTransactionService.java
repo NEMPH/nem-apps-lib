@@ -18,6 +18,7 @@ import io.nem.apps.fee.TransactionFeeCalculatorAfterForkForApp;
 import io.nem.apps.util.AppPropertiesUtil;
 import io.nem.apps.util.TransactionSenderUtil;
 
+
 /**
  * The Class TransactionService.
  */
@@ -133,16 +134,11 @@ public class BlockchainTransactionService {
 	/**
 	 * Creates the multisig signature transaction.
 	 *
-	 * @param timeInstant
-	 *            the time instant
-	 * @param sender
-	 *            the sender
-	 * @param multisig
-	 *            the multisig
-	 * @param amount
-	 *            the amount
-	 * @param transaction
-	 *            the transaction
+	 * @param timeInstant            the time instant
+	 * @param sender            the sender
+	 * @param multisig            the multisig
+	 * @param amount            the amount
+	 * @param hashTransaction the hash transaction
 	 * @return the transaction
 	 */
 	public static Transaction createMultisigSignatureTransaction(final TimeInstant timeInstant, final Account sender,

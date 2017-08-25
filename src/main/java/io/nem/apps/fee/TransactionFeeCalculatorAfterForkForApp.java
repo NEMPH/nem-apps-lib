@@ -19,6 +19,7 @@ import org.nem.core.model.primitive.Supply;
 import io.nem.apps.model.NISQuery;
 
 
+
 /**
  * Implementation for calculating and validating transaction fees since the fee fork.
  */

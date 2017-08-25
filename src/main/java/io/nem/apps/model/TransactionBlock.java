@@ -7,6 +7,7 @@ import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.time.TimeInstant;
 
 
+
 /**
  * The Class TransactionBlock.
  */

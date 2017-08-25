@@ -12,6 +12,7 @@ import io.nem.apps.fee.TransactionFeeCalculatorAfterForkForApp;
 import io.nem.apps.util.AppPropertiesUtil;
 
 
+
 /**
  * The Class Globals.
  */
@@ -103,6 +104,7 @@ public class Globals {
 	/** The Constant NODE_ENDPOINT. */
 	private static NodeEndpoint NODE_ENDPOINT;
 	
+	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
 
 	/**
@@ -116,6 +118,8 @@ public class Globals {
 
 	/**
 	 * Sets the global transaction fee.
+	 *
+	 * @param feeCalculator the new global transaction fee
 	 */
 	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
 		Globals.feeCalculator = feeCalculator;

@@ -26,6 +26,7 @@ package io.nem.apps.util;
 import java.io.Serializable;
 
 
+
 /**
  * Base class for BotMill network operations response.
  * 

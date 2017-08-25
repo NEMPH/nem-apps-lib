@@ -10,6 +10,7 @@ import io.nem.apps.factories.EntityFactory;
 
 
 
+
 /**
  * The Class SecureMessagePayloadEncoder.
  *
