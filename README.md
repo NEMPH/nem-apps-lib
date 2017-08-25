@@ -88,6 +88,7 @@ MultisigTransactionBuilder.sender(this.senderPrivateAccount) // co-signer as sen
 <h3>MultisigSignature Transaction</h3>
 
 <h4>Single Signer</h4>
+
 ```java
 MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // multisig account
     .signer(this.senderPrivateAccount) // signer
