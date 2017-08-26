@@ -171,7 +171,7 @@ SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, 
 <h3>Generate a new Account</h3>
 
 ```java
-KeyPairViewModel AccountApi.generateAccount()
+GeneratedAccount AccountApi.generateAccount()
 ```
 
 <h3>Get Account Info using Address</h3>

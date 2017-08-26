@@ -7,7 +7,6 @@ import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
-import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.primitive.Amount;

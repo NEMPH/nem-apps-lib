@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.nem.core.connect.client.NisApiId;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.model.Account;
+import org.nem.core.model.Address;
 import org.nem.core.model.KeyPairViewModel;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
@@ -13,8 +16,8 @@ import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 
+import io.nem.apps.model.GeneratedAccount;
 import io.nem.apps.service.Globals;
-
 
 /**
  * The Class AccountApi.
@@ -36,8 +39,7 @@ public class AccountApi {
 					.exceptionally(fn -> {
 						fn.printStackTrace();
 						return null;
-					})
-					.get();
+					}).get();
 			return new AccountMetaDataPair(des);
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -101,11 +103,9 @@ public class AccountApi {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
 		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
-					.get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data",
-					TransactionMetaDataPair::new);
+			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
+					"address=" + address).get();
+			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 			return list;
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -128,14 +128,13 @@ public class AccountApi {
 			des = Globals.CONNECTOR
 					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address)
 					.get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data",
-					TransactionMetaDataPair::new);
+			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 			return list;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -153,13 +152,12 @@ public class AccountApi {
 			des = Globals.CONNECTOR
 					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
 					.get();
-			list = (ArrayList<Mosaic>) des.readObjectArray("data",Mosaic::new);
+			list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
 			return list;
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return null;
 	}
 
@@ -168,17 +166,13 @@ public class AccountApi {
 	 *
 	 * @return the key pair view model
 	 */
-	public static KeyPairViewModel generateAccount() {
-		Deserializer des;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_GENERATE, "")
-					.get();
-			return new KeyPairViewModel(des);
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public static GeneratedAccount generateAccount() {
+		GeneratedAccount ga = new GeneratedAccount();
+		final KeyPair kp = new KeyPair();
+		final Account account = new Account(kp);
+		ga.setKeyPair(kp);
+		ga.setAccount(account);
+		return ga;
 	}
 
 }
