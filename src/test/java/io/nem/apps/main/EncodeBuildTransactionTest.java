@@ -1,6 +1,6 @@
 package io.nem.apps.main;
 
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
@@ -10,9 +10,7 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
-import org.nem.core.node.NodeEndpoint;
 import org.nem.core.test.Utils;
-import io.nem.apps.builders.ConfigurationBuilder;
 import io.nem.apps.builders.MultisigTransactionBuilder;
 import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.crypto.SecureMessageEncoder;
@@ -21,7 +19,7 @@ import io.nem.apps.factories.AttachmentFactory;
 /**
  * The Class BuildTransactionTest.
  */
-public class EncodeBuildTransactionTest extends TransactionUnitTest {
+public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 	/** The sample msg. */
 	final String sampleMsg = "{1:F21FOOLHKH0AXXX0304009999}{4:{177:1608140809}{451:0}}{1:F01FOOLHKH0AXXX0304009999}{2:O9401609160814FOOLHKH0AXXX03040027341608141609N}{4:\n"
@@ -29,24 +27,15 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			+ ":61:160827C642,S1032\n" + ":86:ANDY\n" + ":61:160827D42,S1032\n" + ":86:BANK CHARGES\n"
 			+ ":62F:C160418USD1872,\n" + ":64:C160418USD1872,\n" + "-}{5:{CHK:0FEC1E4AEC53}{TNG:}}{S:{COP:S}}";
 
-	@Before
-	public void init() {
-		ConfigurationBuilder.nodeNetworkName("mijinnet")
-				.nodeEndpoint(new NodeEndpoint("http", "a1.nem.foundation", 7895)).setup();
-		this.setAccountSenderPrivateKey("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec");
-		this.setAccountRecipientPublicKey("8043f36622be5c91e00d9977c870935c887ff9050ba0a62207db76dba1a87385");
-	}
-
 	/**
 	 * Test cb build transaction.
 	 */
 	@Test
+	@Ignore
 	public void testCbBuildTransaction() {
 
-		TransferTransactionBuilder.sender(this.senderPrivateAccount)
-				.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-				.version(1)
-				.buildAndSendTransaction();
+		TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+				.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).version(1).buildAndSendTransaction();
 	}
 
 	/**
@@ -57,9 +46,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 
 		// Build a transaction and send it.
 		try {
-			TransferTransactionBuilder.sender(this.senderPrivateAccount)
-					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(null).buildAndSendTransaction();
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).attachment(null).buildAndSendTransaction();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,8 +63,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg.getBytes());
-			TransferTransactionBuilder.sender(this.senderPrivateAccount)
-					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 
@@ -98,8 +86,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, this.sampleMsg.getBytes());
 
-			TransferTransactionBuilder.sender(this.senderPrivateAccount)
-					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
@@ -122,8 +110,8 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
 			attachment.addMosaic(Utils.createMosaic(1).getMosaicId(), new Quantity(12));
 
-			TransferTransactionBuilder.sender(this.senderPrivateAccount)
-					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
+			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
@@ -137,8 +125,6 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 	@Test
 	public void testCbBuildAndSendFileTransaction() {
 
-		this.setAccountSenderPrivateKey("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"); // cosigner
-		this.setAccountRecipientPublicKey("2a3e60b33982593ed436979066d44dee626695b9348d91c625cef17b807fd4ac"); // recipient
 
 		SecureMessage message = null;
 		try {
@@ -151,13 +137,12 @@ public class EncodeBuildTransactionTest extends TransactionUnitTest {
 		try {
 
 			TransferTransaction trans = TransferTransactionBuilder
-					.sender(new Account(new KeyPair(PrivateKey.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
+					.sender(new Account(new KeyPair(PrivateKey
+							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
 					.recipient(this.recipientPublicAccount).fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.buildTransaction();
 
-			MultisigTransactionBuilder
-					.sender(this.senderPrivateAccount)
-					.otherTransaction(trans)
+			MultisigTransactionBuilder.sender(this.senderPrivateAccount).otherTransaction(trans)
 					.buildAndSendMultisigTransaction();
 
 		} catch (Exception e) {

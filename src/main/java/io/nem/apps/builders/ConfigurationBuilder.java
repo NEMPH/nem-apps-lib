@@ -20,6 +20,10 @@ public class ConfigurationBuilder {
 	private ConfigurationBuilder() {
 
 	}
+	
+	public static INodeProtocol init() {
+		return new ConfigurationBuilder.Builder();
+	}
 
 	/**
 	 * Node network name.
@@ -153,6 +157,9 @@ public class ConfigurationBuilder {
 		 */
 		public Builder(String networkName) {
 			NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(networkName));
+		}
+		
+		public Builder() {
 		}
 
 		/*

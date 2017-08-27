@@ -6,15 +6,17 @@ import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
+import org.nem.core.node.NodeEndpoint;
 
 import io.nem.apps.builders.ConfigurationBuilder;
-
 
 /**
  * The Class TransactionUnitTest.
  */
-public abstract class TransactionUnitTest {
+public abstract class NemAppsUnitTest {
 
+	protected String MIJIN_DM_ADDRESS = "MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW";
+	
 	/** The sender private key pair. */
 	protected KeyPair senderPrivateKeyPair;
 
@@ -39,11 +41,23 @@ public abstract class TransactionUnitTest {
 	/** The multi sig account. */
 	protected Account multiSigAccount;
 
+	static String networkName = "";
+
 	/**
 	 * Instantiates a new transaction unit test.
 	 */
-	public TransactionUnitTest() {
-		//Assume.assumeTrue(this.isTestable());
+	public NemAppsUnitTest() {
+		// Assume.assumeTrue(this.isTestable());
+	}
+
+	@BeforeClass
+	public static void init() {
+		System.out.println(networkName);
+		if (networkName.equals("")) {
+			networkName = "mijinnet";
+			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
+					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
+		}
 	}
 
 	/**
@@ -52,18 +66,12 @@ public abstract class TransactionUnitTest {
 	 * @return true, if is testable
 	 */
 	protected boolean isTestable() {
-		if (senderPrivateKeyPair == null && senderPrivateAccount == null)
-			return false;
-		if (recipientPublicKeyPair == null && recipientPublicAccount == null)
-			return false;
-		if (senderPrivateKeyPair == null)
-			return false;
-		if (recipientPublicKeyPair == null)
-			return false;
-		if (multiSigKeyPair == null)
-			return false;
+		if (senderPrivateKeyPair != null && senderPrivateAccount != null)
+			return true;
+		if (recipientPublicKeyPair != null && recipientPublicAccount != null)
+			return true;
 
-		return true;
+		return false;
 		// multisig is subjective, transaction might not be
 	}
 
@@ -90,7 +98,7 @@ public abstract class TransactionUnitTest {
 	 *            the private key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setKeyPairSenderPrivateKey(String privateKey) {
+	protected NemAppsUnitTest setKeyPairSenderPrivateKey(String privateKey) {
 		this.senderPrivateKeyPair = new KeyPair(PrivateKey.fromHexString(privateKey));
 		return this;
 	}
@@ -102,7 +110,7 @@ public abstract class TransactionUnitTest {
 	 *            the public key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setKeyPairSenderPublicKey(String publicKey) {
+	protected NemAppsUnitTest setKeyPairSenderPublicKey(String publicKey) {
 		this.senderPublicKeyPair = new KeyPair(PublicKey.fromHexString(publicKey));
 		return this;
 	}
@@ -114,7 +122,7 @@ public abstract class TransactionUnitTest {
 	 *            the public key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setKeyPairRecipientPublicKey(String publicKey) {
+	protected NemAppsUnitTest setKeyPairRecipientPublicKey(String publicKey) {
 		this.recipientPublicKeyPair = new KeyPair(PublicKey.fromHexString(publicKey));
 		return this;
 	}
@@ -126,7 +134,7 @@ public abstract class TransactionUnitTest {
 	 *            the private key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setKeyPairRecipientPrivateKey(String privateKey) {
+	protected NemAppsUnitTest setKeyPairRecipientPrivateKey(String privateKey) {
 		this.recipientPrivateKeyPair = new KeyPair(PrivateKey.fromHexString(privateKey));
 		return this;
 	}
@@ -138,7 +146,7 @@ public abstract class TransactionUnitTest {
 	 *            the public key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setKeyPairMultisigAccountPublicKey(String publicKey) {
+	protected NemAppsUnitTest setKeyPairMultisigAccountPublicKey(String publicKey) {
 		this.multiSigKeyPair = new KeyPair(PublicKey.fromHexString(publicKey));
 		return this;
 	}
@@ -150,7 +158,7 @@ public abstract class TransactionUnitTest {
 	 *            the private key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setAccountSenderPrivateKey(String privateKey) {
+	protected NemAppsUnitTest setAccountSenderPrivateKey(String privateKey) {
 		this.senderPrivateAccount = new Account(new KeyPair(PrivateKey.fromHexString(privateKey)));
 		return this;
 	}
@@ -162,7 +170,7 @@ public abstract class TransactionUnitTest {
 	 *            the public key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setAccountRecipientPublicKey(String publicKey) {
+	protected NemAppsUnitTest setAccountRecipientPublicKey(String publicKey) {
 		this.recipientPublicAccount = new Account(new KeyPair(PublicKey.fromHexString(publicKey)));
 		return this;
 	}
@@ -174,7 +182,7 @@ public abstract class TransactionUnitTest {
 	 *            the public key
 	 * @return the transaction unit test
 	 */
-	protected TransactionUnitTest setAccountMultisigAccountPublicKey(String publicKey) {
+	protected NemAppsUnitTest setAccountMultisigAccountPublicKey(String publicKey) {
 		this.multiSigAccount = new Account(new KeyPair(PublicKey.fromHexString(publicKey)));
 		return this;
 	}

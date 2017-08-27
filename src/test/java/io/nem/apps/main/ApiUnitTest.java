@@ -1,5 +1,6 @@
 package io.nem.apps.main;
 
+import org.junit.BeforeClass;
 
 import io.nem.apps.builders.ConfigurationBuilder;
 
@@ -7,9 +8,17 @@ import io.nem.apps.builders.ConfigurationBuilder;
  * The Class TransactionUnitTest.
  */
 public abstract class ApiUnitTest {
-	public ApiUnitTest() {
-		ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http").nodeNetworkUri("a1.nem.foundation")
-				.nodeNetworkPort("7895").setup();
+
+	protected String MIJIN_DM_ADDRESS = "MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW";
+	static String networkName = "";
+
+	@BeforeClass
+	public static void init() {
+		if (networkName.equals("")) {
+			networkName = "mijinnet";
+			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
+					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
+		}
 	}
 
 }
