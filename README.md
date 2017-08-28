@@ -245,21 +245,6 @@ NisNodeInfo NodeApi.getNodeExtendedInfo()
 NemRequestResult NodeApi.getNemNodeHeartBeat()
 ```
 
-<h2>Extra: Generate QR Code</h2>
-
-```java
-String qrCodeText = "<your key>";
-String filePath = "<where to put the qr image>";
-int size = 125;
-String fileType = "png";
-File qrFile = new File(filePath);
-try {
-    QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
-} catch (WriterException | IOException e) {
-    e.printStackTrace();
-}
-```
-
 <h2>Incorporating Transaction Monitor</h2>
 You can incorporate the nem-transaction-monitor library to monitor the transactions that's coming in.
 
@@ -302,4 +287,18 @@ public class CustomTransactionMonitor implements TransactionMonitorHandler {
 }
 ```
 
+<h2>Extra: Generate QR Code</h2>
+
+```java
+String qrCodeText = "<your key>";
+String filePath = "<where to put the qr image>";
+int size = 125;
+String fileType = "png";
+File qrFile = new File(filePath);
+try {
+    QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
+} catch (WriterException | IOException e) {
+    e.printStackTrace();
+}
+```
 <sub>Copyright (c) 2017</sub>
