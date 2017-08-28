@@ -16,7 +16,8 @@ Library has the following features/functionalities
 
 <h2>Technology Stack</h2>
 
-Java 1.8 | nem.core
+  * Java 1.8
+  * nem.core
 
 <h2>How to build</h2>
 Make sure to clone NEMModules fork of nem.core and build.
@@ -81,8 +82,8 @@ TransferTransaction transaction = TransferTransactionBuilder
     .buildTransaction();
     
 MultisigTransactionBuilder.sender(this.senderPrivateAccount) // co-signer as sender
-	.otherTransaction(transaction)
-	.buildAndSendMultisigTransaction();
+    .otherTransaction(transaction)
+    .buildAndSendMultisigTransaction();
 	
  ```  
   
@@ -113,10 +114,9 @@ MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // mult
 
 Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
 
-
 <h2>Fee Calculation</h2>
 
-There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
+Fees can be calculated either on a Global level or per transaction. 
 
 <h3>Global Level Fees</h3>
 
@@ -290,7 +290,7 @@ WsNemTransactionMonitor.init().host("a1.nem.foundation").port("7895").wsPort("77
 You can create your own handler to handle the incoming payload. 
 
 ```java
-public class CustomTransactionMonitor implements StompFrameHandler {
+public class CustomTransactionMonitor implements TransactionMonitorHandler {
 	@Override
 	public Type getPayloadType(StompHeaders headers) {
 		return String.class;
