@@ -112,21 +112,27 @@ MultisigSignatureTransactionBuilder.multisig(this.multisigPublicAccount) // mult
 
 Developers can catch callbacks before and after a transaction is made. All the developer needs to do is define a Callback class and use it either on per Transaction or for All Transaction.
 
-<h3>Before Sending The Transaction</h3>
-TBD
-
-<h3>After Sending The Transaction</h3>
-TBD
 
 <h2>Fee Calculation</h2>
 
 There are 2 ways to put a Fee. One can either just indicate a Fee using the Amount object or create Fee by creating a Custom Fee Calculation.
 
-<h3>Global and Transaction Level Fees</h3>
+<h3>Global Level Fees</h3>
 
 Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
 
-<h3>Fee on the Transaction</h3>
+```java
+ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http")
+	.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895")
+	.transactionFee(new TransactionFeeCalculatorAfterFork()) // global
+	.setup();
+```
+
+<h3>Transaction Level Fees</h3>
+
+<h4>Fee on the Transaction</h4>
+
+fee can also be set on the transaction level via the fee() method.
 
 ```java
 TransferTransactionBuilder
@@ -137,7 +143,9 @@ TransferTransactionBuilder
     .buildAndSendTransaction();
 ``` 
 
-<h3>Fee Calculation via Fee Calculation Object</h3>
+<h4>Fee Calculation via Fee Calculation Object</h4>
+
+fee calculation can also be set on the transaction level using the feeCalculator() method.
 
 ```java
 TransferTransactionBuilder
@@ -248,6 +256,48 @@ try {
     QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
 } catch (WriterException | IOException e) {
     e.printStackTrace();
+}
+```
+
+<h2>Incorporating Transaction Monitor</h2>
+You can incorporate the nem-transaction-monitor library to monitor the transactions that's coming in.
+
+```bash
+git clone https://github.com/NEMPH/nem-transaction-monitor.git
+cd nem-transaction-monitor
+mvn clean install
+```
+Import maven dependency
+```xml
+<dependency>
+    <groupId>io.nem.apps</groupId>
+    <artifactId>nem-transaction-monitor</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+```java
+
+WsNemTransactionMonitor.init().host("a1.nem.foundation").port("7895").wsPort("7778")
+	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
+	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
+	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
+	.monitor(); // trigger the monitoring process
+```
+
+<h3>Custom Transaction Monitor</h3>
+You can create your own handler to handle the incoming payload. 
+
+```java
+public class CustomTransactionMonitor implements StompFrameHandler {
+	@Override
+	public Type getPayloadType(StompHeaders headers) {
+		return String.class;
+	}
+	@Override
+	public void handleFrame(StompHeaders headers, Object payload) {
+		System.out.println(payload.toString()); // handle the payload.
+	}
 }
 ```
 

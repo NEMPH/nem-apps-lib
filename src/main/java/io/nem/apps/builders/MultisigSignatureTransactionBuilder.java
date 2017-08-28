@@ -164,6 +164,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * @return the multisig signature transaction
 		 */
 		MultisigSignatureTransaction coSign();
+	
 	}
 
 	/**

@@ -6,6 +6,7 @@ import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.model.Account;
+import org.nem.core.model.TransactionFeeCalculatorAfterFork;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.apps.builders.ConfigurationBuilder;
@@ -56,7 +57,9 @@ public abstract class NemAppsUnitTest {
 		if (networkName.equals("")) {
 			networkName = "mijinnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
+					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895")
+					.transactionFee(new TransactionFeeCalculatorAfterFork())
+					.setup();
 		}
 	}
 

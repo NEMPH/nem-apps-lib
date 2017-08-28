@@ -79,9 +79,16 @@ public class TransactionSenderUtil {
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("Error Occured: " + e.getMessage());
-			//e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction) {
+
+		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
+
+		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
+		return send(Globals.getNodeEndpoint(), request);
 	}
 	
 	/**
@@ -101,9 +108,16 @@ public class TransactionSenderUtil {
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("Error Occured: " + e.getMessage());
-			//e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction) {
+
+		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
+
+		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
+		return send(Globals.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -123,9 +137,16 @@ public class TransactionSenderUtil {
 			return new NemAnnounceResult(transDes);
 		} catch (Exception e) {
 			LOGGER.warning("Error Occured: " + e.getMessage());
-			//e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(MultisigSignatureTransaction transaction) {
+
+		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
+		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
+		return send(Globals.getNodeEndpoint(), request);
+	
 	}
 	
 	/**

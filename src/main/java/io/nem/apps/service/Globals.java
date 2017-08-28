@@ -106,7 +106,7 @@ public class Globals {
 	
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
-
+	private static TransactionFeeCalculator feeCalculatorMultiSig = new TransactionFeeCalculatorAfterForkForApp();
 	/**
 	 * Gets the node endpoint.
 	 *
@@ -124,6 +124,10 @@ public class Globals {
 	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
 		Globals.feeCalculator = feeCalculator;
 	}
+	
+	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
+		Globals.feeCalculatorMultiSig = feeCalculator;
+	}
 
 	/**
 	 * Gets the global transaction fee.
@@ -132,6 +136,10 @@ public class Globals {
 	 */
 	public static TransactionFeeCalculator getGlobalTransactionFee() {
 		return feeCalculator;
+	}
+	
+	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
+		return feeCalculatorMultiSig;
 	}
 	// = new NodeEndpoint(
 	// AppPropertiesUtil.getProperty("node.endpoint.protocol"),

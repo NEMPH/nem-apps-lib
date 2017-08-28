@@ -101,14 +101,14 @@ public class ConfigurationBuilder {
 		 *
 		 * @param feeCalculator the fee calculator
 		 */
-		void transactionFee(TransactionFeeCalculator feeCalculator);
+		IBuild transactionFee(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Transaction multisig fee.
 		 *
 		 * @param feeCalculator the fee calculator
 		 */
-		void transactionMultisigFee(TransactionFeeCalculator feeCalculator);
+		IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Transaction before handler.
@@ -116,7 +116,7 @@ public class ConfigurationBuilder {
 		 * @param cb
 		 *            the cb
 		 */
-		void transactionBeforeHandler(TransactionCallback cb);
+		IBuild transactionBeforeHandler(TransactionCallback cb);
 
 		/**
 		 * Transaction after handler.
@@ -124,7 +124,7 @@ public class ConfigurationBuilder {
 		 * @param cb
 		 *            the cb
 		 */
-		void transactionAfterHandler(TransactionCallback cb);
+		IBuild transactionAfterHandler(TransactionCallback cb);
 
 		/**
 		 * Setup.
@@ -159,8 +159,7 @@ public class ConfigurationBuilder {
 			NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(networkName));
 		}
 		
-		public Builder() {
-		}
+		public Builder() {}
 
 		/*
 		 * (non-Javadoc)
@@ -206,8 +205,9 @@ public class ConfigurationBuilder {
 		 * transactionAfterHandler(io.nem.spectro.api.TransactionCallback)
 		 */
 		@Override
-		public void transactionAfterHandler(TransactionCallback cb) {
+		public IBuild transactionAfterHandler(TransactionCallback cb) {
 			// TODO Auto-generated method stub
+			return this;
 
 		}
 
@@ -218,8 +218,9 @@ public class ConfigurationBuilder {
 		 * transactionBeforeHandler(io.nem.spectro.api.TransactionCallback)
 		 */
 		@Override
-		public void transactionBeforeHandler(TransactionCallback cb) {
+		public IBuild transactionBeforeHandler(TransactionCallback cb) {
 			// TODO Auto-generated method stub
+			return this;
 		}
 
 		/*
@@ -253,16 +254,18 @@ public class ConfigurationBuilder {
 		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionFee(org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
-		public void transactionFee(TransactionFeeCalculator feeCalculator) {
-			
+		public IBuild transactionFee(TransactionFeeCalculator feeCalculator) {
+			Globals.setGlobalTransactionFee(feeCalculator);
+			return this;
 		}
 		
 		/* (non-Javadoc)
 		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionMultisigFee(org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
-		public void transactionMultisigFee(TransactionFeeCalculator feeCalculator) {
-			
+		public IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator) {
+			Globals.setGlobalMultisigTransactionFee(feeCalculator);
+			return this;
 		}
 
 	}
