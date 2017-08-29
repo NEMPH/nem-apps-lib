@@ -233,6 +233,14 @@ List<Mosaic> AccountApi.getAccountOwnedMosaic(String address)
 boolean ValidationApi.isAddressValid(String address)
 ```
 
+```java
+boolean ValidationApi.isAddressValid(String address, NodeEndpoint nodeEndpoint)
+```
+
+```java
+boolean ValidationApi.isAddressValid(String address, String protocol, String host, int port)
+```
+
 <h2>Nodes</h2>
 <h3>Check Node Info</h3>
 
