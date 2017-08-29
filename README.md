@@ -23,7 +23,7 @@ Library has the following features/functionalities
 Make sure to clone NEMModules fork of nem.core and build.
 
 ```bash
-git clone https://github.com/NEMPH/nem.core
+git clone https://github.com/NEMPH/nem.core.git
 cd nem.core
 mvn clean install
 ```
