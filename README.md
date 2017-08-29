@@ -23,7 +23,7 @@ Library has the following features/functionalities
 Make sure to clone NEMModules fork of nem.core and build.
 
 ```bash
-git clone https://github.com/NEMModules/nem.core
+git clone https://github.com/NEMPH/nem.core
 cd nem.core
 mvn clean install
 ```
@@ -31,7 +31,7 @@ mvn clean install
 build the nem-apps-lib after.
 
 ```bash
-git clone https://github.com/NEMModules/nem-apps-lib.git
+git clone https://github.com/NEMPH/nem-apps-lib.git
 cd nem-apps-lib
 mvn clean install
 ```
