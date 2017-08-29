@@ -5,7 +5,7 @@ import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.primitive.Supply;
 
 import io.nem.apps.service.Globals;
-import io.nem.apps.util.NemSpectroNetworkResponse;
+import io.nem.apps.util.NemNetworkResponse;
 import io.nem.apps.util.NetworkUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,7 +26,7 @@ public class NISQuery {
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(MosaicId mosaicId){
 		
 		
-		NemSpectroNetworkResponse queryResult = NetworkUtils.get(Globals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
+		NemNetworkResponse queryResult = NetworkUtils.get(Globals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
 		
 		
 		JSONObject json = JSONObject.fromObject(queryResult.getResponse());

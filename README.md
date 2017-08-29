@@ -225,6 +225,14 @@ List<TransactionMetaDataPair> AccountApi.getOutgoingTransactions(String address)
 List<Mosaic> AccountApi.getAccountOwnedMosaic(String address)
 ```
 
+<h2>Validations</h2>
+
+<h3>Validate if Address is Valid</h3>
+
+```java
+boolean ValidationApi.isAddressValid(String address)
+```
+
 <h2>Nodes</h2>
 <h3>Check Node Info</h3>
 

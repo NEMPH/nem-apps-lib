@@ -39,7 +39,7 @@ public class NetworkUtils {
 	 *            the request to send
 	 * @return response the response.
 	 */
-	private static NemSpectroNetworkResponse send(HttpRequestBase request) {
+	private static NemNetworkResponse send(HttpRequestBase request) {
 		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
 		CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionManager(cm)
@@ -47,7 +47,7 @@ public class NetworkUtils {
 		logger.debug("HTTP request: {}", request.getRequestLine().toString());
 		HttpResponse httpResponse = null;
 		String responseContent = null;
-		NemSpectroNetworkResponse response = new NemSpectroNetworkResponse();
+		NemNetworkResponse response = new NemNetworkResponse();
 
 		try {
 
@@ -115,7 +115,7 @@ public class NetworkUtils {
 	 *            of the post request.
 	 * @return the post response.
 	 */
-	public static NemSpectroNetworkResponse post(String url, StringEntity entity) {
+	public static NemNetworkResponse post(String url, StringEntity entity) {
 		HttpPost post = new HttpPost(url);
 		post.setHeader("Content-Type","application/json");
 		post.setEntity(entity);
@@ -129,7 +129,7 @@ public class NetworkUtils {
 	 *            the url we need to send the get request to.
 	 * @return the get response.
 	 */
-	public static NemSpectroNetworkResponse get(String url) {
+	public static NemNetworkResponse get(String url) {
 		HttpGet get = new HttpGet(url);
 		return send(get);
 	}
@@ -143,7 +143,7 @@ public class NetworkUtils {
 	 *            the entity to DELETE.
 	 * @return the delete response.
 	 */
-	public static NemSpectroNetworkResponse delete(String url, StringEntity entity) {
+	public static NemNetworkResponse delete(String url, StringEntity entity) {
 		HttpDeleteWithBody delete = new HttpDeleteWithBody(url);
 		delete.setEntity(entity);
 		return send(delete);
@@ -156,7 +156,7 @@ public class NetworkUtils {
 	 *            the url where to send the DELETE request.
 	 * @return the delete response.
 	 */
-	public static NemSpectroNetworkResponse delete(String url) {
+	public static NemNetworkResponse delete(String url) {
 		HttpDelete delete = new HttpDelete(url);
 		return send(delete);
 	}
