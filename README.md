@@ -241,6 +241,10 @@ boolean ValidationApi.isAddressValid(String address, NodeEndpoint nodeEndpoint)
 boolean ValidationApi.isAddressValid(String address, String protocol, String host, int port)
 ```
 
+```java
+boolean ValidationApi.isAddressPatterValid(String address)
+```
+
 <h2>Nodes</h2>
 <h3>Check Node Info</h3>
 

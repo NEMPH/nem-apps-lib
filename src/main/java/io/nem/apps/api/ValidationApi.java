@@ -1,5 +1,8 @@
 package io.nem.apps.api;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.node.NodeEndpoint;
 
@@ -24,6 +27,11 @@ public class ValidationApi {
 				.get(Globals.getNodeEndpoint() + NisApiId.NIS_REST_ACCOUNT_LOOK_UP.toString() + "?address=" + address);
 
 		return !response.isError();
+	}
+	
+	public static boolean isAddressPatternValid(String address) {
+		Pattern pattern = Pattern.compile("@\"[nN]{1,1}[a-zA-Z0-9]{5,5}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{4,4}\"");
+		return !pattern.matcher(address).matches();
 	}
 	
 	public static boolean isAddressValid(String address,NodeEndpoint nodeEndpoint) {
