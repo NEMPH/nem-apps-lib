@@ -242,7 +242,7 @@ boolean ValidationApi.isAddressValid(String address, String protocol, String hos
 ```
 
 ```java
-boolean ValidationApi.isAddressPatterValid(String address)
+boolean ValidationApi.isAddressPatternValid(String address)
 ```
 
 <h2>Nodes</h2>
