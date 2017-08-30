@@ -42,6 +42,7 @@ public class ValidationApiTest extends NemAppsUnitTest {
 	
 	@Test
 	public void testLightValidation() {
-		System.out.println(ValidationApi.isAddressPatternValid("NACCH2WPJYVQ3PLGMVZVRK5JI6POTJXXHLUG3P4J"));
+		assertTrue(ValidationApi.isAddressPatternValid("NA6IT2-ZSTQLT-YO223Z-ZMH2J7-2GVG7G-ZY72FN-47IF"));
+		assertTrue(ValidationApi.isAddressPatternValid("NA6IT2ZSTQLTYO223ZZMH2J72GVG7GZY72FN47IF"));
 	}
 }

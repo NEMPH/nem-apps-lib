@@ -30,8 +30,9 @@ public class ValidationApi {
 	}
 	
 	public static boolean isAddressPatternValid(String address) {
-		Pattern pattern = Pattern.compile("@\"[nN]{1,1}[a-zA-Z0-9]{5,5}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{6,6}\\-[a-zA-Z0-9]{4,4}\"");
-		return !pattern.matcher(address).matches();
+		String unDash = address.replace("-", "");
+		Pattern pattern = Pattern.compile("[nN]{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{4,4}");
+		return pattern.matcher(unDash).matches();
 	}
 	
 	public static boolean isAddressValid(String address,NodeEndpoint nodeEndpoint) {
