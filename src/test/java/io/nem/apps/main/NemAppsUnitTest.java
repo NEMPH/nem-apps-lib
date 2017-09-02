@@ -57,7 +57,7 @@ public abstract class NemAppsUnitTest {
 		if (networkName.equals("")) {
 			networkName = "mijinnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895")
+					.nodeNetworkUri("a1.dfintech.com").nodeNetworkPort("7895")
 					.transactionFee(new TransactionFeeCalculatorAfterFork())
 					.setup();
 		}

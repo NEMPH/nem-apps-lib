@@ -191,16 +191,22 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 			}
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 
-			if (this.fee == null) {
-				TransactionFeeCalculator feeCalculator;
-				if (this.feeCalculator != null) {
-					feeCalculator = this.feeCalculator;
-				} else {
-					feeCalculator = Globals.getGlobalTransactionFee();
-				}
-				instance.setFee(feeCalculator.calculateMinimumFee(instance));
-			} else {
+			if (this.fee == null && this.feeCalculator == null) {
 				instance.setFee(Amount.fromNem(0));
+			} else {
+
+				if (this.fee != null) {
+					instance.setFee(Amount.fromNem(0));
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = Globals.getGlobalTransactionFee();
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				}
+
 			}
 
 			if(this.deadline != null) {

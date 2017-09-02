@@ -4,10 +4,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
@@ -27,6 +29,20 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 			+ ":61:160827C642,S1032\n" + ":86:ANDY\n" + ":61:160827D42,S1032\n" + ":86:BANK CHARGES\n"
 			+ ":62F:C160418USD1872,\n" + ":64:C160418USD1872,\n" + "-}{5:{CHK:0FEC1E4AEC53}{TNG:}}{S:{COP:S}}";
 
+	
+	@Test
+	public void testBasicTransferTans() {
+		NemAnnounceResult result = TransferTransactionBuilder
+				.sender(new Account(new KeyPair(PrivateKey
+						.fromHexString("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"))))
+				.recipient(new Account(new KeyPair(
+						PublicKey.fromHexString("8043f36622be5c91e00d9977c870935c887ff9050ba0a62207db76dba1a87385"))))
+				.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).buildAndSendTransaction();
+		System.out.println(result.getCode());
+		System.out.println(result.getTransactionHash());
+		System.out.println(result.getMessage());
+		System.out.println(result.getTransactionHash().getRaw());
+	}
 	/**
 	 * Test cb build transaction.
 	 */

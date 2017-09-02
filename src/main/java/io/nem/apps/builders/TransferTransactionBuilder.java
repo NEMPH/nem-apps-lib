@@ -16,7 +16,6 @@ import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.service.Globals;
 import io.nem.apps.util.TransactionSenderUtil;
 
-
 /**
  * The Class TransactionBuilder.
  */
@@ -62,7 +61,8 @@ public class TransferTransactionBuilder {
 		/**
 		 * Version.
 		 *
-		 * @param version the version
+		 * @param version
+		 *            the version
 		 * @return the i build
 		 */
 		IBuild version(int version);
@@ -70,7 +70,8 @@ public class TransferTransactionBuilder {
 		/**
 		 * Sign by.
 		 *
-		 * @param account the account
+		 * @param account
+		 *            the account
 		 * @return the i build
 		 */
 		IBuild signBy(Account account);
@@ -78,7 +79,8 @@ public class TransferTransactionBuilder {
 		/**
 		 * Time stamp.
 		 *
-		 * @param timeInstance the time instance
+		 * @param timeInstance
+		 *            the time instance
 		 * @return the i build
 		 */
 		IBuild timeStamp(TimeInstant timeInstance);
@@ -186,35 +188,35 @@ public class TransferTransactionBuilder {
 		/** The version. */
 		// constructor
 		private int version;
-		
+
 		/** The time stamp. */
 		private TimeInstant timeStamp;
-		
+
 		/** The sender. */
 		private Account sender;
-		
+
 		/** The recipient. */
 		private Account recipient;
-		
+
 		/** The amount. */
 		private Amount amount;
-		
+
 		/** The attachment. */
 		private TransferTransactionAttachment attachment;
-		
+
 		/** The signature. */
 		private Signature signature;
-		
+
 		/** The deadline. */
 		private TimeInstant deadline;
 
 		/** The fee. */
 		// secondary
 		private Amount fee;
-		
+
 		/** The fee calculator. */
 		private TransactionFeeCalculator feeCalculator;
-		
+
 		/** The sign by. */
 		private Account signBy;
 
@@ -276,34 +278,44 @@ public class TransferTransactionBuilder {
 				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
 			}
 			
-			if(this.version == 0) {
+			if(this.amount == null) {
+				this.amount(Amount.fromNem(0));
+			}
+			
+			if (this.version == 0) {
 				instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
 						this.attachment);
-			}else {
-				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient, this.amount,
-						this.attachment);
-			}
-
-			if (this.fee == null) {
-				TransactionFeeCalculator feeCalculator;
-				if (this.feeCalculator != null) {
-					feeCalculator = this.feeCalculator;
-				} else {
-					feeCalculator = Globals.getGlobalTransactionFee();
-				}
-				instance.setFee(feeCalculator.calculateMinimumFee(instance));
 			} else {
-				instance.setFee(Amount.fromNem(0));
+				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+						this.amount, this.attachment);
 			}
 
-			if(this.deadline != null) {
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(Amount.fromNem(0));
+			} else {
+
+				if (this.fee != null) {
+					instance.setFee(Amount.fromNem(0));
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = Globals.getGlobalTransactionFee();
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				}
+
+			}
+
+			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
-			}else {
+			} else {
 				instance.setDeadline(this.timeStamp.addHours(23));
 			}
 			if (this.signature != null) {
 				instance.setSignature(this.signature);
-			} 
+			}
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
@@ -420,8 +432,11 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
 		 */
 		@Override
 		public IBuild version(int version) {
@@ -429,8 +444,12 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.nem.core.time.TimeInstant)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.
+		 * nem.core.time.TimeInstant)
 		 */
 		@Override
 		public IBuild timeStamp(TimeInstant timeInstance) {
@@ -438,8 +457,12 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem.core.model.Account)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem
+		 * .core.model.Account)
 		 */
 		@Override
 		public IBuild signBy(Account account) {
