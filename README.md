@@ -12,7 +12,7 @@ Library has the following features/functionalities
   * Get All Owned Mosaics of an Account
   * Node Information and Check Node Heartbeats
   * Transaction Monitoring (using nem-transaction-monitor)
-  * Extra: Code to Generate QR Code.
+  * <del>Extra: Code to Generate QR Code.</del>
 
 <h2>Technology Stack</h2>
 
@@ -306,7 +306,7 @@ public class CustomTransactionMonitor implements TransactionMonitorHandler {
 	}
 }
 ```
-
+<del>
 <h2>Extra: Generate QR Code</h2>
 
 ```java
@@ -321,4 +321,5 @@ try {
     e.printStackTrace();
 }
 ```
+</del>
 <sub>Copyright (c) 2017</sub>
