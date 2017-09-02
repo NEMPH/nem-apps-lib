@@ -9,9 +9,7 @@ import io.nem.apps.util.NemNetworkResponse;
 import io.nem.apps.util.NetworkUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-
-
+ 
 /**
  * The Class NISQuery.
  */

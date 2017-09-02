@@ -64,21 +64,6 @@ public class Constants {
 	/** The Constant CONTENT_TYPE_TEXT_JSON. */
 	public static final String CONTENT_TYPE_TEXT_JSON = "application/json";
 	
-	/** The Constant HELPER_FILE_INIT_TRANSACTION. */
-	public static final String HELPER_FILE_INIT_TRANSACTION = "initTransaction_parameter.txt";
-	
-	/** The Constant HELPER_FILE_INIT_MULTISIG_TRANSACTION. */
-	public static final String HELPER_FILE_INIT_MULTISIG_TRANSACTION = "initMultisigTransaction_parameter.txt";
-	
-	/** The Constant HELPER_FILE_COSIGN_MULTISIG_TRANSACTION. */
-	public static final String HELPER_FILE_COSIGN_MULTISIG_TRANSACTION = "cosignMultisigTransaction_parameter.txt";
-	
-	/** The Constant HELPER_FILE_MONITOR_INCOMING_TRANSACTION. */
-	public static final String HELPER_FILE_MONITOR_INCOMING_TRANSACTION = "monitorIncomingTransaction_parameter.txt";
-	
-	/** The Constant HELPER_FILE_MONITOR_MULTISIG_TRANSACTION. */
-	public static final String HELPER_FILE_MONITOR_MULTISIG_TRANSACTION = "monitorMultisigTransaction_parameter.txt";
-	
 	/** The Constant TX_TYPE_INIT_MULTISIG. */
 	public static final long TX_TYPE_INIT_MULTISIG = 4100;
 	
