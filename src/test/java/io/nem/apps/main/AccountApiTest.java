@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.connect.client.NisApiId;
+import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
@@ -66,6 +67,15 @@ public class AccountApiTest extends NemAppsUnitTest {
 	public void testAccountApiAllTransaction() {
 		assertNotNull(AccountApi.getAllTransactions(MIJIN_DM_ADDRESS));
 	}
+	
+	@Test
+	public void testAccountApiSingleTransferTransaction() {
+		System.out.println(AccountApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getEntity().getSigner().getAddress().getPublicKey());
+		System.out.println(AccountApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getMetaData().getHash().toString());
+		System.out.println(((TransferTransaction)AccountApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getEntity()).getAttachment().getMessage());
+		assertNotNull(AccountApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getClass());
+	}
+
 
 	@Test
 	public void testAccountApiAllOwnedMosaic() {
