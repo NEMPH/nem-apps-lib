@@ -15,7 +15,7 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.apps.api.AccountApi;
 import io.nem.apps.service.Globals;
 
-public class AccountApiTest extends NemAppsUnitTest {
+public class ChainApiTest extends NemAppsUnitTest {
 
 	@Test
 	public void testDeserializeAccount() {

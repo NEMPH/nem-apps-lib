@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.apps.api;
 
 import org.nem.core.connect.client.NisApiId;
@@ -7,6 +10,7 @@ import org.nem.core.node.Node;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
+
 
 
 

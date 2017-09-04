@@ -3,7 +3,7 @@ package io.nem.apps.model;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.model.Account;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class GeneratedAccount.
  */
