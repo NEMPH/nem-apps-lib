@@ -56,6 +56,12 @@ ConfigurationBuilder.nodeNetworkName("mijinnet")
     .nodeNetworkUri("a1.nem.foundation")
     .nodeNetworkPort("7895")
     .setup();
+    
+```
+
+You can also change the node endpoint on the fly.
+```java
+Globals.setNodeEndpoint(new NodeEndpoint("http","a1.nem.foundation",7895));
 ```
 
 <h2>Transactions</h2>
@@ -223,6 +229,31 @@ List<TransactionMetaDataPair> AccountApi.getOutgoingTransactions(String address)
 
 ```java
 List<Mosaic> AccountApi.getAccountOwnedMosaic(String address)
+```
+<h2>Blocks</h2>
+
+<h3>Get Block by Block hash</h3>
+```java
+Block BlockApi.getBlock(String blockHash)
+```
+<h3>Get Block by Block Height</h3>
+```java
+Block BlockApi.getBlockByHeight(String blockHash)
+```
+
+<h2>Chains</h2>
+
+<h3>Get Chain Height</h3>
+```java
+Block ChainApi.getChainHeight()
+```
+<h3>Get Chain Last Score</h3>
+```java
+Block ChainApi.getChainScore()
+```
+<h3>Get Chain Last Block</h3>
+```java
+Block ChainApi.getChainLastBlock()
 ```
 
 <h2>Validations</h2>
