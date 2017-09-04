@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.apps.api;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.model.GeneratedAccount;
 import io.nem.apps.service.Globals;
+
 
 /**
  * The Class AccountApi.

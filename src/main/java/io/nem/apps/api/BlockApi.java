@@ -12,7 +12,18 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.apps.service.Globals;
 import net.minidev.json.JSONObject;
 
+
+/**
+ * The Class BlockApi.
+ */
 public class BlockApi {
+	
+	/**
+	 * Gets the block.
+	 *
+	 * @param blockHash the block hash
+	 * @return the block
+	 */
 	public static Block getBlock(String blockHash) {
 		Deserializer des;
 		try {
@@ -29,6 +40,12 @@ public class BlockApi {
 		return null;
 	}
 
+	/**
+	 * Gets the block by height.
+	 *
+	 * @param height the height
+	 * @return the block by height
+	 */
 	public static Block getBlockByHeight(int height) {
 		Deserializer des;
 		try {
@@ -46,6 +63,12 @@ public class BlockApi {
 		return null;
 	}
 
+	/**
+	 * Gets the block after given block height.
+	 *
+	 * @param height the height
+	 * @return the block after given block height
+	 */
 	public static Block getBlockAfterGivenBlockHeight(int height) {
 		Deserializer des;
 		try {

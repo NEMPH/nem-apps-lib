@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package io.nem.apps.api;
 
 import java.util.concurrent.ExecutionException;
@@ -8,8 +11,17 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
 
+
+/**
+ * The Class ChainApi.
+ */
 public class ChainApi {
 
+	/**
+	 * Gets the chain height.
+	 *
+	 * @return the chain height
+	 */
 	public static String getChainHeight() {
 		Deserializer des;
 		try {
@@ -25,6 +37,11 @@ public class ChainApi {
 		return null;
 	}
 
+	/**
+	 * Gets the chain score.
+	 *
+	 * @return the chain score
+	 */
 	public static String getChainScore() {
 		Deserializer des;
 		try {
@@ -40,6 +57,11 @@ public class ChainApi {
 		return null;
 	}
 
+	/**
+	 * Gets the chain last block.
+	 *
+	 * @return the chain last block
+	 */
 	public static BlockHeight getChainLastBlock() {
 		Deserializer des;
 		try {
