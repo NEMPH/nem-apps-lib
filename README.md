@@ -242,7 +242,13 @@ Block BlockApi.getBlock(String blockHash)
 <h3>Get Block by Block Height</h3>
 
 ```java
-Block BlockApi.getBlockByHeight(String blockHash)
+Block BlockApi.getBlockByHeight(int blockHeight)
+```
+
+<h3>Get Block After Given Block Height</h3>
+
+```java
+Block getBlockAfterGivenBlockHeight(int height) 
 ```
 
 <h2>Chains</h2>
