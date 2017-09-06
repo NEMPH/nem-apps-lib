@@ -19,6 +19,12 @@ import io.nem.apps.service.Globals;
 public class TransactionApiTest extends NemAppsUnitTest {
 
 	@Test
+	public void testAccountApiSingleTransaction() {
+		System.out.println(TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
+		assertNotNull(TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
+	}
+	
+	@Test
 	public void testAccountApiAllTransaction() {
 		assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS));
 	}

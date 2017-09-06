@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.nem.core.connect.client.NisApiId;
+import org.nem.core.model.Transaction;
+import org.nem.core.model.ncc.TransactionMetaData;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 
@@ -19,6 +21,23 @@ import io.nem.apps.service.Globals;
  */
 public class TransactionApi {
 
+	
+	public static TransactionMetaDataPair getTransaction(String hash) {
+		Deserializer des;
+		TransactionMetaDataPair trans;
+		try {
+			des = Globals.CONNECTOR
+					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash)
+					.get();
+			trans = new TransactionMetaDataPair(des);
+			return trans;
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Gets the all transactions.
 	 *
