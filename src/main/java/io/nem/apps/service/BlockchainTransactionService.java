@@ -1,21 +1,15 @@
 package io.nem.apps.service;
 
-import java.util.logging.Logger;
-
 import org.nem.core.crypto.Hash;
 import org.nem.core.model.Account;
 import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
-import org.nem.core.model.NetworkInfos;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.time.TimeInstant;
-
-import io.nem.apps.fee.TransactionFeeCalculatorAfterForkForApp;
-import io.nem.apps.util.AppPropertiesUtil;
 import io.nem.apps.util.TransactionSenderUtil;
 
 

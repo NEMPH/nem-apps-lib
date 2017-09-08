@@ -60,13 +60,21 @@ public class AccountApiTest extends NemAppsUnitTest {
 
 	@Test
 	public void testAccountApiAddress() {
-		assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+		try {
+			assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
 
 	
 	@Test
 	public void testAccountApiAllOwnedMosaic() {
-		assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+		try {
+			assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 
 	}
 

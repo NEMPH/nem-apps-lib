@@ -21,18 +21,30 @@ public class BlockApiTest extends NemAppsUnitTest {
 
 	@Test
 	public void testBlockHash() {
-		assertNotNull(BlockApi.getBlock("aeac0c3eeb1d2b441d012eadbe497b11ee8b67a8d5e0e981c698f2c7253637aa"));
+		try {
+			assertNotNull(BlockApi.getBlock("aeac0c3eeb1d2b441d012eadbe497b11ee8b67a8d5e0e981c698f2c7253637aa"));
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
 	
 	@Test
 	public void testBlockHeight() {
-		assertTrue(BlockApi.getBlockByHeight(428917).getTransactions().size() > 0);
+		try {
+			assertTrue(BlockApi.getBlockByHeight(428917).getTransactions().size() > 0);
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
 
 	
 	@Test
 	public void testGivenBlockHeight() {
-		assertTrue(BlockApi.getBlockAfterGivenBlockHeight(428917).getTransactions().size() > 0);
+		try {
+			assertTrue(BlockApi.getBlockAfterGivenBlockHeight(428917).getTransactions().size() > 0);
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
 	
 }

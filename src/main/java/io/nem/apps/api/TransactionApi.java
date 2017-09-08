@@ -15,29 +15,20 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
 
-
 /**
  * The Class TransactionApi.
  */
 public class TransactionApi {
 
-	
-	public static TransactionMetaDataPair getTransaction(String hash) {
+	public static TransactionMetaDataPair getTransaction(String hash) throws InterruptedException, ExecutionException {
 		Deserializer des;
 		TransactionMetaDataPair trans;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash)
-					.get();
-			trans = new TransactionMetaDataPair(des);
-			return trans;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash)
+				.get();
+		trans = new TransactionMetaDataPair(des);
+		return trans;
 	}
-	
+
 	/**
 	 * Gets the all transactions.
 	 *
@@ -45,65 +36,55 @@ public class TransactionApi {
 	 *            the address
 	 * @return the all transactions
 	 */
-	public static List<TransactionMetaDataPair> getAllTransactions(String address) {
+	public static List<TransactionMetaDataPair> getAllTransactions(String address)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address)
-					.get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address)
+				.get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the all transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
 	 * @return the all transactions
 	 */
-	public static List<TransactionMetaDataPair> getAllTransactions(String address, String hash) {
+	public static List<TransactionMetaDataPair> getAllTransactions(String address, String hash)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
-					"address=" + address + "&hash=" + hash).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
+				"address=" + address + "&hash=" + hash).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the all transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
-	 * @param id the id
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
+	 * @param id
+	 *            the id
 	 * @return the all transactions
 	 */
-	public static List<TransactionMetaDataPair> getAllTransactions(String address, String hash, String id) {
+	public static List<TransactionMetaDataPair> getAllTransactions(String address, String hash, String id)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
-					"address=" + address + "&hash=" + hash + "&id=" + id).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
+				"address=" + address + "&hash=" + hash + "&id=" + id).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
@@ -113,64 +94,55 @@ public class TransactionApi {
 	 *            the address
 	 * @return the incoming transactions
 	 */
-	public static List<TransactionMetaDataPair> getIncomingTransactions(String address) {
+	public static List<TransactionMetaDataPair> getIncomingTransactions(String address)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
-					"address=" + address).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
+				.get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the incoming transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
 	 * @return the incoming transactions
 	 */
-	public static List<TransactionMetaDataPair> getIncomingTransactions(String address, String hash) {
+	public static List<TransactionMetaDataPair> getIncomingTransactions(String address, String hash)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
-					"address=" + address + "&hash=" + hash).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
+				"address=" + address + "&hash=" + hash).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the incoming transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
-	 * @param id the id
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
+	 * @param id
+	 *            the id
 	 * @return the incoming transactions
 	 */
-	public static List<TransactionMetaDataPair> getIncomingTransactions(String address, String hash, String id) {
+	public static List<TransactionMetaDataPair> getIncomingTransactions(String address, String hash, String id)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
-					"address=" + address + "&hash=" + hash + "&id=" + id).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
+				"address=" + address + "&hash=" + hash + "&id=" + id).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
@@ -180,64 +152,55 @@ public class TransactionApi {
 	 *            the address
 	 * @return the outgoing transactions
 	 */
-	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address) {
+	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address)
+			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
-					"address=" + address).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
+				.get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the outgoing transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
 	 * @return the outgoing transactions
 	 */
-	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address, String hash) {
+	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address, String hash)
+			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
-					"address=" + address + "&hash=" + hash).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
+				"address=" + address + "&hash=" + hash).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
 	 * Gets the outgoing transactions.
 	 *
-	 * @param address the address
-	 * @param hash the hash
-	 * @param id the id
+	 * @param address
+	 *            the address
+	 * @param hash
+	 *            the hash
+	 * @param id
+	 *            the id
 	 * @return the outgoing transactions
 	 */
-	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address, String hash, String id) {
+	public static List<TransactionMetaDataPair> getOutgoingTransactions(String address, String hash, String id)
+			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
-					"address=" + address + "&hash=" + hash + "&id=" + id).get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
+				"address=" + address + "&hash=" + hash + "&id=" + id).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 	/**
@@ -247,21 +210,14 @@ public class TransactionApi {
 	 *            the address
 	 * @return the unconfirmed transactions
 	 */
-	public static List<TransactionMetaDataPair> getUnconfirmedTransactions(String address) {
+	public static List<TransactionMetaDataPair> getUnconfirmedTransactions(String address)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address)
-					.get();
-			list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
 	}
 
 }

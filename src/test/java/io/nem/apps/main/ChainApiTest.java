@@ -5,10 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.nem.core.connect.client.NisApiId;
-import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
@@ -60,13 +58,21 @@ public class ChainApiTest extends NemAppsUnitTest {
 
 	@Test
 	public void testAccountApiAddress() {
-		assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+		try {
+			assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
 
 	
 	@Test
 	public void testAccountApiAllOwnedMosaic() {
-		assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+		try {
+			assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 
 	}
 

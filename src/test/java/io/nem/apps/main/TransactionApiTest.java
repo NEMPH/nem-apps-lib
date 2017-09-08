@@ -20,22 +20,30 @@ public class TransactionApiTest extends NemAppsUnitTest {
 
 	@Test
 	public void testAccountApiSingleTransaction() {
-		System.out.println(TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
-		assertNotNull(TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
-	}
-	
-	@Test
-	public void testAccountApiAllTransaction() {
-		assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS));
-	}
-	
-	@Test
-	public void testAccountApiSingleTransferTransaction() {
-		System.out.println(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getEntity().getSigner().getAddress().getPublicKey());
-		System.out.println(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getMetaData().getHash().toString());
-		System.out.println(((TransferTransaction)TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getEntity()).getAttachment().getMessage());
-		assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getClass());
+		try {
+			assertNotNull(
+					TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
+		} catch (InterruptedException | ExecutionException e) {
+			assert (false);
+		}
 	}
 
+	@Test
+	public void testAccountApiAllTransaction() {
+		try {
+			assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS));
+		} catch (InterruptedException | ExecutionException e) {
+			assert (false);
+		}
+	}
+
+	@Test
+	public void testAccountApiSingleTransferTransaction() {
+		try {
+			assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getClass());
+		} catch (InterruptedException | ExecutionException e) {
+			assert (false);
+		}
+	}
 
 }

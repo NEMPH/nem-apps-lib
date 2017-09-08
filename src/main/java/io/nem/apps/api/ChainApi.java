@@ -11,7 +11,6 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
 
-
 /**
  * The Class ChainApi.
  */
@@ -22,19 +21,14 @@ public class ChainApi {
 	 *
 	 * @return the chain height
 	 */
-	public static String getChainHeight() {
+	public static String getChainHeight() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_HEIGHT, "")
-					.exceptionally(fn -> {
-						fn.printStackTrace();
-						return null;
-					}).get();
-			return des.readString("height");
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_HEIGHT, "")
+				.exceptionally(fn -> {
+					fn.printStackTrace();
+					return null;
+				}).get();
+		return des.readString("height");
 	}
 
 	/**
@@ -42,19 +36,14 @@ public class ChainApi {
 	 *
 	 * @return the chain score
 	 */
-	public static String getChainScore() {
+	public static String getChainScore() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_SCORE, "")
-					.exceptionally(fn -> {
-						fn.printStackTrace();
-						return null;
-					}).get();
-			return des.readString("score");
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_SCORE, "")
+				.exceptionally(fn -> {
+					fn.printStackTrace();
+					return null;
+				}).get();
+		return des.readString("score");
 	}
 
 	/**
@@ -62,18 +51,13 @@ public class ChainApi {
 	 *
 	 * @return the chain last block
 	 */
-	public static BlockHeight getChainLastBlock() {
+	public static BlockHeight getChainLastBlock() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_LAST_BLOCK, "")
-					.exceptionally(fn -> {
-						fn.printStackTrace();
-						return null;
-					}).get();
-			return new BlockHeight(des);
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_LAST_BLOCK, "")
+				.exceptionally(fn -> {
+					fn.printStackTrace();
+					return null;
+				}).get();
+		return new BlockHeight(des);
 	}
 }

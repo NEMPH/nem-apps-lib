@@ -1,5 +1,7 @@
 package io.nem.apps.builders;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.nem.core.crypto.Signature;
 import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
@@ -11,6 +13,7 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.service.Globals;
@@ -174,6 +177,8 @@ public class TransferTransactionBuilder {
 		 * @return the transaction
 		 */
 		NemAnnounceResult buildAndSendTransaction();
+
+		CompletableFuture<Deserializer> buildAndSendFutureTransaction();
 	}
 
 	/**
@@ -277,11 +282,11 @@ public class TransferTransactionBuilder {
 			if (this.timeStamp == null) {
 				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
 			}
-			
-			if(this.amount == null) {
+
+			if (this.amount == null) {
 				this.amount(Amount.fromNem(0));
 			}
-			
+
 			if (this.version == 0) {
 				instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
 						this.attachment);
@@ -468,6 +473,11 @@ public class TransferTransactionBuilder {
 		public IBuild signBy(Account account) {
 			this.signBy = account;
 			return this;
+		}
+
+		@Override
+		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() {
+			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
 		}
 
 	}

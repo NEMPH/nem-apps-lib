@@ -2,6 +2,7 @@ package io.nem.apps.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.Signature;
@@ -10,10 +11,10 @@ import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.Globals;
 import io.nem.apps.util.TransactionSenderUtil;
-
 
 /**
  * The Class MultisigTransactionBuilder.
@@ -29,51 +30,54 @@ public class MultisigSignatureTransactionBuilder {
 	/**
 	 * Sender.
 	 *
-	 * @param multisig the multisig
+	 * @param multisig
+	 *            the multisig
 	 * @return the i sender
 	 */
-
 
 	public static ISigner multisig(Account multisig) {
 		return new MultisigSignatureTransactionBuilder.Builder(multisig);
 	}
-	
+
 	/**
 	 * The Interface ISigner.
 	 */
 	public interface ISigner {
-		
+
 		/**
 		 * Signer.
 		 *
-		 * @param signer the signer
+		 * @param signer
+		 *            the signer
 		 * @return the i transaction
 		 */
 		ITransaction signer(Account signer);
-		
+
 		/**
 		 * Start assign signers.
 		 *
 		 * @return the i signer
 		 */
 		ISigner startAssignSigners();
-		
+
 		/**
 		 * Adds the signer.
 		 *
-		 * @param signer the signer
+		 * @param signer
+		 *            the signer
 		 * @return the i signer
 		 */
 		ISigner addSigner(Account signer);
-		
+
 		/**
 		 * Adds the signers.
 		 *
-		 * @param signers the signers
+		 * @param signers
+		 *            the signers
 		 * @return the i signer
 		 */
 		ISigner addSigners(List<Account> signers);
-		
+
 		/**
 		 * End assign signers.
 		 *
@@ -90,7 +94,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Other transaction.
 		 *
-		 * @param transaction the transaction
+		 * @param transaction
+		 *            the transaction
 		 * @return the i build
 		 */
 		IBuild otherTransaction(Transaction transaction);
@@ -98,7 +103,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Other transaction.
 		 *
-		 * @param hashTransaction the hash transaction
+		 * @param hashTransaction
+		 *            the hash transaction
 		 * @return the i build
 		 */
 		IBuild otherTransaction(Hash hashTransaction);
@@ -113,7 +119,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Time stamp.
 		 *
-		 * @param timeInstance the time instance
+		 * @param timeInstance
+		 *            the time instance
 		 * @return the i build
 		 */
 		IBuild timeStamp(TimeInstant timeInstance);
@@ -121,7 +128,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Sign by.
 		 *
-		 * @param account the account
+		 * @param account
+		 *            the account
 		 * @return the i build
 		 */
 		IBuild signBy(Account account);
@@ -129,7 +137,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Fee.
 		 *
-		 * @param amount the amount
+		 * @param amount
+		 *            the amount
 		 * @return the i build
 		 */
 		IBuild fee(Amount amount);
@@ -137,7 +146,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Fee calculator.
 		 *
-		 * @param feeCalculator the fee calculator
+		 * @param feeCalculator
+		 *            the fee calculator
 		 * @return the i build
 		 */
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
@@ -145,7 +155,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Deadline.
 		 *
-		 * @param timeInstant the time instant
+		 * @param timeInstant
+		 *            the time instant
 		 * @return the i build
 		 */
 		IBuild deadline(TimeInstant timeInstant);
@@ -153,7 +164,8 @@ public class MultisigSignatureTransactionBuilder {
 		/**
 		 * Signature.
 		 *
-		 * @param signature the signature
+		 * @param signature
+		 *            the signature
 		 * @return the i build
 		 */
 		IBuild signature(Signature signature);
@@ -164,24 +176,34 @@ public class MultisigSignatureTransactionBuilder {
 		 * @return the multisig signature transaction
 		 */
 		MultisigSignatureTransaction coSign();
-	
+
+		CompletableFuture<Deserializer> coSignFuture();
+
 	}
 
 	/**
 	 * The Class Builder.
 	 */
 	private static class Builder implements ISigner, ITransaction, IBuild {
-		
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#startAssignSigners()
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#
+		 * startAssignSigners()
 		 */
 		@Override
 		public ISigner startAssignSigners() {
 			return this;
 		}
-		
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#endAssignSigners()
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#
+		 * endAssignSigners()
 		 */
 		@Override
 		public ITransaction endAssignSigners() {
@@ -194,58 +216,52 @@ public class MultisigSignatureTransactionBuilder {
 		/** The time stamp. */
 		// constructor
 		private TimeInstant timeStamp;
-		
+
 		/** The multisig. */
 		private Account multisig;
-		
+
 		/** The other transaction. */
 		private Transaction otherTransaction;
-		
+
 		/** The hash transaction. */
 		private Hash hashTransaction;
-		
+
 		/** The signature. */
 		private Signature signature;
 
 		/** The fee. */
 		// secondary
 		private Amount fee;
-		
+
 		/** The fee calculator. */
 		private TransactionFeeCalculator feeCalculator;
-		
+
 		/** The sign by. */
 		private Account signBy;
-		
+
 		/** The deadline. */
 		private TimeInstant deadline;
-		
+
 		/** The signers. */
 		private List<Account> signers = new ArrayList<Account>();
 
 		/**
 		 * Instantiates a new builder.
 		 *
-		 * @param multisig the multisig
+		 * @param multisig
+		 *            the multisig
 		 */
 		public Builder(Account multisig) {
 			this.multisig = multisig;
 
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.builders.MultisigTransactionBuilder.IBuild#
-		 * buildAndSendMultisigTransaction()
-		 */
-		@Override
-		public MultisigSignatureTransaction coSign() {
+		private MultisigSignatureTransaction buildMultisigSignatureTransaction() {
 			if (this.timeStamp == null) {
 				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
 			}
-			
-			for(Account signer:this.signers) {
+
+			for (Account signer : this.signers) {
 				if (this.otherTransaction != null) {
 					instance = new MultisigSignatureTransaction(this.timeStamp, signer, this.multisig,
 							this.otherTransaction);
@@ -254,7 +270,7 @@ public class MultisigSignatureTransactionBuilder {
 					instance = new MultisigSignatureTransaction(this.timeStamp, signer, this.multisig,
 							this.hashTransaction);
 				}
-	
+
 				if (this.fee == null && this.feeCalculator == null) {
 					instance.setFee(Amount.fromNem(0));
 				} else {
@@ -272,7 +288,7 @@ public class MultisigSignatureTransactionBuilder {
 					}
 
 				}
-	
+
 				if (this.deadline != null) {
 					instance.setDeadline(this.deadline);
 				} else {
@@ -285,8 +301,21 @@ public class MultisigSignatureTransactionBuilder {
 					instance.signBy(this.signBy);
 				}
 				instance.sign();
-				TransactionSenderUtil.sendMultisigSignatureTransaction(instance);
+
 			}
+
+			return instance;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.builders.MultisigTransactionBuilder.IBuild#
+		 * buildAndSendMultisigTransaction()
+		 */
+		@Override
+		public MultisigSignatureTransaction coSign() {
+			TransactionSenderUtil.sendMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 			return instance;
 		}
 
@@ -329,8 +358,11 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#timeStamp(org.nem.core.time.TimeInstant)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#
+		 * timeStamp(org.nem.core.time.TimeInstant)
 		 */
 		@Override
 		public IBuild timeStamp(TimeInstant timeInstance) {
@@ -338,8 +370,11 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#signBy(org.nem.core.model.Account)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#
+		 * signBy(org.nem.core.model.Account)
 		 */
 		@Override
 		public IBuild signBy(Account account) {
@@ -347,8 +382,11 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#
+		 * feeCalculator(org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
@@ -356,8 +394,12 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ITransaction#otherTransaction(org.nem.core.model.Transaction)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ITransaction
+		 * #otherTransaction(org.nem.core.model.Transaction)
 		 */
 		@Override
 		public IBuild otherTransaction(Transaction transaction) {
@@ -365,9 +407,12 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ITransaction#otherTransaction(org.nem.core.crypto.Hash)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ITransaction
+		 * #otherTransaction(org.nem.core.crypto.Hash)
 		 */
 		@Override
 		public IBuild otherTransaction(Hash hashTransaction) {
@@ -375,10 +420,12 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-
-
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#addSigner(org.nem.core.model.Account)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#
+		 * addSigner(org.nem.core.model.Account)
 		 */
 		@Override
 		public ISigner addSigner(Account signer) {
@@ -386,8 +433,12 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#addSigners(java.util.List)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#
+		 * addSigners(java.util.List)
 		 */
 		@Override
 		public ISigner addSigners(List<Account> signers) {
@@ -395,13 +446,23 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#signer(org.nem.core.model.Account)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigSignatureTransactionBuilder.ISigner#
+		 * signer(org.nem.core.model.Account)
 		 */
 		@Override
 		public ITransaction signer(Account signer) {
 			this.signers.add(signer);
 			return this;
+		}
+
+		@Override
+		public CompletableFuture<Deserializer> coSignFuture() {
+			return TransactionSenderUtil
+					.sendFutureMultisigSignatureTransaction(this.buildMultisigSignatureTransaction());
 		}
 
 	}

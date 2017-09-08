@@ -2,6 +2,7 @@ package io.nem.apps.builders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.nem.core.crypto.Signature;
 import org.nem.core.model.Account;
@@ -13,6 +14,7 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.Globals;
 import io.nem.apps.util.TransactionSenderUtil;
@@ -128,6 +130,8 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 		 * @return the nem announce result
 		 */
 		NemAnnounceResult buildAndSendMultisigTransaction();
+		
+		CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction();
 	}
 
 	/**
@@ -322,6 +326,11 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 		public IBuild otherTransaction(Transaction transaction) {
 			this.otherTransaction = transaction;
 			return this;
+		}
+
+		@Override
+		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() {
+			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
 		}
 
 

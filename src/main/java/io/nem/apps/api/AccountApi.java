@@ -1,6 +1,3 @@
-/*
- * 
- */
 package io.nem.apps.api;
 
 import java.util.ArrayList;
@@ -24,7 +21,6 @@ import org.nem.core.serialization.Deserializer;
 import io.nem.apps.model.GeneratedAccount;
 import io.nem.apps.service.Globals;
 
-
 /**
  * The Class AccountApi.
  */
@@ -37,20 +33,16 @@ public class AccountApi {
 	 *            the address
 	 * @return the account by address
 	 */
-	public static AccountMetaDataPair getAccountByAddress(String address) {
+	public static AccountMetaDataPair getAccountByAddress(String address)
+			throws InterruptedException, ExecutionException {
 		Deserializer des;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
-					.exceptionally(fn -> {
-						fn.printStackTrace();
-						return null;
-					}).get();
-			return new AccountMetaDataPair(des);
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
+				.exceptionally(fn -> {
+					fn.printStackTrace();
+					return null;
+				}).get();
+		return new AccountMetaDataPair(des);
 	}
 
 	/**
@@ -60,20 +52,14 @@ public class AccountApi {
 	 *            the address
 	 * @return the account owned mosaic
 	 */
-	public static List<Mosaic> getAccountOwnedMosaic(String address) {
+	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<Mosaic> list;
-		try {
-			des = Globals.CONNECTOR
-					.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
-					.get();
-			list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
-			return list;
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		des = Globals.CONNECTOR
+				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
+				.get();
+		list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
+		return list;
 	}
 
 	/**

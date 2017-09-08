@@ -1,6 +1,5 @@
 package io.nem.apps.main;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.nem.core.crypto.Hash;
 import org.nem.core.crypto.KeyPair;
