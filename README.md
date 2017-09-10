@@ -13,7 +13,6 @@ Library has the following features/functionalities
   * Get Block and Chain Info
   * Node Information and Check Node Heartbeats
   * Transaction Monitoring (using nem-transaction-monitor)
-  * <del>Extra: Code to Generate QR Code.</del>
 
 <h2>Technology Stack</h2>
 
@@ -352,20 +351,15 @@ public class CustomTransactionMonitor implements TransactionMonitorHandler {
 	}
 }
 ```
-<del>
-<h2>Extra: Generate QR Code</h2>
 
-```java
-String qrCodeText = "<your key>";
-String filePath = "<where to put the qr image>";
-int size = 125;
-String fileType = "png";
-File qrFile = new File(filePath);
-try {
-    QRCodeUtils.createQRImage(qrFile, qrCodeText, size, fileType);
-} catch (WriterException | IOException e) {
-    e.printStackTrace();
-}
-```
-</del>
+<h2>Support</h2>
+Need help integration your Java Application with NEM.io Platform? I can definitely help you with that, send me a message via 
+
+[telegram](https://web.telegram.org/#/im?p=@brambear)
+
+
+Tips are appreciated but not required. :)  
+XEM: NA6IT2-ZSTQLT-YO223Z-ZMH2J7-2GVG7G-ZY72FN-47IF  
+BTC: 3JYAYPxN9RL4UvbxMd1svbQynMpFbf5ehy  
+
 <sub>Copyright (c) 2017</sub>
