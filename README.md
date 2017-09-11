@@ -233,12 +233,6 @@ List<Mosaic> AccountApi.getAccountOwnedMosaic(String address)
 ```
 <h2>Blocks</h2>
 
-<h3>Get Block by Block hash</h3>
-
-```java
-Block BlockApi.getBlock(String blockHash)
-```
-
 <h3>Get Block by Block Height</h3>
 
 ```java

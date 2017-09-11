@@ -18,23 +18,6 @@ import net.minidev.json.JSONObject;
 public class BlockApi {
 
 	/**
-	 * Gets the block.
-	 *
-	 * @param blockHash
-	 *            the block hash
-	 * @return the block
-	 */
-	public static Block getBlock(String blockHash) throws InterruptedException, ExecutionException {
-		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK, "blockHash=" + blockHash)
-				.exceptionally(fn -> {
-					fn.printStackTrace();
-					return null;
-				}).get();
-		return new Block(BlockTypes.NEMESIS, DeserializationOptions.NON_VERIFIABLE, des);
-	}
-
-	/**
 	 * Gets the block by height.
 	 *
 	 * @param height
