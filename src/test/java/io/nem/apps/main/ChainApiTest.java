@@ -1,65 +1,17 @@
 package io.nem.apps.main;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.junit.Test;
-import org.nem.core.connect.client.NisApiId;
-import org.nem.core.model.ncc.AccountMetaDataPair;
-import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
-import org.nem.core.serialization.Deserializer;
-import io.nem.apps.api.AccountApi;
-import io.nem.apps.service.Globals;
+import io.nem.apps.api.ChainApi;
 
 public class ChainApiTest extends NemAppsUnitTest {
 
+	
 	@Test
-	public void testDeserializeAccount() {
-
+	public void testChainHeight() {
 		try {
-			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
-					NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + MIJIN_DM_ADDRESS);
-
-			des.thenAcceptAsync(d -> {
-				System.out.println(new AccountMetaDataPair(d).getEntity().getBalance());
-			}).exceptionally(e -> {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				return null;
-			}).get();
-
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testDeserializeAccountPk() {
-		try {
-			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
-					NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + MIJIN_DM_ADDRESS);
-
-			des.thenAcceptAsync(d -> {
-				System.out.println(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size());
-				assertTrue(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size() > 0);
-			}).exceptionally(e -> {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-				return null;
-			}).get();
-			assert (true);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testAccountApiAddress() {
-		try {
-			assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+			assertNotNull(ChainApi.getChainHeight());
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}
@@ -67,17 +19,23 @@ public class ChainApiTest extends NemAppsUnitTest {
 
 	
 	@Test
-	public void testAccountApiAllOwnedMosaic() {
+	public void testLastBlock() {
 		try {
-			assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+			System.out.println(ChainApi.getChainLastBlock());
+			assertNotNull(ChainApi.getChainLastBlock());
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}
-
 	}
-
+	
 	@Test
-	public void testGenerteNewAccount() {
-		assertNotNull(AccountApi.generateAccount().getAccount());
+	public void testScore() {
+		try {
+			System.out.println(ChainApi.getChainScore());
+			assertNotNull(ChainApi.getChainScore());
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
 	}
+	
 }

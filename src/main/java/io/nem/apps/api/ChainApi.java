@@ -28,7 +28,7 @@ public class ChainApi {
 					fn.printStackTrace();
 					return null;
 				}).get();
-		return des.readString("height");
+		return des.readInt("height").toString();
 	}
 
 	/**

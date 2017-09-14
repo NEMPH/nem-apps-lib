@@ -17,7 +17,7 @@ public abstract class ApiUnitTest {
 		if (networkName.equals("")) {
 			networkName = "mijinnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895").setup();
+					.nodeNetworkUri("a1.dfintech.com").nodeNetworkPort("7895").setup();
 		}
 	}
 

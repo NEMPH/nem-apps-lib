@@ -52,6 +52,7 @@ public class BlockApi {
 					fn.printStackTrace();
 					return null;
 				}).get();
+		
 		return new Block(BlockTypes.NEMESIS, DeserializationOptions.NON_VERIFIABLE, des);
 	}
 }
