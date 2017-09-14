@@ -24,7 +24,7 @@ public class ConnectorFactory {
 	 */
 	public static DefaultAsyncNemConnector<ApiId> createConnector() {
 		final DefaultAsyncNemConnector<ApiId> connector = new DefaultAsyncNemConnector<>(CLIENT, r -> {
-			throw new RuntimeException();
+			throw new RuntimeException(r.toString());
 		});
 		connector.setAccountLookup(Account::new);
 		return connector;
