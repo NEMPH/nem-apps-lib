@@ -76,7 +76,7 @@ public class MultisigSignatureTransactionBuilder {
 		 *            the signers
 		 * @return the i signer
 		 */
-		ISigner addSigners(List<Account> signers);
+		ITransaction addSigners(List<Account> signers);
 
 		/**
 		 * End assign signers.
@@ -441,7 +441,7 @@ public class MultisigSignatureTransactionBuilder {
 		 * addSigners(java.util.List)
 		 */
 		@Override
-		public ISigner addSigners(List<Account> signers) {
+		public ITransaction addSigners(List<Account> signers) {
 			this.signers.addAll(signers);
 			return this;
 		}
