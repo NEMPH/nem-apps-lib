@@ -15,6 +15,7 @@ import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 
+import io.nem.apps.api.TransactionApi;
 import io.nem.apps.service.Globals;
 
 
@@ -38,7 +39,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 		try {
 			future.thenAcceptAsync(d -> {
 				final NemAnnounceResult result = new NemAnnounceResult(d);
@@ -72,7 +73,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 			
@@ -88,7 +89,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return send(Globals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 	}
 	
 	/**
@@ -102,7 +103,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -117,7 +118,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return send(Globals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 	}
 
 	/**
@@ -131,7 +132,7 @@ public class TransactionSenderUtil {
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		final CompletableFuture<Deserializer> future = send(Globals.getNodeEndpoint(), request);
+		final CompletableFuture<Deserializer> future = TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 		try {
 			Deserializer transDes = future.get();
 			return new NemAnnounceResult(transDes);
@@ -141,27 +142,18 @@ public class TransactionSenderUtil {
 		return null;
 	}
 	
+	/**
+	 * Send future multisig signature transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the completable future
+	 */
 	public static CompletableFuture<Deserializer> sendFutureMultisigSignatureTransaction(MultisigSignatureTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
 		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
-		return send(Globals.getNodeEndpoint(), request);
+		return TransactionApi.announceTransaction(Globals.getNodeEndpoint(), request);
 	
 	}
 	
-	/**
-	 * Send.
-	 *
-	 * @param endpoint
-	 *            the endpoint
-	 * @param request
-	 *            the request
-	 * @return the completable future
-	 */
-	private static CompletableFuture<Deserializer> send(final NodeEndpoint endpoint, final RequestAnnounce request) {
-		final CompletableFuture<Deserializer> des = Globals.CONNECTOR.postAsync(endpoint, NisApiId.NIS_REST_TRANSACTION_ANNOUNCE,
-				new HttpJsonPostRequest(request));
-		
-		return des;
-	}
 }

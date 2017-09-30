@@ -156,7 +156,13 @@ public class ConfigurationBuilder {
 		 *            the network name
 		 */
 		public Builder(String networkName) {
-			NetworkInfos.setDefault(NetworkInfos.fromFriendlyName(networkName));
+			if(networkName.equals("mainnet")) {
+				NetworkInfos.setDefault(NetworkInfos.getMainNetworkInfo());
+			}else if(networkName.equals("testnet")) {
+				NetworkInfos.setDefault(NetworkInfos.getTestNetworkInfo());
+			}else if(networkName.equals("mijinnet")) {
+				NetworkInfos.setDefault(NetworkInfos.getMijinNetworkInfo());
+			}
 		}
 		
 		public Builder() {}

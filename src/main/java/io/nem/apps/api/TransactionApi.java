@@ -5,12 +5,16 @@ package io.nem.apps.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.nem.core.connect.HttpJsonPostRequest;
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.model.Transaction;
+import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.ncc.TransactionMetaData;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
+import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.Globals;
@@ -218,6 +222,21 @@ public class TransactionApi {
 				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
+	}
+
+
+	/**
+	 * Announce the Transaction
+	 * @param endpoint
+	 * @param request
+	 * @return
+	 */
+	public static CompletableFuture<Deserializer> announceTransaction(final NodeEndpoint endpoint,
+			final RequestAnnounce request) {
+		final CompletableFuture<Deserializer> des = Globals.CONNECTOR.postAsync(endpoint,
+				NisApiId.NIS_REST_TRANSACTION_ANNOUNCE, new HttpJsonPostRequest(request));
+
+		return des;
 	}
 
 }
