@@ -51,9 +51,9 @@ Import it as a maven dependency
 Before starting, make sure you have the node endpoint is all set. Note that this should only be called once.
 
 ```java
-ConfigurationBuilder.nodeNetworkName("mijinnet")
+ConfigurationBuilder.nodeNetworkName("<network name>")
     .nodeNetworkProtocol("http")
-    .nodeNetworkUri("a1.nem.foundation")
+    .nodeNetworkUri("<node url>")
     .nodeNetworkPort("7895")
     .setup();
     
@@ -61,7 +61,7 @@ ConfigurationBuilder.nodeNetworkName("mijinnet")
 
 You can also change the node endpoint on the fly.
 ```java
-Globals.setNodeEndpoint(new NodeEndpoint("http","a1.nem.foundation",7895));
+Globals.setNodeEndpoint(new NodeEndpoint("http","<node url>",7895));
 ```
 
 <h2>Transactions</h2>
@@ -129,8 +129,8 @@ Fees can be calculated either on a Global level or per transaction.
 Fees can also be configurable. With the API, the developers can put in their own Fee Calculation on either per Transaction or for All Transaction.
 
 ```java
-ConfigurationBuilder.nodeNetworkName("mijinnet").nodeNetworkProtocol("http")
-	.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895")
+ConfigurationBuilder.nodeNetworkName("<network name>").nodeNetworkProtocol("http")
+	.nodeNetworkUri("<node url>").nodeNetworkPort("7895")
 	.transactionFee(new TransactionFeeCalculatorAfterFork()) // global
 	.setup();
 ```
@@ -323,7 +323,7 @@ Import maven dependency
 
 ```java
 
-WsNemTransactionMonitor.init().host("a1.nem.foundation").port("7895").wsPort("7778")
+WsNemTransactionMonitor.init().host("<node url>").port("7895").wsPort("7778")
 	.addressToMonitor("MDYSYWVWGC6JDD7BGE4JBZMUEM5KXDZ7J77U4X2Y") // address to monitor
 	.subscribe(io.nem.utils.Constants.URL_WS_TRANSACTIONS, new TransactionMonitor()) // multiple subscription and a handler
 	.subscribe(io.nem.utils.Constants.URL_WS_UNCONFIRMED, new UnconfirmedTransactionMonitor())
