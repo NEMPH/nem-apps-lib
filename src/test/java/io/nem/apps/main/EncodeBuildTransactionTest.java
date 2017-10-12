@@ -34,9 +34,9 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 	public void testBasicTransferTans() {
 		NemAnnounceResult result = TransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey
-						.fromHexString("90951d4f876e3a15b8507532a051857e933a87269bc0da7400d1604bedc93aec"))))
+						.fromHexString("8b946dbeef18c54e3c9f1b787f7104b31255b34533b187840c3c0774c1bc9e2c"))))
 				.recipient(new Account(new KeyPair(
-						PublicKey.fromHexString("8043f36622be5c91e00d9977c870935c887ff9050ba0a62207db76dba1a87385"))))
+						PublicKey.fromHexString("252b2567b3a8eda6421d40d72715e976d746a61633aa8e1d5ab466fb1c0e410e"))))
 				.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).buildAndSendTransaction();
 		System.out.println(result.getCode());
 		System.out.println(result.getTransactionHash());

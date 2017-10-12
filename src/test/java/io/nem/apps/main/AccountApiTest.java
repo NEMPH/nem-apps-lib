@@ -22,18 +22,17 @@ public class AccountApiTest extends NemAppsUnitTest {
 
 		try {
 			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
-					NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + MIJIN_DM_ADDRESS);
+					NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + TEST_DM_ADDRESS);
 
 			des.thenAcceptAsync(d -> {
-				System.out.println(new AccountMetaDataPair(d).getEntity().getBalance());
+				assertNotNull(new AccountMetaDataPair(d).getEntity().getBalance());
 			}).exceptionally(e -> {
 				System.out.println(e.getMessage());
-				e.printStackTrace();
 				return null;
 			}).get();
 
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+			assert (false);
 		}
 	}
 
@@ -41,27 +40,24 @@ public class AccountApiTest extends NemAppsUnitTest {
 	public void testDeserializeAccountPk() {
 		try {
 			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
-					NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + MIJIN_DM_ADDRESS);
-
+					NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + TEST_DM_ADDRESS);
 			des.thenAcceptAsync(d -> {
 				System.out.println(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size());
-				assertTrue(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size() > 0);
+				assertTrue(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size() == 0);
 			}).exceptionally(e -> {
-				System.out.println(e.getMessage());
-				e.printStackTrace();
 				return null;
 			}).get();
 			assert (true);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			assert (false);
 		}
 	}
 
 	@Test
 	public void testAccountApiAddress() {
 		try {
-			assertNotNull(AccountApi.getAccountByAddress(MIJIN_DM_ADDRESS).getEntity());
+			assertNotNull(AccountApi.getAccountByAddress(TEST_DM_ADDRESS).getEntity());
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}
@@ -71,7 +67,7 @@ public class AccountApiTest extends NemAppsUnitTest {
 	@Test
 	public void testAccountApiAllOwnedMosaic() {
 		try {
-			assertNotNull(AccountApi.getAccountOwnedMosaic(MIJIN_DM_ADDRESS));
+			assertNotNull(AccountApi.getAccountOwnedMosaic(TEST_DM_ADDRESS));
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}

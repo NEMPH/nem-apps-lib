@@ -22,16 +22,17 @@ public class TransactionApiTest extends NemAppsUnitTest {
 	public void testAccountApiSingleTransaction() {
 		try {
 			assertNotNull(
-					TransactionApi.getTransaction("cefde07ee2e1485fcaca3e681e8c18d2c6da205cf16653deede558af7f122bf9"));
+					TransactionApi.getTransaction("e5b0bf467711bfea9964dc7b3e854da655bd3e50b5e7177735acfe0ff37bf217"));
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
 		}
+		assert(true);
 	}
 
 	@Test
 	public void testAccountApiAllTransaction() {
 		try {
-			assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS));
+			assertNotNull(TransactionApi.getAllTransactions(TEST_DM_ADDRESS));
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
 		}
@@ -40,7 +41,7 @@ public class TransactionApiTest extends NemAppsUnitTest {
 	@Test
 	public void testAccountApiSingleTransferTransaction() {
 		try {
-			assertNotNull(TransactionApi.getAllTransactions(MIJIN_DM_ADDRESS).get(0).getClass());
+			assertNotNull(TransactionApi.getAllTransactions(TEST_DM_ADDRESS).get(0).getClass());
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
 		}

@@ -29,20 +29,20 @@ public class ValidationApiTest extends NemAppsUnitTest {
 	@Test
 	public void testValidationFail() {
 		assertFalse(ValidationApi.isAddressValid("123123"));
-		assertFalse(ValidationApi.isAddressValid("123123",new NodeEndpoint("http","a1.nem.foundation",7895)));
-		assertFalse(ValidationApi.isAddressValid("123123","http","a1.nem.foundation",7895));
+		assertFalse(ValidationApi.isAddressValid("123123",new NodeEndpoint("http","104.128.226.60",7890)));
+		assertFalse(ValidationApi.isAddressValid("123123","http","104.128.226.60",7890));
 	}
 	
 	@Test
 	public void testValidationSuccess() {
-		assertTrue(ValidationApi.isAddressValid("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW"));
-		assertTrue(ValidationApi.isAddressValid("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW",new NodeEndpoint("http","a1.nem.foundation",7895)));
-		assertTrue(ValidationApi.isAddressValid("MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW","http","a1.nem.foundation",7895));
+		assertTrue(ValidationApi.isAddressValid("TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD"));
+		assertTrue(ValidationApi.isAddressValid("TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD",new NodeEndpoint("http","104.128.226.60",7890)));
+		assertTrue(ValidationApi.isAddressValid("TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD","http","104.128.226.60",7890));
 	}
 	
 	@Test
 	public void testLightValidation() {
-		assertTrue(ValidationApi.isAddressPatternValid("NA6IT2-ZSTQLT-YO223Z-ZMH2J7-2GVG7G-ZY72FN-47IF"));
-		assertTrue(ValidationApi.isAddressPatternValid("NA6IT2ZSTQLTYO223ZZMH2J72GVG7GZY72FN47IF"));
+		assertTrue(ValidationApi.isAddressPatternValid("TBPJCY-R4XKGP-GC3JHI-NJBJTW-57ZLWT-ABDFLZ-STMD"));
+		assertTrue(ValidationApi.isAddressPatternValid("TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD"));
 	}
 }

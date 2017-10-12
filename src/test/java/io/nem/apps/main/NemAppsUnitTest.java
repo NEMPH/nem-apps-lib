@@ -16,7 +16,7 @@ import io.nem.apps.builders.ConfigurationBuilder;
  */
 public abstract class NemAppsUnitTest {
 
-	protected String MIJIN_DM_ADDRESS = "MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW";
+	protected String TEST_DM_ADDRESS = "TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD";
 	
 	/** The sender private key pair. */
 	protected KeyPair senderPrivateKeyPair;
@@ -55,9 +55,9 @@ public abstract class NemAppsUnitTest {
 	public static void init() {
 		System.out.println(networkName);
 		if (networkName.equals("")) {
-			networkName = "mijinnet";
+			networkName = "testnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("a1.nem.foundation").nodeNetworkPort("7895")
+					.nodeNetworkUri("104.128.226.60").nodeNetworkPort("7890")
 					.transactionFee(new TransactionFeeCalculatorAfterFork())
 					.setup();
 		}

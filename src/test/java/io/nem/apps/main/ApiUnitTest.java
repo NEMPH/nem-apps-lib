@@ -9,15 +9,15 @@ import io.nem.apps.builders.ConfigurationBuilder;
  */
 public abstract class ApiUnitTest {
 
-	protected String MIJIN_DM_ADDRESS = "MDVJCH6F5FXVUOFCC3PZTSXPQNPCULYQMWEGAOOW";
+	protected String MIJIN_DM_ADDRESS = "TBPJCYR4XKGPGC3JHINJBJTW57ZLWTABDFLZSTMD";
 	static String networkName = "";
 
 	@BeforeClass
 	public static void init() {
 		if (networkName.equals("")) {
-			networkName = "mijinnet";
+			networkName = "testnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("a1.dfintech.com").nodeNetworkPort("7895").setup();
+					.nodeNetworkUri("104.128.226.60").nodeNetworkPort("7890").setup();
 		}
 	}
 

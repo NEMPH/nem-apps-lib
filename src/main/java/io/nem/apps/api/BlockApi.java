@@ -39,7 +39,7 @@ public class BlockApi {
 	/**
 	 * Gets the block after given block height.
 	 *
-	 * @param height            the height
+	 * @param height the height
 	 * @return the block after given block height
 	 * @throws InterruptedException the interrupted exception
 	 * @throws ExecutionException the execution exception
