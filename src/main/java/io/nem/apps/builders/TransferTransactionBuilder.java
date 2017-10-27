@@ -296,11 +296,11 @@ public class TransferTransactionBuilder {
 			}
 
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(Amount.fromNem(0));
+				instance.setFee(Globals.getGlobalTransactionFee().calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
-					instance.setFee(Amount.fromNem(0));
+					instance.setFee(this.fee);
 				} else if (this.feeCalculator != null) {
 					TransactionFeeCalculator feeCalculator;
 					if (this.feeCalculator != null) {

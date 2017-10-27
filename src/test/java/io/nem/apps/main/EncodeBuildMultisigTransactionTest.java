@@ -27,8 +27,6 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 			+ ":61:160827C642,S1032\n" + ":86:ANDY\n" + ":61:160827D42,S1032\n" + ":86:BANK CHARGES\n"
 			+ ":62F:C160418USD1872,\n" + ":64:C160418USD1872,\n" + "-}{5:{CHK:0FEC1E4AEC53}{TNG:}}{S:{COP:S}}";
 
-
-
 	/**
 	 * Test cb build and send transaction.
 	 */
@@ -38,14 +36,12 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 		// Build a transaction and send it.
 		try {
 
-
 			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
-					.recipient(new Account(new KeyPair(
-							PublicKey.fromHexString("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"))))
-					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.buildTransaction();
+					.recipient(new Account(new KeyPair(PublicKey
+							.fromHexString("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"))))
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).buildTransaction();
 
 			MultisigTransaction multiSigTrans = MultisigTransactionBuilder.sender(this.senderPrivateAccount)
 					.otherTransaction(trans).buildMultisigTransaction();
@@ -71,11 +67,10 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 			TransferTransaction trans = TransferTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey
 							.fromHexString("d8b89745a3006e293d16b8a16294582734c6b20ca5feb6e7ca25fec9295b1145")))) // multisig
-					.recipient(new Account(new KeyPair(
-							PublicKey.fromHexString("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"))))
+					.recipient(new Account(new KeyPair(PublicKey
+							.fromHexString("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"))))
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
-					.buildTransaction();
+					.attachment(AttachmentFactory.createTransferTransactionAttachment(message)).buildTransaction();
 
 			MultisigTransactionBuilder.sender(this.senderPrivateAccount).otherTransaction(trans)
 					.buildAndSendMultisigTransaction();
@@ -86,8 +81,6 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 		}
 
 	}
-
-
 
 	/**
 	 * Test cb build and send file transaction.
@@ -117,7 +110,7 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testCoSignMultiSig() {
 		MultisigSignatureTransactionBuilder

@@ -1,7 +1,9 @@
 package io.nem.apps.service;
 
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
+import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.TransactionFeeCalculator;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.node.ApiId;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
@@ -105,8 +107,8 @@ public class Globals {
 	private static NodeEndpoint NODE_ENDPOINT;
 	
 	/** The fee calculator. */
-	private static TransactionFeeCalculator feeCalculator = new TransactionFeeCalculatorAfterForkForApp();
-	private static TransactionFeeCalculator feeCalculatorMultiSig = new TransactionFeeCalculatorAfterForkForApp();
+	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
+	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null);
 	/**
 	 * Gets the node endpoint.
 	 *
