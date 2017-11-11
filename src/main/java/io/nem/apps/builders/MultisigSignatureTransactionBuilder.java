@@ -13,7 +13,7 @@ import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
 /**
@@ -258,7 +258,7 @@ public class MultisigSignatureTransactionBuilder {
 
 		private MultisigSignatureTransaction buildMultisigSignatureTransaction() {
 			if (this.timeStamp == null) {
-				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
+				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
 			}
 
 			for (Account signer : this.signers) {
@@ -272,7 +272,7 @@ public class MultisigSignatureTransactionBuilder {
 				}
 
 				if (this.fee == null && this.feeCalculator == null) {
-					instance.setFee(Globals.getGlobalTransactionFee().calculateMinimumFee(instance));
+					instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
 				} else {
 
 					if (this.fee != null) {
@@ -282,7 +282,7 @@ public class MultisigSignatureTransactionBuilder {
 						if (this.feeCalculator != null) {
 							feeCalculator = this.feeCalculator;
 						} else {
-							feeCalculator = Globals.getGlobalTransactionFee();
+							feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
 						}
 						instance.setFee(feeCalculator.calculateMinimumFee(instance));
 					}

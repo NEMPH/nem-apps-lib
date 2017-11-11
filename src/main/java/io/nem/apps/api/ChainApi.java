@@ -9,7 +9,7 @@ import org.nem.core.connect.client.NisApiId;
 import org.nem.core.model.primitive.BlockHeight;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 /**
  * The Class ChainApi.
@@ -23,7 +23,7 @@ public class ChainApi {
 	 */
 	public static String getChainHeight() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_HEIGHT, "")
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_HEIGHT, "")
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -38,7 +38,7 @@ public class ChainApi {
 	 */
 	public static String getChainScore() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_SCORE, "")
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_SCORE, "")
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -53,7 +53,7 @@ public class ChainApi {
 	 */
 	public static BlockHeight getChainLastBlock() throws InterruptedException, ExecutionException {
 		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_LAST_BLOCK, "")
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_CHAIN_LAST_BLOCK, "")
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;

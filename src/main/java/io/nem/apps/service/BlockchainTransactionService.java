@@ -31,7 +31,7 @@ public class BlockchainTransactionService {
 	 */
 	public static void createAndSendTransaction(final Account sender, final Account recipient, final long amount) {
 
-		final Transaction transaction = createTransaction(Globals.TIME_PROVIDER.getCurrentTime(), sender, recipient,
+		final Transaction transaction = createTransaction(NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime(), sender, recipient,
 				amount, null);
 
 		TransactionSenderUtil.sendTransaction(transaction);
@@ -54,7 +54,7 @@ public class BlockchainTransactionService {
 	public static void createAndSendTransaction(final Account sender, final Account recipient, final long amount,
 			final TransferTransactionAttachment attachment) {
 
-		final Transaction transaction = createTransaction(Globals.TIME_PROVIDER.getCurrentTime(), sender, recipient,
+		final Transaction transaction = createTransaction(NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime(), sender, recipient,
 				amount, attachment);
 
 		TransactionSenderUtil.sendTransaction(transaction);
@@ -84,7 +84,7 @@ public class BlockchainTransactionService {
 				attachment); // attachment (message, mosaics)
 
 		if (transaction.getFee() == null) {
-			transaction.setFee(Globals.getGlobalTransactionFee().calculateMinimumFee(transaction));
+			transaction.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(transaction));
 		} else {
 			transaction.setFee(Amount.fromNem(0));
 		}
@@ -116,7 +116,7 @@ public class BlockchainTransactionService {
 		multiSigTransaction.setDeadline(timeInstant.addHours(23));
 
 		if (multiSigTransaction.getFee() == null) {
-			TransactionFeeCalculator feeCalculator = Globals.getGlobalTransactionFee();
+			TransactionFeeCalculator feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
 			multiSigTransaction.setFee(feeCalculator.calculateMinimumFee(multiSigTransaction));
 		} else {
 			multiSigTransaction.setFee(Amount.fromNem(0));
@@ -143,7 +143,7 @@ public class BlockchainTransactionService {
 		multiSigSignedTransaction.setDeadline(timeInstant.addHours(23));
 
 		if (multiSigSignedTransaction.getFee() == null) {
-			TransactionFeeCalculator feeCalculator = Globals.getGlobalTransactionFee();
+			TransactionFeeCalculator feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
 			multiSigSignedTransaction.setFee(feeCalculator.calculateMinimumFee(multiSigSignedTransaction));
 		} else {
 			multiSigSignedTransaction.setFee(Amount.fromNem(0));

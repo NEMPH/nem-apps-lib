@@ -7,16 +7,20 @@ import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
+import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
+
+import io.nem.apps.builders.BinaryTransferTransactionBuilder;
 import io.nem.apps.builders.MultisigTransactionBuilder;
 import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.crypto.SecureMessageEncoder;
 import io.nem.apps.factories.AttachmentFactory;
+import io.nem.apps.model.RequestAnnounceDataSignature;
 
 /**
  * The Class BuildTransactionTest.
@@ -164,6 +168,16 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testBinaryTransactionBuildAndSign() {
+		RequestAnnounceDataSignature ds = BinaryTransferTransactionBuilder
+				.sender(this.senderPrivateAccount)
+				.recipient(this.recipientPublicAccount)
+				.message("hash", MessageTypes.SECURE)
+				.buildAndSignTransaction();
+		
 	}
 
 }

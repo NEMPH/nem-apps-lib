@@ -5,7 +5,7 @@ import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.node.NodeEndpoint;
 
 import io.nem.apps.api.TransactionCallback;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 
 
@@ -236,12 +236,12 @@ public class ConfigurationBuilder {
 		 */
 		@Override
 		public void setup() {
-			if(Globals.getNodeEndpoint() != null) return;
+			if(NemAppsLibGlobals.getNodeEndpoint() != null) return;
 			if (nodeEndpoint == null) {
 				nodeEndpoint = new NodeEndpoint(this.nodeNetworkProtocol, this.nodeNetworkUri,
 						Integer.valueOf(this.nodeNetworkPort));
 			}
-			Globals.setNodeEndpoint(nodeEndpoint);
+			NemAppsLibGlobals.setNodeEndpoint(nodeEndpoint);
 		}
 
 		/*
@@ -261,7 +261,7 @@ public class ConfigurationBuilder {
 		 */
 		@Override
 		public IBuild transactionFee(TransactionFeeCalculator feeCalculator) {
-			Globals.setGlobalTransactionFee(feeCalculator);
+			NemAppsLibGlobals.setGlobalTransactionFee(feeCalculator);
 			return this;
 		}
 		
@@ -270,7 +270,7 @@ public class ConfigurationBuilder {
 		 */
 		@Override
 		public IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator) {
-			Globals.setGlobalMultisigTransactionFee(feeCalculator);
+			NemAppsLibGlobals.setGlobalMultisigTransactionFee(feeCalculator);
 			return this;
 		}
 

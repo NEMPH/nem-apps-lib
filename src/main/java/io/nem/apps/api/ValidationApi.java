@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.node.NodeEndpoint;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.NemNetworkResponse;
 import io.nem.apps.util.NetworkUtils;
 import net.sf.json.JSONObject;
@@ -28,7 +28,7 @@ public class ValidationApi {
 	 */
 	public static boolean isAddressValid(String address) {
 		NemNetworkResponse response = NetworkUtils
-				.get(Globals.getNodeEndpoint() + NisApiId.NIS_REST_ACCOUNT_LOOK_UP.toString() + "?address=" + address);
+				.get(NemAppsLibGlobals.getNodeEndpoint() + NisApiId.NIS_REST_ACCOUNT_LOOK_UP.toString() + "?address=" + address);
 
 		return !response.isError();
 	}

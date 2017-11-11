@@ -9,7 +9,7 @@ import org.nem.core.node.NisNodeInfo;
 import org.nem.core.node.Node;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 
 
@@ -26,8 +26,8 @@ public class NodeApi {
 	 * @return the node info
 	 */
 	public static Node getNodeInfo() {
-		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_NODE_INFO, null).join();
+		Deserializer des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_NODE_INFO, null).join();
 		return new Node(des);
 	}
 	
@@ -37,8 +37,8 @@ public class NodeApi {
 	 * @return the node extended info
 	 */
 	public static NisNodeInfo getNodeExtendedInfo() {
-		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_NODE_EXTENDED_INFO, null).join();
+		Deserializer des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_NODE_EXTENDED_INFO, null).join();
 		return new NisNodeInfo(des);
 	}
 	
@@ -48,8 +48,8 @@ public class NodeApi {
 	 * @return the nem node heart beat
 	 */
 	public static NemRequestResult getNemNodeHeartBeat() {
-		Deserializer des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_HEARTBEAT, null).join();
+		Deserializer des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_HEARTBEAT, null).join();
 		return new NemRequestResult(des);
 	}
 }

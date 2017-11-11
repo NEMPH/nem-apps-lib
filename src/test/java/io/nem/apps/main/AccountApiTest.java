@@ -13,7 +13,7 @@ import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 import io.nem.apps.api.AccountApi;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 public class AccountApiTest extends NemAppsUnitTest {
 
@@ -21,7 +21,7 @@ public class AccountApiTest extends NemAppsUnitTest {
 	public void testDeserializeAccount() {
 
 		try {
-			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
+			final CompletableFuture<Deserializer> des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(),
 					NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + TEST_DM_ADDRESS);
 
 			des.thenAcceptAsync(d -> {
@@ -39,7 +39,7 @@ public class AccountApiTest extends NemAppsUnitTest {
 	@Test
 	public void testDeserializeAccountPk() {
 		try {
-			final CompletableFuture<Deserializer> des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(),
+			final CompletableFuture<Deserializer> des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(),
 					NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + TEST_DM_ADDRESS);
 			des.thenAcceptAsync(d -> {
 				System.out.println(d.readObjectArray("data", UnconfirmedTransactionMetaDataPair::new).size());
@@ -68,6 +68,16 @@ public class AccountApiTest extends NemAppsUnitTest {
 	public void testAccountApiAllOwnedMosaic() {
 		try {
 			assertNotNull(AccountApi.getAccountOwnedMosaic(TEST_DM_ADDRESS));
+		} catch (InterruptedException | ExecutionException e) {
+			assert(false);
+		}
+
+	}
+	
+	@Test
+	public void testAccountApiGetHarvestsInfo() {
+		try {
+			assertNotNull(AccountApi.getAccountHarvestInfo(TEST_DM_ADDRESS));
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}

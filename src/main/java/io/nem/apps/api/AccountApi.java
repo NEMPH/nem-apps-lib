@@ -13,13 +13,14 @@ import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.ncc.AccountMetaDataPair;
+import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.TransactionMetaData;
 import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.model.GeneratedAccount;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 /**
  * The Class AccountApi.
@@ -36,8 +37,8 @@ public class AccountApi {
 	public static AccountMetaDataPair getAccountByAddress(String address)
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_LOOK_UP, "address=" + address)
 				.exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -55,10 +56,27 @@ public class AccountApi {
 	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<Mosaic> list;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_MOSAIC_OWNED, "address=" + address)
 				.get();
 		list = (ArrayList<Mosaic>) des.readObjectArray("data", Mosaic::new);
+		return list;
+	}
+	
+	/**
+	 * Get the list of Harvest Info for the account.
+	 * @param address
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
+	public static List<HarvestInfo> getAccountHarvestInfo(String address) throws InterruptedException, ExecutionException {
+		Deserializer des;
+		List<HarvestInfo> list;
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_HARVESTS, "address=" + address)
+				.get();
+		list = (ArrayList<HarvestInfo>) des.readObjectArray("data", HarvestInfo::new);
 		return list;
 	}
 
@@ -73,6 +91,9 @@ public class AccountApi {
 		final Account account = new Account(kp);
 		ga.setKeyPair(kp);
 		ga.setAccount(account);
+		ga.setEncodedAddress(account.getAddress().getEncoded());
+		ga.setEncodedPrivateKey(kp.getPrivateKey().toString());
+		ga.setEncodedPublicKey(kp.getPublicKey().toString());
 		return ga;
 	}
 

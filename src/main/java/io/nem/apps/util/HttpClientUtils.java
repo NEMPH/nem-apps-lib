@@ -11,7 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 
 
@@ -21,10 +21,10 @@ import io.nem.apps.service.Globals;
 public class HttpClientUtils {
 
 	/** The default host. */
-	public static String defaultHost = "127.0.0.1";
+	public static String defaultHost = NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getHost();
 	
 	/** The default port. */
-	public static String defaultPort = "7895";
+	public static String defaultPort = String.valueOf(NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getPort());
 	
 	/** The default ws port. */
 	public static String defaultWsPort = "7778";
@@ -48,7 +48,7 @@ public class HttpClientUtils {
 		try {
 			if (params != null) {
 				StringEntity entity = new StringEntity(params);
-				entity.setContentType(Globals.CONTENT_TYPE_TEXT_JSON);
+				entity.setContentType(NemAppsLibGlobals.CONTENT_TYPE_TEXT_JSON);
 				method.setEntity(entity);
 			}
 			response = httpClient.execute(method);

@@ -4,7 +4,7 @@ import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.primitive.Supply;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.NemNetworkResponse;
 import io.nem.apps.util.NetworkUtils;
 import net.sf.json.JSONArray;
@@ -24,7 +24,7 @@ public class NISQuery {
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(MosaicId mosaicId){
 		String host = "alice2.nem.ninja";
 		String port = "7890";
-		NemNetworkResponse queryResult = NetworkUtils.get("http://"+host+":"+port+Globals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
+		NemNetworkResponse queryResult = NetworkUtils.get("http://"+host+":"+port+NemAppsLibGlobals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
 		
 		
 		JSONObject json = JSONObject.fromObject(queryResult.getResponse());
@@ -59,7 +59,7 @@ public class NISQuery {
 	
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(String host, String port, MosaicId mosaicId){
 		
-		NemNetworkResponse queryResult = NetworkUtils.get("http://"+host+":"+port+Globals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
+		NemNetworkResponse queryResult = NetworkUtils.get("http://"+host+":"+port+NemAppsLibGlobals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
 		
 		
 		JSONObject json = JSONObject.fromObject(queryResult.getResponse());

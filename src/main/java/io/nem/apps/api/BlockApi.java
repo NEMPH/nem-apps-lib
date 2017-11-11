@@ -9,7 +9,7 @@ import org.nem.core.model.BlockTypes;
 import org.nem.core.model.VerifiableEntity.DeserializationOptions;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import net.minidev.json.JSONObject;
 
 /**
@@ -28,7 +28,7 @@ public class BlockApi {
 		Deserializer des;
 		JSONObject jsonHeight = new JSONObject();
 		jsonHeight.put("height", height);
-		des = Globals.CONNECTOR.postAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AT_PUBLIC,
+		des = NemAppsLibGlobals.CONNECTOR.postAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AT_PUBLIC,
 				new HttpJsonPostRequest(jsonHeight)).exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -48,7 +48,7 @@ public class BlockApi {
 		Deserializer des;
 		JSONObject jsonHeight = new JSONObject();
 		jsonHeight.put("height", height);
-		des = Globals.CONNECTOR.postAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AFTER_LOCAL,
+		des = NemAppsLibGlobals.CONNECTOR.postAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AFTER_LOCAL,
 				new HttpJsonPostRequest(jsonHeight)).exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -70,7 +70,7 @@ public class BlockApi {
 		Deserializer des;
 		JSONObject jsonHeight = new JSONObject();
 		jsonHeight.put("height", height);
-		des = Globals.CONNECTOR.postAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AT_PUBLIC,
+		des = NemAppsLibGlobals.CONNECTOR.postAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AT_PUBLIC,
 				new HttpJsonPostRequest(jsonHeight)).exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
@@ -91,7 +91,7 @@ public class BlockApi {
 		Deserializer des;
 		JSONObject jsonHeight = new JSONObject();
 		jsonHeight.put("height", height);
-		des = Globals.CONNECTOR.postAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AFTER_LOCAL,
+		des = NemAppsLibGlobals.CONNECTOR.postAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_BLOCK_AFTER_LOCAL,
 				new HttpJsonPostRequest(jsonHeight)).exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;

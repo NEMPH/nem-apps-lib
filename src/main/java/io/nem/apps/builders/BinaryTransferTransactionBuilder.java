@@ -2,32 +2,43 @@ package io.nem.apps.builders;
 
 import java.util.concurrent.CompletableFuture;
 
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
 import org.nem.core.crypto.Signature;
 import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
+import org.nem.core.model.Address;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.ncc.NemAnnounceResult;
+import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
+import org.nem.core.serialization.JsonDeserializer;
+import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.service.NemAppsLibGlobals;
+import io.nem.apps.util.JsonUtils;
+import io.nem.apps.util.KeyConvertor;
 import io.nem.apps.util.TransactionSenderUtil;
+import io.nem.apps.model.BinaryTransferTransaction;
+import io.nem.apps.model.RequestAnnounceDataSignature;
 
 /**
  * The Class TransactionBuilder.
  */
-public class TransferTransactionBuilder {
+public class BinaryTransferTransactionBuilder {
 
 	/**
 	 * Instantiates a new transaction builder.
 	 */
-	private TransferTransactionBuilder() {
+	private BinaryTransferTransactionBuilder() {
 	}
 
 	/**
@@ -38,7 +49,11 @@ public class TransferTransactionBuilder {
 	 * @return the i sender
 	 */
 	public static ISender sender(Account sender) {
-		return new TransferTransactionBuilder.Builder(sender);
+		return new BinaryTransferTransactionBuilder.Builder(sender);
+	}
+	
+	public static ISender sender(String sender) {
+		return new BinaryTransferTransactionBuilder.Builder(sender);
 	}
 
 	/**
@@ -53,7 +68,10 @@ public class TransferTransactionBuilder {
 		 *            the recipient
 		 * @return the i recipient
 		 */
+		IBuild recipient(String recipient);
 		IBuild recipient(Account recipient);
+
+		IBuild recipients(Account[] recipients);
 	}
 
 	/**
@@ -137,6 +155,8 @@ public class TransferTransactionBuilder {
 		 */
 		IBuild message(byte[] message, int messageType);
 
+		IBuild encryptedMessage(String encryptedMessage);
+
 		/**
 		 * Attachment.
 		 *
@@ -165,17 +185,16 @@ public class TransferTransactionBuilder {
 		IBuild signature(Signature signature);
 
 		/**
-		 * Builds the transaction.
-		 *
-		 * @return the transfer transaction
-		 */
-		TransferTransaction buildTransaction();
-
-		/**
 		 * Builds the and send transaction.
 		 *
 		 * @return the transaction
 		 */
+		BinaryTransferTransaction buildTransaction();
+
+		BinaryTransferTransaction buildUnsignedTransaction();
+
+		RequestAnnounceDataSignature buildAndSignTransaction();
+
 		NemAnnounceResult buildAndSendTransaction();
 
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction();
@@ -187,8 +206,7 @@ public class TransferTransactionBuilder {
 	private static class Builder implements ISender, IBuild {
 
 		/** The instance. */
-		// private SpectroTransaction instance = new SpectroTransaction();
-		private TransferTransaction instance;
+		private BinaryTransferTransaction instance;
 
 		/** The version. */
 		// constructor
@@ -225,6 +243,10 @@ public class TransferTransactionBuilder {
 		/** The sign by. */
 		private Account signBy;
 
+		private String encryptedMessage;
+
+		private String message;
+
 		/**
 		 * Instantiates a new builder.
 		 *
@@ -233,6 +255,23 @@ public class TransferTransactionBuilder {
 		 */
 		public Builder(Account sender) {
 			this.sender = sender;
+		}
+		
+		public Builder(String sender) {
+			this.sender = new Account(new KeyPair(PrivateKey.fromHexString(sender)));
+		}
+
+
+		@Override
+		public IBuild recipients(Account[] recipients) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		@Override
+		public IBuild recipient(String recipient) {
+			this.recipient = new Account(Address.fromPublicKey(PublicKey.fromHexString(recipient)));
+			return this;
 		}
 
 		/*
@@ -278,7 +317,7 @@ public class TransferTransactionBuilder {
 		 * @see io.nem.builders.TransactionBuilder.IBuild#buildTransaction()
 		 */
 		@Override
-		public TransferTransaction buildTransaction() {
+		public BinaryTransferTransaction buildTransaction() {
 			if (this.timeStamp == null) {
 				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
 			}
@@ -288,10 +327,10 @@ public class TransferTransactionBuilder {
 			}
 
 			if (this.version == 0) {
-				instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
 						this.attachment);
 			} else {
-				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
 
@@ -324,7 +363,60 @@ public class TransferTransactionBuilder {
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
+			if (this.encryptedMessage != null) {
+				instance.setEncryptedMessage(this.encryptedMessage);
+			}
 			instance.sign();
+			return instance;
+		}
+
+		@Override
+		public BinaryTransferTransaction buildUnsignedTransaction() {
+			if (this.timeStamp == null) {
+				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
+			}
+
+			if (this.amount == null) {
+				this.amount(Amount.fromNem(0));
+			}
+
+			if (this.version == 0) {
+				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+						this.attachment);
+			} else {
+				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+						this.amount, this.attachment);
+			}
+
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+			} else {
+
+				if (this.fee != null) {
+					instance.setFee(this.fee);
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				}
+
+			}
+
+			if (this.deadline != null) {
+				instance.setDeadline(this.deadline);
+			} else {
+				instance.setDeadline(this.timeStamp.addHours(23));
+			}
+			if (this.signature != null) {
+				instance.setSignature(this.signature);
+			}
+			if (this.encryptedMessage != null) {
+				instance.setEncryptedMessage(this.encryptedMessage);
+			}
 			return instance;
 		}
 
@@ -384,6 +476,8 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public IBuild message(String message, int messageType) {
+			this.message = message;
+			this.encryptedMessage  =message;
 			Message transactionMessage = null;
 			if (messageType == MessageTypes.SECURE) {
 				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message.getBytes());
@@ -409,6 +503,7 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public IBuild message(byte[] message, int messageType) {
+			this.message = new String(message);
 			Message transactionMessage = null;
 			if (messageType == MessageTypes.SECURE) {
 				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message);
@@ -480,6 +575,28 @@ public class TransferTransactionBuilder {
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
 		}
 
+		@Override
+		public IBuild encryptedMessage(String message) {
+			this.encryptedMessage = message;
+			return this;
+		}
+
+		@Override
+		public RequestAnnounceDataSignature buildAndSignTransaction() {
+			this.buildUnsignedTransaction().sign();
+			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
+			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
+			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
+			requestAnnounceDataSignature.setEncryptedMessage(this.message);
+			requestAnnounceDataSignature.setAddressFrom(this.sender.getAddress().getEncoded());
+			requestAnnounceDataSignature.setAddressTo(this.recipient.getAddress().getEncoded());
+			requestAnnounceDataSignature.setData(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
+			requestAnnounceDataSignature.setSignature(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
+			return requestAnnounceDataSignature;
+
+		}
 	}
 
 }

@@ -14,7 +14,7 @@ import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
 import org.nem.core.serialization.Deserializer;
 import io.nem.apps.api.AccountApi;
 import io.nem.apps.api.TransactionApi;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 public class TransactionApiTest extends NemAppsUnitTest {
 

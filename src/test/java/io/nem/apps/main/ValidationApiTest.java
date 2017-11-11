@@ -20,7 +20,7 @@ import org.nem.core.utils.HexEncoder;
 
 import io.nem.apps.api.AccountApi;
 import io.nem.apps.api.ValidationApi;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.HexStringUtils;
 import net.sf.json.util.NewBeanInstanceStrategy;
 

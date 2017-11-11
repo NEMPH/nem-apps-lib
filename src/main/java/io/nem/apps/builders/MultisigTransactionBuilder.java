@@ -10,20 +10,18 @@ import org.nem.core.model.MultisigSignatureTransaction;
 import org.nem.core.model.MultisigTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
-import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.ncc.NemAnnounceResult;
-import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
 
 /**
  * The Class MultisigTransactionBuilder.
  */
-public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
+public class MultisigTransactionBuilder {
 
 	/**
 	 * Instantiates a new multisig transaction builder.
@@ -191,7 +189,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 		@Override
 		public MultisigTransaction buildMultisigTransaction() {
 			if (this.timeStamp == null) {
-				this.timeStamp = Globals.TIME_PROVIDER.getCurrentTime();
+				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
 			}
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 
@@ -206,7 +204,7 @@ public class MultisigTransactionBuilder extends AbstractTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = Globals.getGlobalTransactionFee();
+						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}

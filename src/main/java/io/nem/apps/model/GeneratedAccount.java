@@ -15,6 +15,34 @@ public class GeneratedAccount {
 	/** The account. */
 	private Account account;
 	
+	private String encodedAddress;
+	private String encodedPublicKey;
+	private String encodedPrivateKey;
+	
+	public String getEncodedAddress() {
+		return encodedAddress;
+	}
+
+	public void setEncodedAddress(String encodedAddress) {
+		this.encodedAddress = encodedAddress;
+	}
+
+	public String getEncodedPublicKey() {
+		return encodedPublicKey;
+	}
+
+	public void setEncodedPublicKey(String encodedPublicKey) {
+		this.encodedPublicKey = encodedPublicKey;
+	}
+
+	public String getEncodedPrivateKey() {
+		return encodedPrivateKey;
+	}
+
+	public void setEncodedPrivateKey(String encodedPrivateKey) {
+		this.encodedPrivateKey = encodedPrivateKey;
+	}
+
 	/**
 	 * Gets the key pair.
 	 *

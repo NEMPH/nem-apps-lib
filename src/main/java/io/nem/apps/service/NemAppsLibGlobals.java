@@ -18,7 +18,7 @@ import io.nem.apps.util.AppPropertiesUtil;
 /**
  * The Class Globals.
  */
-public class Globals {
+public class NemAppsLibGlobals {
 
 	/** The Constant NETWORK_NAME. */
 	public static final String NETWORK_NAME = "mijinnet"; // testnet, mainnet,
@@ -124,11 +124,11 @@ public class Globals {
 	 * @param feeCalculator the new global transaction fee
 	 */
 	public static void setGlobalTransactionFee(TransactionFeeCalculator feeCalculator) {
-		Globals.feeCalculator = feeCalculator;
+		NemAppsLibGlobals.feeCalculator = feeCalculator;
 	}
 	
 	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
-		Globals.feeCalculatorMultiSig = feeCalculator;
+		NemAppsLibGlobals.feeCalculatorMultiSig = feeCalculator;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class Globals {
 	 * @param endpoint the new node endpoint
 	 */
 	public static void setNodeEndpoint(NodeEndpoint endpoint) {
-		Globals.NODE_ENDPOINT = endpoint;
+		NemAppsLibGlobals.NODE_ENDPOINT = endpoint;
 	}
 
 	/** The Constant CONNECTOR. */

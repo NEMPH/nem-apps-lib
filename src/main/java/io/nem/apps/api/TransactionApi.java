@@ -1,6 +1,3 @@
-/*
- * 
- */
 package io.nem.apps.api;
 
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import org.nem.core.model.ncc.TransactionMetaDataPair;
 import org.nem.core.node.NodeEndpoint;
 import org.nem.core.serialization.Deserializer;
 
-import io.nem.apps.service.Globals;
+import io.nem.apps.service.NemAppsLibGlobals;
 
 /**
  * The Class TransactionApi.
@@ -27,7 +24,7 @@ public class TransactionApi {
 	public static TransactionMetaDataPair getTransaction(String hash) throws InterruptedException, ExecutionException {
 		Deserializer des;
 		TransactionMetaDataPair trans;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash)
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_TRANSACTION_GET, "hash=" + hash)
 				.get();
 		trans = new TransactionMetaDataPair(des);
 		return trans;
@@ -44,8 +41,8 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address)
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address)
 				.get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -64,7 +61,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
 				"address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -85,7 +82,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL,
 				"address=" + address + "&hash=" + hash + "&id=" + id).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -102,8 +99,8 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING, "address=" + address)
 				.get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -122,7 +119,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
 				"address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -143,7 +140,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_INCOMING,
 				"address=" + address + "&hash=" + hash + "&id=" + id).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -160,8 +157,8 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING, "address=" + address)
 				.get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -180,7 +177,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
 				"address=" + address + "&hash=" + hash).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -201,7 +198,7 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		List<TransactionMetaDataPair> list;
 		Deserializer des;
-		des = Globals.CONNECTOR.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
+		des = NemAppsLibGlobals.CONNECTOR.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_OUTGOING,
 				"address=" + address + "&hash=" + hash + "&id=" + id).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
@@ -218,8 +215,8 @@ public class TransactionApi {
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;
-		des = Globals.CONNECTOR
-				.getAsync(Globals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).get();
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_UNCONFIRMED, "address=" + address).get();
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
 	}
@@ -233,7 +230,7 @@ public class TransactionApi {
 	 */
 	public static CompletableFuture<Deserializer> announceTransaction(final NodeEndpoint endpoint,
 			final RequestAnnounce request) {
-		final CompletableFuture<Deserializer> des = Globals.CONNECTOR.postAsync(endpoint,
+		final CompletableFuture<Deserializer> des = NemAppsLibGlobals.CONNECTOR.postAsync(endpoint,
 				NisApiId.NIS_REST_TRANSACTION_ANNOUNCE, new HttpJsonPostRequest(request));
 
 		return des;
