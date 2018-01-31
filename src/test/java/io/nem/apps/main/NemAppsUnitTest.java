@@ -55,7 +55,6 @@ public abstract class NemAppsUnitTest {
 
 	@BeforeClass
 	public static void init() {
-		System.out.println(networkName);
 		if (networkName.equals("")) {
 			networkName = "testnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")

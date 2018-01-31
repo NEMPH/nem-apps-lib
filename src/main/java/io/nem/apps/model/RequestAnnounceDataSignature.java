@@ -8,18 +8,23 @@ public class RequestAnnounceDataSignature implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String encryptedMessage;
-	private String addressFrom;
-	private String addressTo;
+//	private String hexedEncryptedMessage;
+//	private String addressFrom;
+//	private String addressTo;
 	private String data;
 	private String signature;
 
-	public String getEncryptedMessage() {
-		return encryptedMessage;
-	}
 
-	public void setEncryptedMessage(String encryptedMessage) {
-		this.encryptedMessage = encryptedMessage;
+//	public String getHexedEncryptedMessage() {
+//		return hexedEncryptedMessage;
+//	}
+//
+//	public void setHexedEncryptedMessage(String hexedEncryptedMessage) {
+//		this.hexedEncryptedMessage = hexedEncryptedMessage;
+//	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getData() {
@@ -38,20 +43,20 @@ public class RequestAnnounceDataSignature implements Serializable {
 		this.signature = signature;
 	}
 
-	public String getAddressFrom() {
-		return addressFrom;
-	}
-
-	public void setAddressFrom(String addressFrom) {
-		this.addressFrom = addressFrom;
-	}
-
-	public String getAddressTo() {
-		return addressTo;
-	}
-
-	public void setAddressTo(String addressTo) {
-		this.addressTo = addressTo;
-	}
+//	public String getAddressFrom() {
+//		return addressFrom;
+//	}
+//
+//	public void setAddressFrom(String addressFrom) {
+//		this.addressFrom = addressFrom;
+//	}
+//
+//	public String getAddressTo() {
+//		return addressTo;
+//	}
+//
+//	public void setAddressTo(String addressTo) {
+//		this.addressTo = addressTo;
+//	}
 
 }

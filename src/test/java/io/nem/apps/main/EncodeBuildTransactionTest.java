@@ -173,8 +173,10 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 	@Test
 	public void testBinaryTransactionBuildAndSign() {
 		RequestAnnounceDataSignature ds = BinaryTransferTransactionBuilder
-				.sender(this.senderPrivateAccount)
-				.recipient(this.recipientPublicAccount)
+				.sender(new Account(new KeyPair(PrivateKey
+						.fromHexString("8b946dbeef18c54e3c9f1b787f7104b31255b34533b187840c3c0774c1bc9e2c"))))
+				.recipient(new Account(new KeyPair(
+						PublicKey.fromHexString("252b2567b3a8eda6421d40d72715e976d746a61633aa8e1d5ab466fb1c0e410e"))))
 				.message("hash", MessageTypes.SECURE)
 				.buildAndSignTransaction();
 		
