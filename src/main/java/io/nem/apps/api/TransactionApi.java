@@ -47,6 +47,27 @@ public class TransactionApi {
 		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
 		return list;
 	}
+	
+	/**
+	 * 
+	 * Gets the all transactions with a page size
+	 * 
+	 * @param address
+	 * @param pageSize
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
+	public static List<TransactionMetaDataPair> getAllTransactionsWithPageSize(String address, String pageSize)
+			throws InterruptedException, ExecutionException {
+		Deserializer des;
+		List<TransactionMetaDataPair> list;
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_ACCOUNT_TRANSFERS_ALL, "address=" + address + "&pageSize=" + pageSize)
+				.get();
+		list = (ArrayList<TransactionMetaDataPair>) des.readObjectArray("data", TransactionMetaDataPair::new);
+		return list;
+	}
 
 	/**
 	 * Gets the all transactions.

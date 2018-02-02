@@ -587,10 +587,8 @@ public class BinaryTransferTransactionBuilder {
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
 			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
 			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
-			requestAnnounceDataSignature.setData(
-					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
-			requestAnnounceDataSignature.setSignature(
-					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
+			requestAnnounceDataSignature.setData(new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
+			requestAnnounceDataSignature.setSignature(new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
 			return requestAnnounceDataSignature;
 
 		}
