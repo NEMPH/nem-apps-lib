@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import org.junit.Ignore;
 import org.junit.Test;
 import io.nem.apps.api.BlockApi;
+import io.nem.apps.model.ExplorerBlockViewModel;
 
 public class BlockApiTest extends NemAppsUnitTest {
 
@@ -25,7 +26,8 @@ public class BlockApiTest extends NemAppsUnitTest {
 	@Ignore
 	public void testGivenBlockHeight() {
 		try {
-			assertTrue(BlockApi.getBlockAfterGivenBlockHeight(1106194).getTransactions().size() > 0);
+			//Block 1338986 has a transaction on testnet
+			assertTrue( ((ExplorerBlockViewModel) BlockApi.getBlockAfterGivenBlockHeight(1338985).get(0)).getBlock().getTransactions().size() > 0);
 		} catch (InterruptedException | ExecutionException e) {
 			assert(false);
 		}
