@@ -14,9 +14,12 @@ import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.serialization.JsonDeserializer;
@@ -24,8 +27,6 @@ import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.service.NemAppsLibGlobals;
-import io.nem.apps.util.JsonUtils;
-import io.nem.apps.util.KeyConvertor;
 import io.nem.apps.util.TransactionSenderUtil;
 import io.nem.apps.model.BinaryTransferTransaction;
 import io.nem.apps.model.RequestAnnounceDataSignature;
@@ -51,7 +52,14 @@ public class BinaryTransferTransactionBuilder {
 	public static ISender sender(Account sender) {
 		return new BinaryTransferTransactionBuilder.Builder(sender);
 	}
-	
+
+	/**
+	 * Sender.
+	 *
+	 * @param sender
+	 *            the sender
+	 * @return the i sender
+	 */
 	public static ISender sender(String sender) {
 		return new BinaryTransferTransactionBuilder.Builder(sender);
 	}
@@ -69,8 +77,23 @@ public class BinaryTransferTransactionBuilder {
 		 * @return the i recipient
 		 */
 		IBuild recipient(String recipient);
+
+		/**
+		 * Recipient.
+		 *
+		 * @param recipient
+		 *            the recipient
+		 * @return the i build
+		 */
 		IBuild recipient(Account recipient);
 
+		/**
+		 * Recipients.
+		 *
+		 * @param recipients
+		 *            the recipients
+		 * @return the i build
+		 */
 		IBuild recipients(Account[] recipients);
 	}
 
@@ -155,6 +178,33 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		IBuild message(byte[] message, int messageType);
 
+		/**
+		 * Adds the mosaic.
+		 *
+		 * @param mosaic
+		 *            the mosaic
+		 * @return the i build
+		 */
+		IBuild addMosaic(Mosaic mosaic);
+
+		/**
+		 * Adds the mosaic.
+		 *
+		 * @param mosaic
+		 *            the mosaic
+		 * @param quantity
+		 *            the quantity
+		 * @return the i build
+		 */
+		IBuild addMosaic(MosaicId mosaic, Quantity quantity);
+
+		/**
+		 * Encrypted message.
+		 *
+		 * @param encryptedMessage
+		 *            the encrypted message
+		 * @return the i build
+		 */
 		IBuild encryptedMessage(String encryptedMessage);
 
 		/**
@@ -191,12 +241,32 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		BinaryTransferTransaction buildTransaction();
 
+		/**
+		 * Builds the unsigned transaction.
+		 *
+		 * @return the binary transfer transaction
+		 */
 		BinaryTransferTransaction buildUnsignedTransaction();
 
+		/**
+		 * Builds the and sign transaction.
+		 *
+		 * @return the request announce data signature
+		 */
 		RequestAnnounceDataSignature buildAndSignTransaction();
 
+		/**
+		 * Builds the and send transaction.
+		 *
+		 * @return the nem announce result
+		 */
 		NemAnnounceResult buildAndSendTransaction();
 
+		/**
+		 * Builds the and send future transaction.
+		 *
+		 * @return the completable future
+		 */
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction();
 	}
 
@@ -243,8 +313,10 @@ public class BinaryTransferTransactionBuilder {
 		/** The sign by. */
 		private Account signBy;
 
+		/** The encrypted message. */
 		private String encryptedMessage;
 
+		/** The message. */
 		private String message;
 
 		/**
@@ -256,18 +328,35 @@ public class BinaryTransferTransactionBuilder {
 		public Builder(Account sender) {
 			this.sender = sender;
 		}
-		
+
+		/**
+		 * Instantiates a new builder.
+		 *
+		 * @param sender
+		 *            the sender
+		 */
 		public Builder(String sender) {
 			this.sender = new Account(new KeyPair(PrivateKey.fromHexString(sender)));
 		}
 
-
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.ISender#
+		 * recipients(org.nem.core.model.Account[])
+		 */
 		@Override
 		public IBuild recipients(Account[] recipients) {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.ISender#
+		 * recipient(java.lang.String)
+		 */
 		@Override
 		public IBuild recipient(String recipient) {
 			this.recipient = new Account(Address.fromPublicKey(PublicKey.fromHexString(recipient)));
@@ -370,6 +459,12 @@ public class BinaryTransferTransactionBuilder {
 			return instance;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
+		 * buildUnsignedTransaction()
+		 */
 		@Override
 		public BinaryTransferTransaction buildUnsignedTransaction() {
 			if (this.timeStamp == null) {
@@ -477,7 +572,7 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public IBuild message(String message, int messageType) {
 			this.message = message;
-			this.encryptedMessage  =message;
+			this.encryptedMessage = message;
 			Message transactionMessage = null;
 			if (messageType == MessageTypes.SECURE) {
 				transactionMessage = SecureMessage.fromDecodedPayload(this.sender, this.recipient, message.getBytes());
@@ -486,7 +581,7 @@ public class BinaryTransferTransactionBuilder {
 			}
 
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
 			} else {
 				this.attachment.setMessage(transactionMessage);
 			}
@@ -512,7 +607,7 @@ public class BinaryTransferTransactionBuilder {
 			}
 
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
 			} else {
 				this.attachment.setMessage(transactionMessage);
 			}
@@ -570,27 +665,71 @@ public class BinaryTransferTransactionBuilder {
 			return this;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
+		 * buildAndSendFutureTransaction()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() {
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
+		 * encryptedMessage(java.lang.String)
+		 */
 		@Override
 		public IBuild encryptedMessage(String message) {
 			this.encryptedMessage = message;
 			return this;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
+		 * buildAndSignTransaction()
+		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
 			this.buildUnsignedTransaction().sign();
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
 			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
 			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
-			requestAnnounceDataSignature.setData(new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
-			requestAnnounceDataSignature.setSignature(new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
+			requestAnnounceDataSignature.setData(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
+			requestAnnounceDataSignature.setSignature(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
 			return requestAnnounceDataSignature;
 
+		}
+
+		@Override
+		public IBuild addMosaic(Mosaic mosaic) {
+			if (this.attachment == null) {
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(mosaic));
+			} else {
+				this.attachment.addMosaic(mosaic);
+			}
+			return this;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * nem.core.model.mosaic.MosaicId,
+		 * org.nem.core.model.primitive.Quantity)
+		 */
+		@Override
+		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
+			this.attachment.addMosaic(mosaic, quantity);
+			return this;
 		}
 	}
 

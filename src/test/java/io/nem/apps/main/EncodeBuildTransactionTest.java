@@ -85,7 +85,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 					this.recipientPublicAccount, sampleMsg.getBytes());
 			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(message))
 					.buildAndSendTransaction();
 
 		} catch (Exception e) {
@@ -108,7 +108,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,7 +132,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(AttachmentFactory.createTransferTransactionAttachment(message))
+					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(message))
 					.buildAndSendTransaction();
 		} catch (Exception e) {
 			e.printStackTrace();

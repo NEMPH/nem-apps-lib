@@ -70,7 +70,7 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 					.recipient(new Account(new KeyPair(PublicKey
 							.fromHexString("a70bf981bdb62c5d4e44b25ca2629108a394c7aaf18eec50dc405b1e44d712d4"))))
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
-					.attachment(AttachmentFactory.createTransferTransactionAttachment(message)).buildTransaction();
+					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(message)).buildTransaction();
 
 			MultisigTransactionBuilder.sender(this.senderPrivateAccount).otherTransaction(trans)
 					.buildAndSendMultisigTransaction();

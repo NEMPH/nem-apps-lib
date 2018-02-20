@@ -11,8 +11,11 @@ import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
+import org.nem.core.model.mosaic.Mosaic;
+import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
+import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
@@ -138,6 +141,23 @@ public class TransferTransactionBuilder {
 		IBuild message(byte[] message, int messageType);
 
 		/**
+		 * Adds the mosaic.
+		 *
+		 * @param mosaic the mosaic
+		 * @return the i build
+		 */
+		IBuild addMosaic(Mosaic mosaic);
+
+		/**
+		 * Adds the mosaic.
+		 *
+		 * @param mosaic the mosaic
+		 * @param quantity the quantity
+		 * @return the i build
+		 */
+		IBuild addMosaic(MosaicId mosaic, Quantity quantity);
+
+		/**
 		 * Attachment.
 		 *
 		 * @param attachment
@@ -178,6 +198,11 @@ public class TransferTransactionBuilder {
 		 */
 		NemAnnounceResult buildAndSendTransaction();
 
+		/**
+		 * Builds the and send future transaction.
+		 *
+		 * @return the completable future
+		 */
 		CompletableFuture<Deserializer> buildAndSendFutureTransaction();
 	}
 
@@ -392,7 +417,7 @@ public class TransferTransactionBuilder {
 			}
 
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
 			} else {
 				this.attachment.setMessage(transactionMessage);
 			}
@@ -417,7 +442,7 @@ public class TransferTransactionBuilder {
 			}
 
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachment(transactionMessage));
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMessage(transactionMessage));
 			} else {
 				this.attachment.setMessage(transactionMessage);
 			}
@@ -475,9 +500,34 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#buildAndSendFutureTransaction()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() {
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.nem.core.model.mosaic.Mosaic)
+		 */
+		@Override
+		public IBuild addMosaic(Mosaic mosaic) {
+			if (this.attachment == null) {
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(mosaic));
+			} else {
+				this.attachment.addMosaic(mosaic);
+			}
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.nem.core.model.mosaic.MosaicId, org.nem.core.model.primitive.Quantity)
+		 */
+		@Override
+		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
+			this.attachment.addMosaic(mosaic, quantity);
+			return this;
 		}
 
 	}
