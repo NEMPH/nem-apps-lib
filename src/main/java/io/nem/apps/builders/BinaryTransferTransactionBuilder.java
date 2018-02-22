@@ -187,6 +187,8 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		IBuild addMosaic(Mosaic mosaic);
 
+		IBuild addMosaics(Mosaic... mosaic);
+
 		/**
 		 * Adds the mosaic.
 		 *
@@ -729,6 +731,14 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
 			this.attachment.addMosaic(mosaic, quantity);
+			return this;
+		}
+
+		@Override
+		public IBuild addMosaics(Mosaic... mosaics) {
+			for (Mosaic mosaic : mosaics) {
+				this.attachment.addMosaic(mosaic);
+			}
 			return this;
 		}
 	}
