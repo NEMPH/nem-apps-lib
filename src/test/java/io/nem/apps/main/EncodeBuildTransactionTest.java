@@ -14,8 +14,6 @@ import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
-
-import io.nem.apps.builders.BinaryTransferTransactionBuilder;
 import io.nem.apps.builders.MultisigTransactionBuilder;
 import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.crypto.SecureMessageEncoder;
@@ -168,18 +166,6 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Test
-	public void testBinaryTransactionBuildAndSign() {
-		RequestAnnounceDataSignature ds = BinaryTransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey
-						.fromHexString("8b946dbeef18c54e3c9f1b787f7104b31255b34533b187840c3c0774c1bc9e2c"))))
-				.recipient(new Account(new KeyPair(
-						PublicKey.fromHexString("252b2567b3a8eda6421d40d72715e976d746a61633aa8e1d5ab466fb1c0e410e"))))
-				.message("hash", MessageTypes.SECURE)
-				.buildAndSignTransaction();
-		
 	}
 
 }
