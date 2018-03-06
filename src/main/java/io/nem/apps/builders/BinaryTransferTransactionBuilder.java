@@ -713,7 +713,7 @@ public class BinaryTransferTransactionBuilder {
 		@Override
 		public IBuild addMosaic(Mosaic mosaic) {
 			if (this.attachment == null) {
-				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(mosaic));
+				this.attachment = new TransferTransactionAttachment();
 			} else {
 				this.attachment.addMosaic(mosaic);
 			}

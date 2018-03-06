@@ -32,15 +32,14 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 			+ ":20:USD940NO1\n" + ":21:123456/DEV\n" + ":25:USD234567\n" + ":28C:1/1\n" + ":60F:C160418USD672,\n"
 			+ ":61:160827C642,S1032\n" + ":86:ANDY\n" + ":61:160827D42,S1032\n" + ":86:BANK CHARGES\n"
 			+ ":62F:C160418USD1872,\n" + ":64:C160418USD1872,\n" + "-}{5:{CHK:0FEC1E4AEC53}{TNG:}}{S:{COP:S}}";
-
 	
 	@Test
 	public void testBasicTransferTans() {
 		NemAnnounceResult result = TransferTransactionBuilder
-				.sender(new Account(new KeyPair(PrivateKey
-						.fromHexString("8b946dbeef18c54e3c9f1b787f7104b31255b34533b187840c3c0774c1bc9e2c"))))
-				.recipient(new Account(new KeyPair(
-						PublicKey.fromHexString("252b2567b3a8eda6421d40d72715e976d746a61633aa8e1d5ab466fb1c0e410e"))))
+			
+				.sender(new Account(new KeyPair(PrivateKey.fromHexString("8b946dbeef18c54e3c9f1b787f7104b31255b34533b187840c3c0774c1bc9e2c"))))
+				.recipient(new Account(new KeyPair(PublicKey.fromHexString("252b2567b3a8eda6421d40d72715e976d746a61633aa8e1d5ab466fb1c0e410e"))))
+				.version(1)
 				.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).buildAndSendTransaction();
 		System.out.println(result.getCode());
 		System.out.println(result.getTransactionHash());
