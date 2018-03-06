@@ -62,8 +62,8 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 		try {
 
 			TransferTransaction trans = TransferTransactionBuilder
-					.sender(new Account(new KeyPair(PrivateKey
-							.fromHexString("83808db970cce349e60cbdb8db5bf250dcb1c1c9b6c730e0cc636a99a321ce0d"))))
+					.sender(new Account(new KeyPair(PublicKey
+							.fromHexString("8d7cda65cf83740c3186202ee0dcd7d2736eb7cd1ec15255e874fed7ed9306b7"))))
 					.recipient(new Account(new KeyPair(PublicKey
 							.fromHexString("092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d"))))
 					.amount(Amount.fromNem(0l))

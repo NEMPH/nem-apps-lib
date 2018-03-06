@@ -349,7 +349,7 @@ public class TransferTransactionBuilder {
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
-			instance.sign();
+			
 			return instance;
 		}
 
@@ -361,7 +361,8 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() {
-			return TransactionSenderUtil.sendTransferTransaction(this.buildTransaction());
+			this.buildTransaction().sign();
+			return TransactionSenderUtil.sendTransferTransaction(this.instance);
 		}
 
 		/*
@@ -505,7 +506,8 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() {
-			return TransactionSenderUtil.sendFutureTransferTransaction(this.buildTransaction());
+			this.buildTransaction().sign();
+			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
 		}
 
 		/* (non-Javadoc)
