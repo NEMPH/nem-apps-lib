@@ -14,11 +14,11 @@ public class EncodeMultisigSignatureTransactionTest extends NemAppsUnitTest {
 	public void testCoSign() {
 		MultisigSignatureTransactionBuilder
 				.multisig(new Account(new KeyPair(
-						PublicKey.fromHexString("19d44fb99f6a347c2561827dc73dbd6b64a4b1de422cdf8e0fc4983a16609fe2")))) // multisig
+						PublicKey.fromHexString("8d7cda65cf83740c3186202ee0dcd7d2736eb7cd1ec15255e874fed7ed9306b7")))) // multisig
 				.signer(new Account(new KeyPair(
-						PrivateKey.fromHexString("c9d930757f69584fc414d0b2b54a0c3aa064996f9b13b70d32c89879724153c1"))))
+						PrivateKey.fromHexString("4e865e12d45ccbe6afd9f9b9f7c4ce447f214902f1bf2b5e62dad19a26eb3343"))))
 				.otherTransaction(
-						Hash.fromHexString("20c882f582e6fb086f92de97714e2eebbf5576841be33747c8108b20130059aa"))
+						Hash.fromHexString("d921c19555c3c995ed57c5b173c386bf97156bdfadd8b3d4928998dce949a4c0"))
 				.coSign();
 	}
 
