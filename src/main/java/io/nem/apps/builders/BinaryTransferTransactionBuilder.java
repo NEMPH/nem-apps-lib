@@ -443,7 +443,6 @@ public class BinaryTransferTransactionBuilder {
 
 			}
 
-
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
 			} else {
@@ -458,7 +457,7 @@ public class BinaryTransferTransactionBuilder {
 			if (this.encryptedMessage != null) {
 				instance.setEncryptedMessage(this.encryptedMessage);
 			}
-			
+
 			return instance;
 		}
 
@@ -485,21 +484,24 @@ public class BinaryTransferTransactionBuilder {
 				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
-
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+			if (!this.instance.getMosaics().isEmpty()) {
+				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
 			} else {
+				if (this.fee == null && this.feeCalculator == null) {
+					instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				} else {
 
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+					if (this.fee != null) {
+						instance.setFee(this.fee);
+					} else if (this.feeCalculator != null) {
+						TransactionFeeCalculator feeCalculator;
+						if (this.feeCalculator != null) {
+							feeCalculator = this.feeCalculator;
+						} else {
+							feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+						}
+						instance.setFee(feeCalculator.calculateMinimumFee(instance));
 					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
 			}
 
@@ -514,7 +516,7 @@ public class BinaryTransferTransactionBuilder {
 			if (this.encryptedMessage != null) {
 				instance.setEncryptedMessage(this.encryptedMessage);
 			}
-			
+
 			return instance;
 		}
 

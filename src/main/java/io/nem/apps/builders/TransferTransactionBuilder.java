@@ -143,7 +143,8 @@ public class TransferTransactionBuilder {
 		/**
 		 * Adds the mosaic.
 		 *
-		 * @param mosaic the mosaic
+		 * @param mosaic
+		 *            the mosaic
 		 * @return the i build
 		 */
 		IBuild addMosaic(Mosaic mosaic);
@@ -151,8 +152,10 @@ public class TransferTransactionBuilder {
 		/**
 		 * Adds the mosaic.
 		 *
-		 * @param mosaic the mosaic
-		 * @param quantity the quantity
+		 * @param mosaic
+		 *            the mosaic
+		 * @param quantity
+		 *            the quantity
 		 * @return the i build
 		 */
 		IBuild addMosaic(MosaicId mosaic, Quantity quantity);
@@ -319,23 +322,26 @@ public class TransferTransactionBuilder {
 				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
-
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+			if (!this.instance.getMosaics().isEmpty()) {
+				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
 			} else {
+				if (this.fee == null && this.feeCalculator == null) {
+					instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
+				} else {
 
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+					if (this.fee != null) {
+						instance.setFee(this.fee);
+					} else if (this.feeCalculator != null) {
+						TransactionFeeCalculator feeCalculator;
+						if (this.feeCalculator != null) {
+							feeCalculator = this.feeCalculator;
+						} else {
+							feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+						}
+						instance.setFee(feeCalculator.calculateMinimumFee(instance));
 					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
 
+				}
 			}
 
 			if (this.deadline != null) {
@@ -349,7 +355,7 @@ public class TransferTransactionBuilder {
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
-			
+
 			return instance;
 		}
 
@@ -501,8 +507,11 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#buildAndSendFutureTransaction()
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#
+		 * buildAndSendFutureTransaction()
 		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureTransaction() {
@@ -510,8 +519,12 @@ public class TransferTransactionBuilder {
 			return TransactionSenderUtil.sendFutureTransferTransaction(this.instance);
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.nem.core.model.mosaic.Mosaic)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * nem.core.model.mosaic.Mosaic)
 		 */
 		@Override
 		public IBuild addMosaic(Mosaic mosaic) {
@@ -523,8 +536,13 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.nem.core.model.mosaic.MosaicId, org.nem.core.model.primitive.Quantity)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * nem.core.model.mosaic.MosaicId,
+		 * org.nem.core.model.primitive.Quantity)
 		 */
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
