@@ -322,26 +322,22 @@ public class TransferTransactionBuilder {
 				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
-			if (!this.instance.getMosaics().isEmpty()) {
-				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
 			} else {
-				if (this.fee == null && this.feeCalculator == null) {
-					instance.setFee(NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance));
-				} else {
 
-					if (this.fee != null) {
-						instance.setFee(this.fee);
-					} else if (this.feeCalculator != null) {
-						TransactionFeeCalculator feeCalculator;
-						if (this.feeCalculator != null) {
-							feeCalculator = this.feeCalculator;
-						} else {
-							feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
-						}
-						instance.setFee(feeCalculator.calculateMinimumFee(instance));
+				if (this.fee != null) {
+					instance.setFee(this.fee);
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
 					}
-
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
+
 			}
 
 			if (this.deadline != null) {

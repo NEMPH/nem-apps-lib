@@ -66,12 +66,14 @@ public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 							.fromHexString("8d7cda65cf83740c3186202ee0dcd7d2736eb7cd1ec15255e874fed7ed9306b7"))))
 					.recipient(new Account(new KeyPair(PublicKey
 							.fromHexString("092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d"))))
-					.amount(Amount.fromNem(0l))
-					.message("This is Plain - new",MessageTypes.PLAIN).buildTransaction();
+					.amount(Amount.fromNem(1l))
+					.fee(Amount.fromMicroNem(500_000L))
+					.message(" ",MessageTypes.PLAIN).buildTransaction();
 
 			MultisigTransactionBuilder
 					.sender(new Account(new KeyPair(PrivateKey.fromHexString("bd066f917747eb8e50d69a3bcbed829a3db0a0552581c7862f9eec706a43670d"))))
-					.otherTransaction(trans).buildAndSendMultisigTransaction();
+					.otherTransaction(trans)
+					.buildAndSendMultisigTransaction();
 
 			// it!
 		} catch (Exception e) {

@@ -38,8 +38,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 						.fromHexString("bd066f917747eb8e50d69a3bcbed829a3db0a0552581c7862f9eec706a43670d"))))
 				.recipient(new Account(new KeyPair(PublicKey
 						.fromHexString("092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d"))))
-				.amount(Amount.fromNem(1l))
-				.message("This is Plain - new",MessageTypes.PLAIN).buildAndSendTransaction();
+				.message("This is Plain - new ",MessageTypes.PLAIN).buildAndSendTransaction();
 		System.out.println(result.getCode());
 		System.out.println(result.getTransactionHash());
 		System.out.println(result.getMessage());
