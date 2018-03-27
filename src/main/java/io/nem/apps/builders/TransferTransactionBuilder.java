@@ -309,59 +309,7 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public TransferTransaction buildTransaction() {
-			if (this.timeStamp == null) {
-				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
-			}
-
-			if (this.amount == null) {
-				this.amount(Amount.fromNem(0));
-			}
-
-			if (this.version == 0) {
-				instance = new TransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
-						this.attachment);
-			} else {
-				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
-						this.amount, this.attachment);
-			}
-			
-			//	fee
-			Amount amountFee = null;
-			TransactionFeeCalculator transactionFeeCalculator = null;
-			transactionFeeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
-			amountFee = NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance);
-			
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(amountFee);
-			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = transactionFeeCalculator;
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-
-			}
-
-			if (this.deadline != null) {
-				instance.setDeadline(this.deadline);
-			} else {
-				instance.setDeadline(this.timeStamp.addHours(23));
-			}
-			if (this.signature != null) {
-				instance.setSignature(this.signature);
-			}
-			if (this.signBy != null) {
-				instance.signBy(this.signBy);
-			}
-
-			return instance;
+			return buildTransaction(false);
 		}
 
 		/*
@@ -574,32 +522,19 @@ public class TransferTransactionBuilder {
 			}
 			
 			//	fee
-			Amount amountFee = null;
-			TransactionFeeCalculator transactionFeeCalculator = null;
-			if(!isForMultisig) {
-				transactionFeeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
-				amountFee = NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance);
-			}else {
-				transactionFeeCalculator = NemAppsLibGlobals.getGlobalMultisigTransactionFee();
-				amountFee = NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance);
-			}
-			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(amountFee);
+			Amount amountFee;
+			if (this.fee != null) {
+				amountFee = this.fee;
+			} else if (this.feeCalculator != null) {
+				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
-
-				if (this.fee != null) {
-					instance.setFee(this.fee);
-				} else if (this.feeCalculator != null) {
-					TransactionFeeCalculator feeCalculator;
-					if (this.feeCalculator != null) {
-						feeCalculator = this.feeCalculator;
-					} else {
-						feeCalculator = transactionFeeCalculator;
-					}
-					instance.setFee(feeCalculator.calculateMinimumFee(instance));
-				}
-
+				TransactionFeeCalculator globalFeeCalculator = isForMultisig ?
+															   NemAppsLibGlobals.getGlobalMultisigTransactionFee() :
+															   NemAppsLibGlobals.getGlobalTransactionFee();
+				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
+			instance.setFee(amountFee);
+
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
