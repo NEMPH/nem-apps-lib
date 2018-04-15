@@ -24,7 +24,6 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	public void testGetNamespaceRootPage() {
 		try {
 			
-			System.out.println(NamespaceMosaicsApi.getNamespaceRootPage());
 			assertNotNull(NamespaceMosaicsApi.getNamespaceRootPage());
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
@@ -35,7 +34,6 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	@Test
 	public void testGetNamespace() {
 		try {
-			System.out.println(NamespaceMosaicsApi.getNamespace("proximax"));
 			assertNotNull(NamespaceMosaicsApi.getNamespace("proximax"));
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
@@ -45,8 +43,6 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	@Test
 	public void testGetNamespaceMosaicDefinitionPage() {
 		try {
-			System.out.println(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("proximax").get(0).getEntity().getId().getNamespaceId());
-			System.out.println(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("proximax").get(0).getEntity().getId().getName());
 			assertNotNull(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("proximax").get(0).getEntity().getId().getNamespaceId());
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
@@ -56,7 +52,6 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	@Test
 	public void testGetNamespaceMosaicDefinitionPageName() {
 		try {
-			System.out.println(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("landregistry1","1930").get(0).getEntity().getId());
 			assertNotNull(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("landregistry1","1930"));
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);
