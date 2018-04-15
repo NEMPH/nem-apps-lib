@@ -3,13 +3,17 @@ package io.nem.apps.api;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import org.nem.core.connect.client.NisApiId;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.model.Account;
+import org.nem.core.model.Address;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.HarvestInfo;
 import org.nem.core.serialization.Deserializer;
+
+import io.nem.apps.model.AccountHistoricalData;
 import io.nem.apps.model.GeneratedAccount;
 import io.nem.apps.service.NemAppsLibGlobals;
 
@@ -56,7 +60,7 @@ public class AccountApi {
 	
 	/**
 	 * Get the list of Harvest Info for the account.
-	 * 
+	 *
 	 * @param address
 	 * @return
 	 * @throws InterruptedException
@@ -91,4 +95,32 @@ public class AccountApi {
 		return ga;
 	}
 
+	/**
+     * Gets a of mosaic definitions in a given namespace.
+     *
+	 * @param namespaceId the namespace Id
+     * @param id          the lat mosaic id to be included
+     * @return the mosaic definitions in the id
+     */
+    public static List<AccountHistoricalData> getAccountHistoricalData(Address address, long startHeight, long endHeight, int increment)
+            throws InterruptedException, ExecutionException {
+        Deserializer des;
+        des = NemAppsLibGlobals.CONNECTOR.getAsync(
+                NemAppsLibGlobals.getNodeEndpoint(),
+                AdditionalApiId.NIS_REST_ACCOUNT_HISTORICAL_DATA,
+                "startHeight=" + startHeight + "&endHeight=" + endHeight + "&increment=" + increment + "&address=" + address.getEncoded()
+        ).get();
+        return des.readObjectArray("data", AccountHistoricalData::new);
+    }
+
+    /**
+	 * Gets a of mosaic definitions in a given namespace.
+	 *
+	 * @param namespaceId the namespace Id
+	 * @param id          the lat mosaic id to be included
+	 * @return the mosaic definitions in the id
+	 */
+	public static AccountHistoricalData getAccountHistoricalData(Address address, long height) throws InterruptedException, ExecutionException {
+		return getAccountHistoricalData(address, height, height, 1).get(0);
+	}
 }
