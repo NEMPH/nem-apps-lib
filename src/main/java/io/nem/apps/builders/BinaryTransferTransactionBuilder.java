@@ -13,6 +13,7 @@ import org.nem.core.model.Address;
 import org.nem.core.model.Message;
 import org.nem.core.model.MessageTypes;
 import org.nem.core.model.TransactionFeeCalculator;
+import org.nem.core.model.TransferTransaction;
 import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
@@ -248,7 +249,7 @@ public class BinaryTransferTransactionBuilder {
 		 *
 		 * @return the binary transfer transaction
 		 */
-		BinaryTransferTransaction buildUnsignedTransaction();
+		//BinaryTransferTransaction buildUnsignedTransaction();
 
 		/**
 		 * Builds the and sign transaction.
@@ -424,17 +425,29 @@ public class BinaryTransferTransactionBuilder {
 				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
+			
+			//	fee
+			Amount amountFee = null;
+			TransactionFeeCalculator transactionFeeCalculator = null;
+			transactionFeeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+			amountFee = NemAppsLibGlobals.getGlobalTransactionFee().calculateMinimumFee(instance);
+			
+			if (this.fee == null && this.feeCalculator == null) {
+				instance.setFee(amountFee);
+			} else {
 
-			if (this.fee != null) {
-				instance.setFee(this.fee);
-			} else if (this.feeCalculator != null) {
-				TransactionFeeCalculator feeCalculator;
-				if (this.feeCalculator != null) {
-					feeCalculator = this.feeCalculator;
-				} else {
-					feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+				if (this.fee != null) {
+					instance.setFee(this.fee);
+				} else if (this.feeCalculator != null) {
+					TransactionFeeCalculator feeCalculator;
+					if (this.feeCalculator != null) {
+						feeCalculator = this.feeCalculator;
+					} else {
+						feeCalculator = transactionFeeCalculator;
+					}
+					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
-				instance.setFee(feeCalculator.calculateMinimumFee(instance));
+
 			}
 
 			if (this.deadline != null) {
@@ -448,63 +461,60 @@ public class BinaryTransferTransactionBuilder {
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
-			if (this.encryptedMessage != null) {
-				instance.setEncryptedMessage(this.encryptedMessage);
-			}
 
 			return instance;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
-		 * buildUnsignedTransaction()
-		 */
-		@Override
-		public BinaryTransferTransaction buildUnsignedTransaction() {
-			if (this.timeStamp == null) {
-				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
-			}
-
-			if (this.amount == null) {
-				this.amount(Amount.fromNem(0));
-			}
-
-			if (this.version == 0) {
-				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
-						this.attachment);
-			} else {
-				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
-						this.amount, this.attachment);
-			}
-
-			if (this.fee != null) {
-				instance.setFee(this.fee);
-			} else if (this.feeCalculator != null) {
-				TransactionFeeCalculator feeCalculator;
-				if (this.feeCalculator != null) {
-					feeCalculator = this.feeCalculator;
-				} else {
-					feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
-				}
-				instance.setFee(feeCalculator.calculateMinimumFee(instance));
-			}
-
-			if (this.deadline != null) {
-				instance.setDeadline(this.deadline);
-			} else {
-				instance.setDeadline(this.timeStamp.addHours(23));
-			}
-			if (this.signature != null) {
-				instance.setSignature(this.signature);
-			}
-			if (this.encryptedMessage != null) {
-				instance.setEncryptedMessage(this.encryptedMessage);
-			}
-
-			return instance;
-		}
+//		/*
+//		 * (non-Javadoc)
+//		 * 
+//		 * @see io.nem.apps.builders.BinaryTransferTransactionBuilder.IBuild#
+//		 * buildUnsignedTransaction()
+//		 */
+//		@Override
+//		public BinaryTransferTransaction buildUnsignedTransaction() {
+//			if (this.timeStamp == null) {
+//				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
+//			}
+//
+//			if (this.amount == null) {
+//				this.amount(Amount.fromNem(0));
+//			}
+//
+//			if (this.version == 0) {
+//				instance = new BinaryTransferTransaction(this.timeStamp, this.sender, this.recipient, this.amount,
+//						this.attachment);
+//			} else {
+//				instance = new BinaryTransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
+//						this.amount, this.attachment);
+//			}
+//
+//			if (this.fee != null) {
+//				instance.setFee(this.fee);
+//			} else if (this.feeCalculator != null) {
+//				TransactionFeeCalculator feeCalculator;
+//				if (this.feeCalculator != null) {
+//					feeCalculator = this.feeCalculator;
+//				} else {
+//					feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+//				}
+//				instance.setFee(feeCalculator.calculateMinimumFee(instance));
+//			}
+//
+//			if (this.deadline != null) {
+//				instance.setDeadline(this.deadline);
+//			} else {
+//				instance.setDeadline(this.timeStamp.addHours(23));
+//			}
+//			if (this.signature != null) {
+//				instance.setSignature(this.signature);
+//			}
+//			if (this.encryptedMessage != null) {
+//				instance.setEncryptedMessage(this.encryptedMessage);
+//			}
+//
+//			return instance;
+//		}
 
 		/*
 		 * (non-Javadoc)
@@ -689,7 +699,7 @@ public class BinaryTransferTransactionBuilder {
 		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
-			this.buildUnsignedTransaction().sign();
+			this.buildTransaction().sign();
 			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
 			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
 			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();

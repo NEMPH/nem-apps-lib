@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.nem.core</groupId>
 			<artifactId>nem-core</artifactId>
-			<version>0.6.93-BETA</version>
+			<version>0.6.95-BETA</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.nem.core</groupId>
 			<artifactId>nem-core</artifactId>
-			<version>0.6.93-BETA</version>
+			<version>0.6.95-BETA</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
