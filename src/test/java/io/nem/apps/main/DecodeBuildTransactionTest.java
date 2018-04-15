@@ -1,12 +1,21 @@
 package io.nem.apps.main;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Ignore;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import org.junit.Test;
-
+import org.nem.core.crypto.CryptoEngine;
+import org.nem.core.crypto.CryptoEngines;
+import org.nem.core.crypto.KeyPair;
+import org.nem.core.crypto.PrivateKey;
+import org.nem.core.crypto.PublicKey;
+import org.nem.core.messages.SecureMessage;
+import org.nem.core.model.Account;
+import org.nem.core.model.TransferTransaction;
+import io.nem.apps.api.TransactionApi;
+import io.nem.apps.builders.ConfigurationBuilder;
 import io.nem.apps.crypto.SecureMessageDecoder;
+import io.nem.apps.util.KeyConvertor;
 
 
 /**
@@ -14,8 +23,8 @@ import io.nem.apps.crypto.SecureMessageDecoder;
  */
 public class DecodeBuildTransactionTest extends NemAppsUnitTest {
 
-	final String sampleMsg = "c621b0e0a3f20523f60f9d99394e716e598c575b9f3c06a613b5d1483805dcb22c08e09de166ac08ebbf7c3f953dda74d634e60d81ba35059a53bb6662b624d7243315d3af013630f17f2b2120869a364e39152b35aa502067166cd80c215db3c023ec4c28c9438d33d0c75e15093bbb7d84154476288d49017918f3cc2f90d9734400c45283d258068c6d2b4db5c1243ff32d008bb92d8841455f38b611fa67ecc4afc0761a5ec3931c4875850d98d64d00e87a93f1284847b6d62390ead93f714784f658c6651ae56b1cb9684339ee654204bdef601e2df33f68d51463e58d2f4cdb5570a33084717f7b24c2bdf9e745d6154c0260182f59d7901d04131aa636dc3f368fb4622a5fb8e65fc24cd3f9";
-	final String simplePayload = "601882ece97b33f25e2e969877fd7b8e3e4c471e705897bc88429d86f9a8981b45edc730b7bd904e14e69f0d4c8570a550b09d18b4d6106bc2c59d7c932a52b2402de9b04ce864cf59eff9a132878fce04c722d3b60166357cdf95b382a1602b7bf16cd6f2c9008438a3526826391172";
+	final String sampleMsg = "a2d88a2d00161be3a3b4a0a62ae5125789bc56aafdea774370e2a8e3cbf80c11dd1f330ef32b86e84becdc38c3882291518c05000a42c90b0826d17a80375a7635ed3980a1d3b09abdcbf26ea6b71dfd23b1d5e68b2d1b40d58389f14ad5aa44f8b339083f6831d57fd916c67bf9c0a4518193d5d0e12d7bbf30777d85bbd4da32291eb71e223205dfc03f1bb86ee255";
+	final String simplePayload = "a2d88a2d00161be3a3b4a0a62ae5125789bc56aafdea774370e2a8e3cbf80c11dd1f330ef32b86e84becdc38c3882291518c05000a42c90b0826d17a80375a7635ed3980a1d3b09abdcbf26ea6b71dfd23b1d5e68b2d1b40d58389f14ad5aa44f8b339083f6831d57fd916c67bf9c0a4518193d5d0e12d7bbf30777d85bbd4da32291eb71e223205dfc03f1bb86ee255";
 	
 	/**
 	 * Test transaction hash.
@@ -24,10 +33,11 @@ public class DecodeBuildTransactionTest extends NemAppsUnitTest {
 	public void testDecode() {
 		
 		try {
-			if(isTestable())assertNotNull("Decode process completed.", SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,sampleMsg));
+			if(isTestable())assertNotNull("Decode process completed.", SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,simplePayload));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 }

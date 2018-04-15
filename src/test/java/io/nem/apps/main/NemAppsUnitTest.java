@@ -58,8 +58,7 @@ public abstract class NemAppsUnitTest {
 		if (networkName.equals("")) {
 			networkName = "testnet";
 			ConfigurationBuilder.nodeNetworkName(networkName).nodeNetworkProtocol("http")
-					.nodeNetworkUri("104.128.226.60").nodeNetworkPort("7890")
-					.transactionFee(new FeeUnitAwareTransactionFeeCalculator(Amount.fromMicroNem(50_000L), null))
+					.nodeNetworkUri("23.228.67.85").nodeNetworkPort("7890")
 					.setup();
 		}
 	}

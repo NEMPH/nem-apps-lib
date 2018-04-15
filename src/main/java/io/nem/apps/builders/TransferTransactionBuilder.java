@@ -14,14 +14,20 @@ import org.nem.core.model.TransferTransactionAttachment;
 import org.nem.core.model.mosaic.Mosaic;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.ncc.NemAnnounceResult;
+import org.nem.core.model.ncc.RequestAnnounce;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
+import org.nem.core.serialization.BinarySerializer;
 import org.nem.core.serialization.Deserializer;
+import org.nem.core.serialization.JsonDeserializer;
+import org.nem.core.serialization.JsonSerializer;
 import org.nem.core.time.TimeInstant;
 import io.nem.apps.factories.AttachmentFactory;
+import io.nem.apps.model.RequestAnnounceDataSignature;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TransactionBuilder.
  */
@@ -150,6 +156,15 @@ public class TransferTransactionBuilder {
 		IBuild addMosaic(Mosaic mosaic);
 
 		/**
+		 * Adds the mosaics.
+		 *
+		 * @param mosaic
+		 *            the mosaic
+		 * @return the i build
+		 */
+		IBuild addMosaics(Mosaic... mosaic);
+
+		/**
 		 * Adds the mosaic.
 		 *
 		 * @param mosaic
@@ -193,7 +208,14 @@ public class TransferTransactionBuilder {
 		 * @return the transfer transaction
 		 */
 		TransferTransaction buildTransaction();
-		
+
+		/**
+		 * Build the transaction that incorporates multisig.
+		 *
+		 * @param isForMultisig
+		 *            the is for multisig
+		 * @return the transfer transaction
+		 */
 		TransferTransaction buildTransaction(boolean isForMultisig);
 
 		/**
@@ -202,6 +224,13 @@ public class TransferTransactionBuilder {
 		 * @return the transaction
 		 */
 		NemAnnounceResult buildAndSendTransaction();
+		
+		/**
+		 * Builds the and sign transaction.
+		 *
+		 * @return the request announce data signature
+		 */
+		RequestAnnounceDataSignature buildAndSignTransaction();
 
 		/**
 		 * Builds the and send future transaction.
@@ -268,8 +297,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(
+		 * @see io.nem.spectro.builders.GenericTransactionBuilder.ISender#recipient(
 		 * org.nem.core.model.Account)
 		 */
 		@Override
@@ -281,8 +309,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see io.nem.builders.TransactionBuilder.IRecipient#amount(java.lang.
-		 * Long)
+		 * @see io.nem.builders.TransactionBuilder.IRecipient#amount(java.lang. Long)
 		 */
 		@Override
 		public IBuild amount(Amount amount) {
@@ -315,8 +342,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see io.nem.builders.TransactionBuilder.IBuild#
-		 * buildAndSendTransaction()
+		 * @see io.nem.builders.TransactionBuilder.IBuild# buildAndSendTransaction()
 		 */
 		@Override
 		public NemAnnounceResult buildAndSendTransaction() {
@@ -363,8 +389,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.TransactionBuilder.IBuild#message(java.lang.
+		 * @see io.nem.spectro.builders.TransactionBuilder.IBuild#message(java.lang.
 		 * String, org.nem.core.model.MessageTypes)
 		 */
 		@Override
@@ -388,8 +413,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.TransactionBuilder.IBuild#message(byte[],
+		 * @see io.nem.spectro.builders.TransactionBuilder.IBuild#message(byte[],
 		 * org.nem.core.model.MessageTypes)
 		 */
 		@Override
@@ -425,8 +449,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#version(int)
 		 */
 		@Override
 		public IBuild version(int version) {
@@ -437,8 +460,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#timeStamp(org.
 		 * nem.core.time.TimeInstant)
 		 */
 		@Override
@@ -450,8 +472,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#signBy(org.nem
 		 * .core.model.Account)
 		 */
 		@Override
@@ -475,8 +496,7 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
 		 * nem.core.model.mosaic.Mosaic)
 		 */
 		@Override
@@ -492,10 +512,8 @@ public class TransferTransactionBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
-		 * nem.core.model.mosaic.MosaicId,
-		 * org.nem.core.model.primitive.Quantity)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaic(org.
+		 * nem.core.model.mosaic.MosaicId, org.nem.core.model.primitive.Quantity)
 		 */
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
@@ -503,6 +521,27 @@ public class TransferTransactionBuilder {
 			return this;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.TransferTransactionBuilder.IBuild#addMosaics(org.nem.
+		 * core.model.mosaic.Mosaic[])
+		 */
+		@Override
+		public IBuild addMosaics(Mosaic... mosaics) {
+			for (Mosaic mosaic : mosaics) {
+				this.attachment.addMosaic(mosaic);
+			}
+			return this;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#buildTransaction(
+		 * boolean)
+		 */
 		@Override
 		public TransferTransaction buildTransaction(boolean isForMultisig) {
 			if (this.timeStamp == null) {
@@ -520,21 +559,20 @@ public class TransferTransactionBuilder {
 				instance = new TransferTransaction(this.version, this.timeStamp, this.sender, this.recipient,
 						this.amount, this.attachment);
 			}
-			
-			//	fee
+
+			// fee
 			Amount amountFee;
 			if (this.fee != null) {
 				amountFee = this.fee;
 			} else if (this.feeCalculator != null) {
 				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
-				TransactionFeeCalculator globalFeeCalculator = isForMultisig ?
-															   NemAppsLibGlobals.getGlobalMultisigTransactionFee() :
-															   NemAppsLibGlobals.getGlobalTransactionFee();
+				TransactionFeeCalculator globalFeeCalculator = isForMultisig
+						? NemAppsLibGlobals.getGlobalMultisigTransactionFee()
+						: NemAppsLibGlobals.getGlobalTransactionFee();
 				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
 			instance.setFee(amountFee);
-
 
 			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
@@ -549,6 +587,20 @@ public class TransferTransactionBuilder {
 			}
 
 			return instance;
+		}
+
+		@Override
+		public RequestAnnounceDataSignature buildAndSignTransaction() {
+			this.buildTransaction().sign();
+			final byte[] data = BinarySerializer.serializeToBytes(instance.asNonVerifiable());
+			final RequestAnnounce request = new RequestAnnounce(data, instance.getSignature().getBytes());
+			RequestAnnounceDataSignature requestAnnounceDataSignature = new RequestAnnounceDataSignature();
+			requestAnnounceDataSignature.setData(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("data", 5000));
+			requestAnnounceDataSignature.setSignature(
+					new JsonDeserializer(JsonSerializer.serializeToJson(request), null).readString("signature", 5000));
+			return requestAnnounceDataSignature;
+
 		}
 
 	}

@@ -17,7 +17,6 @@ import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
-
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -48,7 +47,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Other transaction.
 		 *
-		 * @param transaction the transaction
+		 * @param transaction
+		 *            the transaction
 		 * @return the i build
 		 */
 		IBuild otherTransaction(Transaction transaction);
@@ -62,15 +62,17 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Time stamp.
 		 *
-		 * @param timeInstance the time instance
+		 * @param timeInstance
+		 *            the time instance
 		 * @return the i build
 		 */
 		IBuild timeStamp(TimeInstant timeInstance);
-		
+
 		/**
 		 * Sign by.
 		 *
-		 * @param account the account
+		 * @param account
+		 *            the account
 		 * @return the i build
 		 */
 		IBuild signBy(Account account);
@@ -78,7 +80,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Fee.
 		 *
-		 * @param amount the amount
+		 * @param amount
+		 *            the amount
 		 * @return the i build
 		 */
 		IBuild fee(Amount amount);
@@ -86,7 +89,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Fee calculator.
 		 *
-		 * @param feeCalculator the fee calculator
+		 * @param feeCalculator
+		 *            the fee calculator
 		 * @return the i build
 		 */
 		IBuild feeCalculator(TransactionFeeCalculator feeCalculator);
@@ -94,7 +98,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Deadline.
 		 *
-		 * @param timeInstant the time instant
+		 * @param timeInstant
+		 *            the time instant
 		 * @return the i build
 		 */
 		IBuild deadline(TimeInstant timeInstant);
@@ -102,7 +107,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Signature.
 		 *
-		 * @param signature the signature
+		 * @param signature
+		 *            the signature
 		 * @return the i build
 		 */
 		IBuild signature(Signature signature);
@@ -110,7 +116,8 @@ public class MultisigTransactionBuilder {
 		/**
 		 * Adds the signature.
 		 *
-		 * @param signature the signature
+		 * @param signature
+		 *            the signature
 		 * @return the i build
 		 */
 		IBuild addSignature(MultisigSignatureTransaction signature);
@@ -128,7 +135,7 @@ public class MultisigTransactionBuilder {
 		 * @return the nem announce result
 		 */
 		NemAnnounceResult buildAndSendMultisigTransaction();
-		
+
 		CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction();
 	}
 
@@ -139,36 +146,36 @@ public class MultisigTransactionBuilder {
 
 		/** The instance. */
 		private MultisigTransaction instance;
-		
+
 		/** The time stamp. */
-		//	constructor
+		// constructor
 		private TimeInstant timeStamp;
-		
+
 		/** The sender. */
 		private Account sender;
-		
+
 		/** The other transaction. */
 		private Transaction otherTransaction;
-		
+
 		/** The signature. */
 		private Signature signature;
 
 		/** The fee. */
 		// secondary
 		private Amount fee;
-		
+
 		/** The fee calculator. */
 		private TransactionFeeCalculator feeCalculator;
-		
+
 		/** The sign by. */
 		private Account signBy;
-		
+
 		/** The deadline. */
 		private TimeInstant deadline;
-		
+
 		/** The multisig signature. */
 		private List<MultisigSignatureTransaction> multisigSignature = new ArrayList<MultisigSignatureTransaction>();
-		
+
 		/**
 		 * Instantiates a new builder.
 		 *
@@ -194,7 +201,7 @@ public class MultisigTransactionBuilder {
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(Amount.fromNem(0));
+				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
@@ -204,27 +211,27 @@ public class MultisigTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = NemAppsLibGlobals.getGlobalTransactionFee();
+						feeCalculator = NemAppsLibGlobals.getGlobalMultisigTransactionFee();
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}
 
 			}
 
-			if(this.deadline != null) {
+			if (this.deadline != null) {
 				instance.setDeadline(this.deadline);
-			}else {
+			} else {
 				instance.setDeadline(this.timeStamp.addHours(23));
 			}
 			if (this.signature != null) {
 				instance.setSignature(this.signature);
-			} 
+			}
 			if (this.signBy != null) {
 				instance.signBy(this.signBy);
 			}
-			
-			if(this.multisigSignature.size() > 0) {
-				for(MultisigSignatureTransaction multiSigSignatureTransaction:this.multisigSignature) {
+
+			if (this.multisigSignature.size() > 0) {
+				for (MultisigSignatureTransaction multiSigSignatureTransaction : this.multisigSignature) {
 					instance.addSignature(multiSigSignatureTransaction);
 				}
 			}
@@ -282,16 +289,24 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigTransactionBuilder.IBuild#timeStamp(org.nem.core.time.TimeInstant)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigTransactionBuilder.IBuild#timeStamp(org.
+		 * nem.core.time.TimeInstant)
 		 */
 		@Override
 		public IBuild timeStamp(TimeInstant timeInstance) {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigTransactionBuilder.IBuild#signBy(org.nem.core.model.Account)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigTransactionBuilder.IBuild#signBy(org.nem
+		 * .core.model.Account)
 		 */
 		@Override
 		public IBuild signBy(Account account) {
@@ -299,8 +314,12 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigTransactionBuilder.IBuild#feeCalculator(org.nem.core.model.TransactionFeeCalculator)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigTransactionBuilder.IBuild#feeCalculator(
+		 * org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
 		public IBuild feeCalculator(TransactionFeeCalculator feeCalculator) {
@@ -308,8 +327,12 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigTransactionBuilder.IBuild#addSignature(org.nem.core.model.MultisigSignatureTransaction)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.apps.builders.MultisigTransactionBuilder.IBuild#addSignature(
+		 * org.nem.core.model.MultisigSignatureTransaction)
 		 */
 		@Override
 		public IBuild addSignature(MultisigSignatureTransaction signature) {
@@ -317,8 +340,11 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
-		/* (non-Javadoc)
-		 * @see io.nem.apps.builders.MultisigTransactionBuilder.ITransaction#otherTransaction(org.nem.core.model.Transaction)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see io.nem.apps.builders.MultisigTransactionBuilder.ITransaction#
+		 * otherTransaction(org.nem.core.model.Transaction)
 		 */
 		@Override
 		public IBuild otherTransaction(Transaction transaction) {
@@ -330,7 +356,6 @@ public class MultisigTransactionBuilder {
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() {
 			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());
 		}
-
 
 	}
 
