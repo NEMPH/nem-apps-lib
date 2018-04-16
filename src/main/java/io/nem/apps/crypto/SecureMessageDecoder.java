@@ -49,7 +49,7 @@ public class SecureMessageDecoder {
 		final KeyPair senderKeyPair = new KeyPair(PublicKey.fromHexString(senderPublicKey));
 		final KeyPair recipientKeyPairPriv = new KeyPair(PrivateKey.fromHexString(recipientPrivateKey));
 		return SecureMessage.fromEncodedPayload(new Account(senderKeyPair), new Account(recipientKeyPairPriv),
-				HexEncoder.getString(encryptedPayload).getBytes());
+				encryptedPayload);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class SecureMessageDecoder {
 	public static String decode(KeyPair senderPublicKey, KeyPair recipientPrivateKey, byte[] encryptedPayload)
 			throws IOException {
 		SecureMessage secureMessage = SecureMessage.fromEncodedPayload(new Account(senderPublicKey),
-				new Account(recipientPrivateKey), HexEncoder.getString(encryptedPayload).getBytes());
+				new Account(recipientPrivateKey), encryptedPayload);
 		return new String(secureMessage.getDecodedPayload(), "UTF-8");
 	}
 
@@ -174,7 +174,7 @@ public class SecureMessageDecoder {
 	public static String decode(Account senderPublicKey, Account recipientPrivateKey, byte[] encryptedPayload)
 			throws IOException {
 		SecureMessage secureMessage = SecureMessage.fromEncodedPayload(senderPublicKey, recipientPrivateKey,
-				HexEncoder.getString(encryptedPayload).getBytes());
+				encryptedPayload);
 		return new String(secureMessage.getDecodedPayload(), "UTF-8");
 	}
 

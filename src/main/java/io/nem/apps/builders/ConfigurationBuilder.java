@@ -3,11 +3,8 @@ package io.nem.apps.builders;
 import org.nem.core.model.NetworkInfos;
 import org.nem.core.model.TransactionFeeCalculator;
 import org.nem.core.node.NodeEndpoint;
-
-import io.nem.apps.api.TransactionCallback;
+import io.nem.apps.model.NemNodeConfiguration;
 import io.nem.apps.service.NemAppsLibGlobals;
-
-
 
 /**
  * The Class ConfigurationBuilder.
@@ -20,7 +17,7 @@ public class ConfigurationBuilder {
 	private ConfigurationBuilder() {
 
 	}
-	
+
 	public static INodeProtocol init() {
 		return new ConfigurationBuilder.Builder();
 	}
@@ -99,32 +96,18 @@ public class ConfigurationBuilder {
 		/**
 		 * Transaction fee.
 		 *
-		 * @param feeCalculator the fee calculator
+		 * @param feeCalculator
+		 *            the fee calculator
 		 */
 		IBuild transactionFee(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Transaction multisig fee.
 		 *
-		 * @param feeCalculator the fee calculator
+		 * @param feeCalculator
+		 *            the fee calculator
 		 */
 		IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator);
-
-		/**
-		 * Transaction before handler.
-		 *
-		 * @param cb
-		 *            the cb
-		 */
-		IBuild transactionBeforeHandler(TransactionCallback cb);
-
-		/**
-		 * Transaction after handler.
-		 *
-		 * @param cb
-		 *            the cb
-		 */
-		IBuild transactionAfterHandler(TransactionCallback cb);
 
 		/**
 		 * Setup.
@@ -137,6 +120,7 @@ public class ConfigurationBuilder {
 	 */
 	private static class Builder implements INodeProtocol, INodeUri, INodePort, IBuild {
 
+		private NemNodeConfiguration instance = new NemNodeConfiguration();
 		/** The node network protocol. */
 		private String nodeNetworkProtocol;
 
@@ -156,16 +140,18 @@ public class ConfigurationBuilder {
 		 *            the network name
 		 */
 		public Builder(String networkName) {
-			if(networkName.equals("mainnet")) {
+			if (networkName.equals("mainnet")) {
 				NetworkInfos.setDefault(NetworkInfos.getMainNetworkInfo());
-			}else if(networkName.equals("testnet")) {
+			} else if (networkName.equals("testnet")) {
 				NetworkInfos.setDefault(NetworkInfos.getTestNetworkInfo());
-			}else if(networkName.equals("mijinnet")) {
+			} else if (networkName.equals("mijinnet")) {
 				NetworkInfos.setDefault(NetworkInfos.getMijinNetworkInfo());
 			}
+			instance.setNemNetwork(networkName);
 		}
-		
-		public Builder() {}
+
+		public Builder() {
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -176,6 +162,7 @@ public class ConfigurationBuilder {
 		@Override
 		public INodeUri nodeNetworkProtocol(String protocol) {
 			this.nodeNetworkProtocol = protocol;
+			this.instance.setNodeNetworkProtocol(protocol);
 			return this;
 		}
 
@@ -188,44 +175,20 @@ public class ConfigurationBuilder {
 		@Override
 		public IBuild nodeNetworkPort(String port) {
 			this.nodeNetworkPort = port;
+			this.instance.setNodeNetworkPort(port);
 			return this;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * io.nem.spectro.builders.ConfigurationBuilder.INodeUri#nodeNetworkUri(
+		 * @see io.nem.spectro.builders.ConfigurationBuilder.INodeUri#nodeNetworkUri(
 		 * java.lang.String)
 		 */
 		@Override
 		public INodePort nodeNetworkUri(String uri) {
 			this.nodeNetworkUri = uri;
-			return this;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#
-		 * transactionAfterHandler(io.nem.spectro.api.TransactionCallback)
-		 */
-		@Override
-		public IBuild transactionAfterHandler(TransactionCallback cb) {
-			// TODO Auto-generated method stub
-			return this;
-
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#
-		 * transactionBeforeHandler(io.nem.spectro.api.TransactionCallback)
-		 */
-		@Override
-		public IBuild transactionBeforeHandler(TransactionCallback cb) {
-			// TODO Auto-generated method stub
+			this.instance.setNodeNetworkUri(uri);
 			return this;
 		}
 
@@ -236,11 +199,13 @@ public class ConfigurationBuilder {
 		 */
 		@Override
 		public void setup() {
-			if(NemAppsLibGlobals.getNodeEndpoint() != null) return;
+			if (NemAppsLibGlobals.getNodeEndpoint() != null)
+				return;
 			if (nodeEndpoint == null) {
 				nodeEndpoint = new NodeEndpoint(this.nodeNetworkProtocol, this.nodeNetworkUri,
 						Integer.valueOf(this.nodeNetworkPort));
 			}
+			this.instance.setNodeEndpoint(nodeEndpoint);
 			NemAppsLibGlobals.setNodeEndpoint(nodeEndpoint);
 		}
 
@@ -255,22 +220,32 @@ public class ConfigurationBuilder {
 			this.nodeEndpoint = nodeEndpoint;
 			return this;
 		}
-		
-		/* (non-Javadoc)
-		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionFee(org.nem.core.model.TransactionFeeCalculator)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionFee(org.nem.
+		 * core.model.TransactionFeeCalculator)
 		 */
 		@Override
 		public IBuild transactionFee(TransactionFeeCalculator feeCalculator) {
 			NemAppsLibGlobals.setGlobalTransactionFee(feeCalculator);
+			this.instance.setTransactionFeeCalculator(feeCalculator);
 			return this;
 		}
-		
-		/* (non-Javadoc)
-		 * @see io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionMultisigFee(org.nem.core.model.TransactionFeeCalculator)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * io.nem.spectro.builders.ConfigurationBuilder.IBuild#transactionMultisigFee(
+		 * org.nem.core.model.TransactionFeeCalculator)
 		 */
 		@Override
 		public IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator) {
 			NemAppsLibGlobals.setGlobalMultisigTransactionFee(feeCalculator);
+			this.instance.setTransactionMultisigFeeCalculator(feeCalculator);
 			return this;
 		}
 

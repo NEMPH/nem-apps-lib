@@ -43,6 +43,7 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	@Test
 	public void testGetNamespaceMosaicDefinitionPage() {
 		try {
+			System.out.println(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("proximax").get(0).getEntity().getId().getNamespaceId());
 			assertNotNull(NamespaceMosaicsApi.getNamespaceMosaicDefinitionPage("proximax").get(0).getEntity().getId().getNamespaceId());
 		} catch (InterruptedException | ExecutionException e) {
 			assert (false);

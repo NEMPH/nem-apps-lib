@@ -33,6 +33,7 @@ public class DecodeBuildTransactionTest extends NemAppsUnitTest {
 	public void testDecode() {
 		
 		try {
+			assertNotNull("Decode process completed.", SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,simplePayload));
 			if(isTestable())assertNotNull("Decode process completed.", SecureMessageDecoder.decode(this.senderPublicKeyPair,this.recipientPrivateKeyPair,simplePayload));
 		} catch (Exception e) {
 			e.printStackTrace();
