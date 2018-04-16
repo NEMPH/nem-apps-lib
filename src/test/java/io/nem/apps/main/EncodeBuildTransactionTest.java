@@ -1,7 +1,11 @@
 package io.nem.apps.main;
 
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Ignore;
 import org.junit.Test;
+import org.nem.core.crypto.CryptoEngine;
+import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
@@ -14,11 +18,15 @@ import org.nem.core.model.ncc.NemAnnounceResult;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.test.Utils;
+import org.nem.core.utils.HexEncoder;
+
 import io.nem.apps.builders.MultisigTransactionBuilder;
 import io.nem.apps.builders.TransferTransactionBuilder;
+import io.nem.apps.crypto.SecureMessageDecoder;
 import io.nem.apps.crypto.SecureMessageEncoder;
 import io.nem.apps.factories.AttachmentFactory;
 import io.nem.apps.model.RequestAnnounceDataSignature;
+import io.nem.apps.util.HexStringUtils;
 
 /**
  * The Class BuildTransactionTest.
@@ -50,7 +58,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 	@Test
 	@Ignore
 	public void testCbBuildTransaction() {
-
+		
 		TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
 				.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).version(1).buildAndSendTransaction();
 	}
@@ -112,6 +120,44 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 		}
 
 	}
+	
+	@Test
+	public void testEncryption() throws UnsupportedEncodingException {
+		
+		String xPvkey = "deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763";
+		String xPubkey = "36e6fbc1cc5c3ef49d313721650b98d7d7d126a4f731d70071f4f3b4798cdc85";
+		String payloadStr = "47414141414251414a41416741427741474141554142414141414149414151414641414141434141414144592b362b7a596745414143514141414177414141414e414141414467414141426f414141414351414141485a705a4756764c3231774e41414141416b414141425352566c4655793574634451414141414341414141496949414141414141414141414141414c6741414146467457586849646b6449574755354e5646594e6d566e56545a7259546c4c655752495a465a3556564e68646c5a5859324a535a5739774d6d5a75536b4d4141454141414141315a6a686d4e5449324e7a5a6c4e5463334d44466b4e445a694f4745334d325669597a4d345a5464694f44646d5a544d304f57466d5a444532595441774e4445354e4441334e4467354d6d49304e6d497a4d44686b4141414141413d3d";
+		
+		//	Crypto Engine / Assymetric Encryption
+		CryptoEngine engine = CryptoEngines.ed25519Engine();
+		byte[] encrypted = engine
+				.createBlockCipher(
+						new KeyPair(PrivateKey.fromHexString(xPvkey), engine),
+						new KeyPair(PublicKey.fromHexString(xPubkey), engine))
+				.encrypt("hello".getBytes());
+
+		byte[] decrypted = engine
+				.createBlockCipher(
+						new KeyPair(PublicKey.fromHexString(xPubkey), engine),
+						new KeyPair(PrivateKey.fromHexString(xPvkey), engine)).decrypt(encrypted);
+		
+		
+		
+
+		System.out.println(new String(decrypted, "UTF-8"));
+		
+		//	SeureMessageEncoder/Decoder
+		SecureMessage secureMessage = SecureMessageEncoder.encode(xPvkey, xPubkey,"hello");
+		String data = HexEncoder.getString(encrypted);
+		System.out.println(data);
+		
+		SecureMessage secureMessageDec = SecureMessageDecoder.decode(xPubkey,xPvkey,secureMessage.getEncodedPayload());
+		System.out.println(new String(secureMessageDec.getDecodedPayload(), "UTF-8"));
+		
+		
+		SecureMessage secureMessageDec1 = SecureMessageDecoder.decode(xPubkey,xPvkey,payloadStr);
+		System.out.println(new String(secureMessageDec1.getDecodedPayload(), "UTF-8"));
+	}
 
 	/**
 	 * Test cb build and send transaction with mosaic.
@@ -121,7 +167,15 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 		// Build a transaction and send it.
 		try {
+			
 
+//			CryptoEngine engine = CryptoEngines.ed25519Engine();
+//			byte[] encrypted = engine
+//					.createBlockCipher(
+//							new KeyPair(PrivateKey.fromHexString(xPvkey), engine),
+//							new KeyPair(PublicKey.fromHexString(xPubkey), engine))
+//					.encrypt("hello".getBytes());
+//			
 			SecureMessage message = SecureMessageEncoder.encode(this.senderPrivateAccount, this.recipientPublicAccount,
 					sampleMsg);
 			TransferTransactionAttachment attachment = new TransferTransactionAttachment(message);
@@ -166,5 +220,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 }

@@ -1,5 +1,8 @@
 package io.nem.apps.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.nem.core.connect.client.DefaultAsyncNemConnector;
 import org.nem.core.model.FeeUnitAwareTransactionFeeCalculator;
 import org.nem.core.model.TransactionFeeCalculator;
@@ -9,6 +12,7 @@ import org.nem.core.node.NodeEndpoint;
 import org.nem.core.time.SystemTimeProvider;
 import org.nem.core.time.TimeProvider;
 import io.nem.apps.factories.ConnectorFactory;
+import io.nem.apps.model.NemNodeConfiguration;
 
 /**
  * The Class Globals.
@@ -30,6 +34,8 @@ public class NemAppsLibGlobals {
 			Amount.fromMicroNem(50_000L), null);
 	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(
 			Amount.fromMicroNem(50_000L), null);
+	
+	private static Map<String,NemNodeConfiguration> nemNodeConfigurations = new HashMap<String, NemNodeConfiguration>();
 
 	/**
 	 * Gets the node endpoint.
@@ -66,11 +72,6 @@ public class NemAppsLibGlobals {
 	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
 		return feeCalculatorMultiSig;
 	}
-	// = new NodeEndpoint(
-	// AppPropertiesUtil.getProperty("node.endpoint.protocol"),
-	// AppPropertiesUtil.getProperty("node.endpoint.uri"),
-	// Integer.valueOf(AppPropertiesUtil.getProperty("node.endpoint.port")));
-
 	/**
 	 * Sets the node endpoint.
 	 *
@@ -80,6 +81,16 @@ public class NemAppsLibGlobals {
 	public static void setNodeEndpoint(NodeEndpoint endpoint) {
 		NemAppsLibGlobals.NODE_ENDPOINT = endpoint;
 	}
+	
+	public static Map<String, NemNodeConfiguration> getNemNodeConfigurations() {
+		return nemNodeConfigurations;
+	}
+
+	public static void setNemNodeConfigurations(Map<String, NemNodeConfiguration> nemNodeConfigurations) {
+		NemAppsLibGlobals.nemNodeConfigurations = nemNodeConfigurations;
+	}
+
+
 
 	/** The Constant CONNECTOR. */
 	public static final DefaultAsyncNemConnector<ApiId> CONNECTOR = ConnectorFactory.createConnector();
