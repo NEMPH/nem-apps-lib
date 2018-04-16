@@ -177,9 +177,30 @@ SecureMessageEncoder.encode(String senderPrivateKey, String recipientPublicKey, 
 <h3>Decode</h3>
 
 ```java
-SecureMessageDecoder.decode(Account senderPrivateKey, Account recipientPublicKey, String encryptedPayload) 
+SecureMessageDecoder.decode(Account recipientPrivateKey, Account senderPublicKey, String encryptedPayload) SecureMessageDecoder.decode(Account recipientPrivateKey, Account senderPublicKey, byte[] encryptedPayload) 
 //or 
-SecureMessageDecoder.decode(String senderPrivateKey, String recipientPublicKey, String encryptedPayload) 
+SecureMessageDecoder.decode(String recipientPrivateKey, String senderPublicKey, String encryptedPayload)
+SecureMessageDecoder.decode(String recipientPrivateKey, String senderPublicKey, byte[] encryptedPayload) 
+```
+
+<h2>Data Encryption (Encrypt/Decrypt) from nem.core</h2>
+
+```java
+
+CryptoEngine engine = CryptoEngines.ed25519Engine();
+
+//encrypt
+byte[] encrypted = engine
+		.createBlockCipher(
+				new KeyPair(PrivateKey.fromHexString(xPvkey), engine),
+				new KeyPair(PublicKey.fromHexString(xPubkey), engine))
+		.encrypt("hello".getBytes());
+
+// decrypt
+byte[] decrypted = engine
+		.createBlockCipher(
+				new KeyPair(PublicKey.fromHexString(xPubkey), engine),
+				new KeyPair(PrivateKey.fromHexString(xPvkey), engine)).decrypt(encrypted);
 ```
 
 <h2>Accounts</h2>
