@@ -27,7 +27,6 @@ import io.nem.apps.model.RequestAnnounceDataSignature;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TransactionBuilder.
  */
