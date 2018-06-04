@@ -543,6 +543,8 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public TransferTransaction buildTransaction(boolean isForMultisig) {
+			
+			
 			if (this.timeStamp == null) {
 				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
 			}

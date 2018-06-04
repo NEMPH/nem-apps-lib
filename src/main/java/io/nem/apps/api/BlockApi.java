@@ -34,7 +34,7 @@ public class BlockApi {
 				new HttpJsonPostRequest(jsonHeight)).exceptionally(fn -> {
 					fn.printStackTrace();
 					return null;
-				}).get();
+				}).get();	
 		return new Block(BlockTypes.REGULAR, DeserializationOptions.NON_VERIFIABLE, des);
 	}
 
