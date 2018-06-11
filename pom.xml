@@ -5,6 +5,24 @@
 	<groupId>io.nem.apps</groupId>
 	<artifactId>nem-apps-lib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>Releases</name>
+			<url>https://nexus.internal.proximax.io/repository/maven-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Snapshot</name>
+			<url>https://nexus.internal.proximax.io/repository/maven-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<scm>
+		<connection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</connection>
+		<developerConnection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<build>
 		<plugins>
@@ -35,19 +53,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>nexus</id>
-			<name>Releases</name>
-			<url>http://13.228.214.237:8081/repository/maven-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus</id>
-			<name>Snapshot</name>
-			<url>http://13.228.214.237:8081/repository/maven-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<dependencies>
 		<dependency>

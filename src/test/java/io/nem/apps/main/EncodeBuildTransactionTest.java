@@ -132,6 +132,7 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testEncryption() throws UnsupportedEncodingException {
 		
 		String xPvkey = "deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763";
