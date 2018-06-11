@@ -12,6 +12,7 @@ import org.nem.core.connect.client.NisApiId;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.model.Account;
+import org.nem.core.model.Address;
 import org.nem.core.model.MosaicDefinitionCreationTransaction;
 import org.nem.core.model.ProvisionNamespaceTransaction;
 import org.nem.core.model.TransferTransaction;
@@ -27,6 +28,7 @@ import org.nem.core.model.namespace.NamespaceId;
 import org.nem.core.model.namespace.NamespaceIdPart;
 import org.nem.core.model.ncc.AccountMetaDataPair;
 import org.nem.core.model.ncc.UnconfirmedTransactionMetaDataPair;
+import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.Quantity;
 import org.nem.core.serialization.Deserializer;
 import org.nem.core.test.Utils;
@@ -75,9 +77,9 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	public void testCreateNamespace() {
 		Account SIGNER = new Account(new KeyPair(PrivateKey
 				.fromHexString("deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763")));
-		//final MosaicDefinition mosaicDefinition = Utils.createMosaicDefinition(SIGNER);
+		Account SINK = new Account(Address.fromEncoded("TAMESPACEWH4MKFMBCVFERDPOOP4FK7MTDJEYP35"));
 		TimeInstant ts = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
-		ProvisionNamespaceTransaction provisionNamespaceTransaction = new ProvisionNamespaceTransaction(ts, SIGNER, new NamespaceIdPart("aa"), new NamespaceId("proximax"));
+		ProvisionNamespaceTransaction provisionNamespaceTransaction = new ProvisionNamespaceTransaction(ts, SIGNER, SINK ,Amount.fromNem(10l), new NamespaceIdPart("a"), new NamespaceId("prx"));
 		
 		provisionNamespaceTransaction.setDeadline(ts.addHours(24));
 		provisionNamespaceTransaction.sign();
@@ -86,24 +88,25 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 	
 	@Test
 	public void testCreateMosaicWithNamespace() {
+		String secretKey = "121212";
 		Account SIGNER = new Account(new KeyPair(PrivateKey
 				.fromHexString("deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763")));
-		//final MosaicDefinition mosaicDefinition = Utils.createMosaicDefinition(SIGNER);
+		Account SINKMOSAIC = new Account(Address.fromEncoded("TBMOSAICOD4F54EE5CDMR23CCBGOAM2XSJBR5OLC"));
 		
 		
 		final MosaicDefinition mosaicDefinition = new MosaicDefinition(
 				SIGNER, 
-				new MosaicId(new NamespaceId("proximax"), "ava"), 
-				new MosaicDescriptor("a12121a"),
-				createMosaicProperties(0L, 3, null, null), 
+				new MosaicId(new NamespaceId("prx"), "testnet-node"), 
+				new MosaicDescriptor("{PeerID=QmdwUwnLLLdBvdbCi8vbxzZ1bvY7P9AgNX3htJsAKBnVXt}"),
+				createMosaicProperties(8_999_999_999L, 6, true, true), 
 				new MosaicLevy(MosaicTransferFeeType.Percentile, SIGNER, 
-				new MosaicId(new NamespaceId("proximax"), "ava"),Quantity.fromValue(1l)));
+				new MosaicId(new NamespaceId("prx"), "testnet-node"),Quantity.fromValue(1l)));
 		
 
 		// Act:
 		TimeInstant ts = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
-		final MosaicDefinitionCreationTransaction transaction = new MosaicDefinitionCreationTransaction(ts, SIGNER, mosaicDefinition);
-		transaction.setDeadline(ts.addHours(24));
+		final MosaicDefinitionCreationTransaction transaction = new MosaicDefinitionCreationTransaction(ts, SIGNER, mosaicDefinition,SINKMOSAIC,Amount.fromNem(10l));
+		transaction.setDeadline(ts.addHours(1));
 		transaction.sign();
 		TransactionSenderUtil.sendTransaction(transaction);
 	}
@@ -129,10 +132,7 @@ public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 		if (null != isTransferable) {
 			properties.put("transferable", Boolean.toString(isTransferable));
 		}
-
 		return new DefaultMosaicProperties(properties);
 	}
-	
-	
 
 }

@@ -1,6 +1,7 @@
 package io.nem.apps.util;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.BinaryEncoder;
@@ -69,6 +70,19 @@ public class TransactionSenderUtil {
 			LOGGER.warning("Error Occured: " + e.getMessage());
 			// e.printStackTrace();
 		}
+	}
+	
+	public static NemAnnounceResult sendTransactionReturnNemAnnounceResult(Transaction transaction) throws InterruptedException, ExecutionException {
+
+		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
+
+		final RequestAnnounce request = new RequestAnnounce(data, transaction.getSignature().getBytes());
+		final CompletableFuture<Deserializer> future = TransactionApi.announceTransaction(NemAppsLibGlobals.getNodeEndpoint(),
+				request);
+		final NemAnnounceResult result = new NemAnnounceResult(future.get());
+		
+		return result;
+		
 	}
 
 	/**
