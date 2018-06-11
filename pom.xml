@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nem.apps</groupId>
 	<artifactId>nem-apps-lib</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	
+	<version>0.0.2-SNAPSHOT</version>
+
 	<distributionManagement>
 		<repository>
 			<id>nexus</id>
@@ -49,6 +49,14 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 		</plugins>
