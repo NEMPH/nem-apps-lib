@@ -16,6 +16,7 @@ import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -177,6 +178,11 @@ public class MultisigSignatureTransactionBuilder {
 		 */
 		MultisigSignatureTransaction coSign();
 
+		/**
+		 * Co sign future.
+		 *
+		 * @return the completable future
+		 */
 		CompletableFuture<Deserializer> coSignFuture();
 
 	}
@@ -256,6 +262,11 @@ public class MultisigSignatureTransactionBuilder {
 
 		}
 
+		/**
+		 * Builds the multisig signature transaction.
+		 *
+		 * @return the multisig signature transaction
+		 */
 		private MultisigSignatureTransaction buildMultisigSignatureTransaction() {
 			if (this.timeStamp == null) {
 				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
@@ -459,6 +470,9 @@ public class MultisigSignatureTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.MultisigSignatureTransactionBuilder.IBuild#coSignFuture()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> coSignFuture() {
 			return TransactionSenderUtil

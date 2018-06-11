@@ -26,6 +26,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * The Class NetworkUtils.
  */
@@ -133,6 +134,13 @@ public class NetworkUtils {
 		return send(get);
 	}
 	
+	/**
+	 * Gets the.
+	 *
+	 * @param url the url
+	 * @param headers the headers
+	 * @return the nem network response
+	 */
 	public static NemNetworkResponse get(String url, Header... headers) {
 		HttpGet get = new HttpGet(url);
 		for(Header header:headers) {
@@ -170,10 +178,9 @@ public class NetworkUtils {
 
 	/**
 	 * A generic method to execute any type of Http Request and constructs a
-	 * response object
-	 * 
-	 * @param requestBase
-	 *            the request that needs to be exeuted
+	 * response object.
+	 *
+	 * @param requestBase            the request that needs to be exeuted
 	 * @return server response as <code>String</code>
 	 */
 	private static String executeRequest(HttpRequestBase requestBase) {
@@ -226,18 +233,10 @@ public class NetworkUtils {
 	}
 
 	/**
-	 * Method that builds the multi-part form data request
-	 * 
-	 * @param urlString
-	 *            the urlString to which the file needs to be uploaded
-	 * @param file
-	 *            the actual file instance that needs to be uploaded
-	 * @param fileName
-	 *            name of the file, just to show how to add the usual form
-	 *            parameters
-	 * @param fileDescription
-	 *            some description for the file, just to show how to add the
-	 *            usual form parameters
+	 * Method that builds the multi-part form data request.
+	 *
+	 * @param urlString            the urlString to which the file needs to be uploaded
+	 * @param file            the actual file instance that needs to be uploaded
 	 * @return server response as <code>String</code>
 	 */
 	public static NemNetworkResponse postMultiPart(String urlString, File file) {

@@ -2,6 +2,7 @@ package io.nem.apps.model;
 
 
 
+
 /**
  * The Class NetworkConstants.
  */

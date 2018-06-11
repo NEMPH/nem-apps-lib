@@ -9,6 +9,7 @@ import org.nem.core.model.primitive.Quantity;
 
 
 
+
 /**
  * The Class SecureMessageAttachmentBuilder.
  */

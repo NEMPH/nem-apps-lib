@@ -6,6 +6,7 @@ import org.nem.core.node.NodeEndpoint;
 import io.nem.apps.model.NemNodeConfiguration;
 import io.nem.apps.service.NemAppsLibGlobals;
 
+
 /**
  * The Class ConfigurationBuilder.
  */
@@ -18,6 +19,11 @@ public class ConfigurationBuilder {
 
 	}
 
+	/**
+	 * Inits the.
+	 *
+	 * @return the i node protocol
+	 */
 	public static INodeProtocol init() {
 		return new ConfigurationBuilder.Builder();
 	}
@@ -96,16 +102,16 @@ public class ConfigurationBuilder {
 		/**
 		 * Transaction fee.
 		 *
-		 * @param feeCalculator
-		 *            the fee calculator
+		 * @param feeCalculator            the fee calculator
+		 * @return the i build
 		 */
 		IBuild transactionFee(TransactionFeeCalculator feeCalculator);
 
 		/**
 		 * Transaction multisig fee.
 		 *
-		 * @param feeCalculator
-		 *            the fee calculator
+		 * @param feeCalculator            the fee calculator
+		 * @return the i build
 		 */
 		IBuild transactionMultisigFee(TransactionFeeCalculator feeCalculator);
 
@@ -120,6 +126,7 @@ public class ConfigurationBuilder {
 	 */
 	private static class Builder implements INodeProtocol, INodeUri, INodePort, IBuild {
 
+		/** The instance. */
 		private NemNodeConfiguration instance = new NemNodeConfiguration();
 		/** The node network protocol. */
 		private String nodeNetworkProtocol;
@@ -150,6 +157,9 @@ public class ConfigurationBuilder {
 			instance.setNemNetwork(networkName);
 		}
 
+		/**
+		 * Instantiates a new builder.
+		 */
 		public Builder() {
 		}
 

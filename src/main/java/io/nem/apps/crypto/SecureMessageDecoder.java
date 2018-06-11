@@ -11,6 +11,7 @@ import org.nem.core.utils.HexEncoder;
 
 
 
+
 /**
  * The Class SecureMessagePayloadDecoder.
  */

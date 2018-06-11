@@ -1,14 +1,20 @@
 package io.nem.apps.util;
 
 
+
+/**
+ * The Class HexStringUtils.
+ */
 public class HexStringUtils {
 
+	/** The hex encode char. */
 	private static String hexEncodeChar = "0123456789abcdef";
 	
 	/**
-	 * Hex to String
-	 * @param hex
-	 * @return
+	 * Hex to String.
+	 *
+	 * @param hex the hex
+	 * @return the string
 	 */
 	public static String hex2String(String hex) {
 		try {
@@ -27,9 +33,10 @@ public class HexStringUtils {
 	}
 	
 	/**
-	 * String to Hex
-	 * @param string
-	 * @return
+	 * String to Hex.
+	 *
+	 * @param string the string
+	 * @return the string
 	 */
 	public static String string2Hex(String string) {   
 		char[] chars = hexEncodeChar.toCharArray();

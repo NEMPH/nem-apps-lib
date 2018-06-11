@@ -14,11 +14,13 @@ import org.nem.core.time.TimeProvider;
 import io.nem.apps.factories.ConnectorFactory;
 import io.nem.apps.model.NemNodeConfiguration;
 
+
 /**
  * The Class Globals.
  */
 public class NemAppsLibGlobals {
 
+	/** The Constant CONTENT_TYPE_TEXT_JSON. */
 	public static final String CONTENT_TYPE_TEXT_JSON = "application/json";
 	/** The Constant URL_NAMESPACE_MOSAIC_DEFINITION_PAGE. */
 	public static final String URL_NAMESPACE_MOSAIC_DEFINITION_PAGE = "/namespace/mosaic/definition/page";
@@ -32,9 +34,12 @@ public class NemAppsLibGlobals {
 	/** The fee calculator. */
 	private static TransactionFeeCalculator feeCalculator = new FeeUnitAwareTransactionFeeCalculator(
 			Amount.fromMicroNem(50_000L), null);
+	
+	/** The fee calculator multi sig. */
 	private static TransactionFeeCalculator feeCalculatorMultiSig = new FeeUnitAwareTransactionFeeCalculator(
 			Amount.fromMicroNem(50_000L), null);
 	
+	/** The nem node configurations. */
 	private static Map<String,NemNodeConfiguration> nemNodeConfigurations = new HashMap<String, NemNodeConfiguration>();
 
 	/**
@@ -56,6 +61,11 @@ public class NemAppsLibGlobals {
 		NemAppsLibGlobals.feeCalculator = feeCalculator;
 	}
 
+	/**
+	 * Sets the global multisig transaction fee.
+	 *
+	 * @param feeCalculator the new global multisig transaction fee
+	 */
 	public static void setGlobalMultisigTransactionFee(TransactionFeeCalculator feeCalculator) {
 		NemAppsLibGlobals.feeCalculatorMultiSig = feeCalculator;
 	}
@@ -69,6 +79,11 @@ public class NemAppsLibGlobals {
 		return feeCalculator;
 	}
 
+	/**
+	 * Gets the global multisig transaction fee.
+	 *
+	 * @return the global multisig transaction fee
+	 */
 	public static TransactionFeeCalculator getGlobalMultisigTransactionFee() {
 		return feeCalculatorMultiSig;
 	}
@@ -82,10 +97,20 @@ public class NemAppsLibGlobals {
 		NemAppsLibGlobals.NODE_ENDPOINT = endpoint;
 	}
 	
+	/**
+	 * Gets the nem node configurations.
+	 *
+	 * @return the nem node configurations
+	 */
 	public static Map<String, NemNodeConfiguration> getNemNodeConfigurations() {
 		return nemNodeConfigurations;
 	}
 
+	/**
+	 * Sets the nem node configurations.
+	 *
+	 * @param nemNodeConfigurations the nem node configurations
+	 */
 	public static void setNemNodeConfigurations(Map<String, NemNodeConfiguration> nemNodeConfigurations) {
 		NemAppsLibGlobals.nemNodeConfigurations = nemNodeConfigurations;
 	}

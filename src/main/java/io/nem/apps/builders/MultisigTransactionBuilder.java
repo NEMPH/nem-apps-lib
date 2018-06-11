@@ -17,6 +17,7 @@ import org.nem.core.time.TimeInstant;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+
 /**
  * The Class MultisigTransactionBuilder.
  */
@@ -136,6 +137,11 @@ public class MultisigTransactionBuilder {
 		 */
 		NemAnnounceResult buildAndSendMultisigTransaction();
 
+		/**
+		 * Builds the and send future multisig transaction.
+		 *
+		 * @return the completable future
+		 */
 		CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction();
 	}
 
@@ -352,6 +358,9 @@ public class MultisigTransactionBuilder {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.MultisigTransactionBuilder.IBuild#buildAndSendFutureMultisigTransaction()
+		 */
 		@Override
 		public CompletableFuture<Deserializer> buildAndSendFutureMultisigTransaction() {
 			return TransactionSenderUtil.sendFutureMultiSigTransaction(this.buildMultisigTransaction());

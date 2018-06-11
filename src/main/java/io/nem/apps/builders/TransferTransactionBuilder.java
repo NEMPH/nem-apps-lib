@@ -27,6 +27,7 @@ import io.nem.apps.model.RequestAnnounceDataSignature;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+
 /**
  * The Class TransactionBuilder.
  */
@@ -590,6 +591,9 @@ public class TransferTransactionBuilder {
 			return instance;
 		}
 
+		/* (non-Javadoc)
+		 * @see io.nem.apps.builders.TransferTransactionBuilder.IBuild#buildAndSignTransaction()
+		 */
 		@Override
 		public RequestAnnounceDataSignature buildAndSignTransaction() {
 			this.buildTransaction().sign();

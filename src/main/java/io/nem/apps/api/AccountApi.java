@@ -17,6 +17,7 @@ import io.nem.apps.model.AccountHistoricalData;
 import io.nem.apps.model.GeneratedAccount;
 import io.nem.apps.service.NemAppsLibGlobals;
 
+
 /**
  * The Class AccountApi.
  */
@@ -25,9 +26,10 @@ public class AccountApi {
 	/**
 	 * Gets the account by address.
 	 *
-	 * @param address
-	 *            the address
+	 * @param address            the address
 	 * @return the account by address
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static AccountMetaDataPair getAccountByAddress(String address)
 			throws InterruptedException, ExecutionException {
@@ -44,9 +46,10 @@ public class AccountApi {
 	/**
 	 * Gets the account owned mosaic.
 	 *
-	 * @param address
-	 *            the address
+	 * @param address            the address
 	 * @return the account owned mosaic
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static List<Mosaic> getAccountOwnedMosaic(String address) throws InterruptedException, ExecutionException {
 		Deserializer des;
@@ -61,10 +64,10 @@ public class AccountApi {
 	/**
 	 * Get the list of Harvest Info for the account.
 	 *
-	 * @param address
-	 * @return
-	 * @throws InterruptedException
-	 * @throws ExecutionException
+	 * @param address the address
+	 * @return the account harvest info
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static List<HarvestInfo> getAccountHarvestInfo(String address)
 			throws InterruptedException, ExecutionException {
@@ -96,12 +99,16 @@ public class AccountApi {
 	}
 
 	/**
-     * Gets a of mosaic definitions in a given namespace.
-     *
-	 * @param namespaceId the namespace Id
-     * @param id          the lat mosaic id to be included
-     * @return the mosaic definitions in the id
-     */
+	 * Gets a of mosaic definitions in a given namespace.
+	 *
+	 * @param address the address
+	 * @param startHeight the start height
+	 * @param endHeight the end height
+	 * @param increment the increment
+	 * @return the mosaic definitions in the id
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
     public static List<AccountHistoricalData> getAccountHistoricalData(Address address, long startHeight, long endHeight, int increment)
             throws InterruptedException, ExecutionException {
         Deserializer des;
@@ -114,12 +121,14 @@ public class AccountApi {
     }
 
     /**
-	 * Gets a of mosaic definitions in a given namespace.
-	 *
-	 * @param namespaceId the namespace Id
-	 * @param id          the lat mosaic id to be included
-	 * @return the mosaic definitions in the id
-	 */
+     * Gets a of mosaic definitions in a given namespace.
+     *
+     * @param address the address
+     * @param height the height
+     * @return the mosaic definitions in the id
+     * @throws InterruptedException the interrupted exception
+     * @throws ExecutionException the execution exception
+     */
 	public static AccountHistoricalData getAccountHistoricalData(Address address, long height) throws InterruptedException, ExecutionException {
 		return getAccountHistoricalData(address, height, height, 1).get(0);
 	}

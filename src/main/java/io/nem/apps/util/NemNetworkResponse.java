@@ -3,6 +3,10 @@ package io.nem.apps.util;
 import java.io.Serializable;
 
 
+
+/**
+ * The Class NemNetworkResponse.
+ */
 public class NemNetworkResponse implements Serializable {
 
 	/**

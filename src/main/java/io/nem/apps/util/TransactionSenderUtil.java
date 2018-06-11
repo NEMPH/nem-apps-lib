@@ -29,6 +29,7 @@ import io.nem.apps.api.TransactionApi;
 import io.nem.apps.service.NemAppsLibGlobals;
 import net.minidev.json.JSONObject;
 
+
 /**
  * The Class TransactionSenderUtil.
  */
@@ -72,6 +73,14 @@ public class TransactionSenderUtil {
 		}
 	}
 	
+	/**
+	 * Send transaction return nem announce result.
+	 *
+	 * @param transaction the transaction
+	 * @return the nem announce result
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
+	 */
 	public static NemAnnounceResult sendTransactionReturnNemAnnounceResult(Transaction transaction) throws InterruptedException, ExecutionException {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -107,6 +116,13 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send transfer transaction.
+	 *
+	 * @param data the data
+	 * @param signature the signature
+	 * @return the nem announce result
+	 */
 	public static NemAnnounceResult sendTransferTransaction(byte[] data, byte[] signature) {
 		
 		final RequestAnnounce request = new RequestAnnounce(data, signature);
@@ -122,6 +138,12 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send future transfer transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the completable future
+	 */
 	public static CompletableFuture<Deserializer> sendFutureTransferTransaction(TransferTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());
@@ -153,6 +175,12 @@ public class TransactionSenderUtil {
 		return null;
 	}
 
+	/**
+	 * Send future multi sig transaction.
+	 *
+	 * @param transaction the transaction
+	 * @return the completable future
+	 */
 	public static CompletableFuture<Deserializer> sendFutureMultiSigTransaction(MultisigTransaction transaction) {
 
 		final byte[] data = BinarySerializer.serializeToBytes(transaction.asNonVerifiable());

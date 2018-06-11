@@ -7,6 +7,7 @@ import org.nem.core.model.mosaic.Mosaic;
 
 
 
+
 /**
  * A factory for creating Attachment objects.
  */
@@ -32,6 +33,12 @@ public class AttachmentFactory {
 		return new TransferTransactionAttachment(message);
 	}
 	
+	/**
+	 * Creates a new Attachment object.
+	 *
+	 * @param mosaic the mosaic
+	 * @return the transfer transaction attachment
+	 */
 	public static TransferTransactionAttachment createTransferTransactionAttachmentMosaic(Mosaic mosaic) {
 		TransferTransactionAttachment attachment = new TransferTransactionAttachment();
 		attachment.addMosaic(mosaic);

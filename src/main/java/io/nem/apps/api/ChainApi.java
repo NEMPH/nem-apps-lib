@@ -11,6 +11,7 @@ import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.NemAppsLibGlobals;
 
+
 /**
  * The Class ChainApi.
  */
@@ -20,6 +21,8 @@ public class ChainApi {
 	 * Gets the chain height.
 	 *
 	 * @return the chain height
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static String getChainHeight() throws InterruptedException, ExecutionException {
 		Deserializer des;
@@ -35,6 +38,8 @@ public class ChainApi {
 	 * Gets the chain score.
 	 *
 	 * @return the chain score
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static String getChainScore() throws InterruptedException, ExecutionException {
 		Deserializer des;
@@ -50,6 +55,8 @@ public class ChainApi {
 	 * Gets the chain last block.
 	 *
 	 * @return the chain last block
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static BlockHeight getChainLastBlock() throws InterruptedException, ExecutionException {
 		Deserializer des;

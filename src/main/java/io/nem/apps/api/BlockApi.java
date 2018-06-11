@@ -14,6 +14,7 @@ import io.nem.apps.model.ExplorerBlockViewModel;
 import io.nem.apps.service.NemAppsLibGlobals;
 import net.minidev.json.JSONObject;
 
+
 /**
  * The Class BlockApi.
  */
@@ -22,9 +23,10 @@ public class BlockApi {
 	/**
 	 * Gets the block by height.
 	 *
-	 * @param height
-	 *            the height
+	 * @param height            the height
 	 * @return the block by height
+	 * @throws InterruptedException the interrupted exception
+	 * @throws ExecutionException the execution exception
 	 */
 	public static Block getBlockByHeight(int height) throws InterruptedException, ExecutionException {
 		Deserializer des;
@@ -60,7 +62,7 @@ public class BlockApi {
 	}
 	
 	/**
-	 * Gets the block by height and blocktype
+	 * Gets the block by height and blocktype.
 	 *
 	 * @param height the height
 	 * @param blockType the block type

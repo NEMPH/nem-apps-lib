@@ -10,6 +10,7 @@ import io.nem.apps.util.NemNetworkResponse;
 import io.nem.apps.util.NetworkUtils;
 
 
+
 /**
  * The Class ValidationApi.
  */

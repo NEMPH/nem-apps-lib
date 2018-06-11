@@ -10,6 +10,7 @@ import io.nem.apps.util.NetworkUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
  
+
 /**
  * The Class NISQuery.
  */
@@ -57,6 +58,14 @@ public class NISQuery {
 	}
 	
 	
+	/**
+	 * Find mosaic fee information by NIS.
+	 *
+	 * @param host the host
+	 * @param port the port
+	 * @param mosaicId the mosaic id
+	 * @return the mosaic fee information
+	 */
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(String host, String port, MosaicId mosaicId){
 		
 		NemNetworkResponse queryResult = NetworkUtils.get("http://"+NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getHost()+":"+NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getPort()+NemAppsLibGlobals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
