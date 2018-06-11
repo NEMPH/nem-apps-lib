@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nem.apps</groupId>
 	<artifactId>nem-apps-lib</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 
 	<distributionManagement>
 		<repository>
@@ -19,7 +19,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</connection>
 		<developerConnection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</developerConnection>
-		<tag>v0.0.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<build>
