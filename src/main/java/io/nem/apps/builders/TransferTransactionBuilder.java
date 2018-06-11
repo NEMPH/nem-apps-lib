@@ -27,7 +27,6 @@ import io.nem.apps.model.RequestAnnounceDataSignature;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TransactionBuilder.
  */
@@ -544,6 +543,8 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public TransferTransaction buildTransaction(boolean isForMultisig) {
+			
+			
 			if (this.timeStamp == null) {
 				this.timeStamp = NemAppsLibGlobals.TIME_PROVIDER.getCurrentTime();
 			}

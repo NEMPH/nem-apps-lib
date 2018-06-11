@@ -78,7 +78,7 @@ public class TransactionApi {
 	 *            the hash
 	 * @return the all transactions
 	 */
-	public static List<TransactionMetaDataPair> getAllTransactions(String address, String hash)
+	public static List<TransactionMetaDataPair> getAllTransactionsWithAddressAndHash(String address, String hash)
 			throws InterruptedException, ExecutionException {
 		Deserializer des;
 		List<TransactionMetaDataPair> list;

@@ -9,6 +9,7 @@ import org.nem.core.crypto.CryptoEngines;
 import org.nem.core.crypto.KeyPair;
 import org.nem.core.crypto.PrivateKey;
 import org.nem.core.crypto.PublicKey;
+import org.nem.core.messages.PlainMessage;
 import org.nem.core.messages.SecureMessage;
 import org.nem.core.model.Account;
 import org.nem.core.model.MessageTypes;
@@ -43,9 +44,9 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 	public void testBasicTransferTans() {
 		NemAnnounceResult result = TransferTransactionBuilder
 				.sender(new Account(new KeyPair(PrivateKey
-						.fromHexString("bd066f917747eb8e50d69a3bcbed829a3db0a0552581c7862f9eec706a43670d"))))
+						.fromHexString("deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763"))))
 				.recipient(new Account(new KeyPair(PublicKey
-						.fromHexString("092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d"))))
+						.fromHexString("36e6fbc1cc5c3ef49d313721650b98d7d7d126a4f731d70071f4f3b4798cdc85"))))
 				.message("This is Plain - new ",MessageTypes.PLAIN).buildAndSendTransaction();
 		System.out.println(result.getCode());
 		System.out.println(result.getTransactionHash());
@@ -71,8 +72,13 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 		// Build a transaction and send it.
 		try {
-			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
-					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l)).attachment(null).buildAndSendTransaction();
+			TransferTransactionBuilder.sender(new Account(new KeyPair(PrivateKey
+					.fromHexString("deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763"))))
+			.recipient(new Account(new KeyPair(PublicKey
+					.fromHexString("36e6fbc1cc5c3ef49d313721650b98d7d7d126a4f731d70071f4f3b4798cdc85"))))
+					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
+					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(new PlainMessage("asa".getBytes())))
+					.buildAndSendTransaction();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +94,11 @@ public class EncodeBuildTransactionTest extends NemAppsUnitTest {
 
 			final SecureMessage message = SecureMessage.fromDecodedPayload(this.senderPrivateAccount,
 					this.recipientPublicAccount, sampleMsg.getBytes());
-			TransferTransactionBuilder.sender(this.senderPrivateAccount).recipient(this.recipientPublicAccount)
+			TransferTransactionBuilder
+			.sender(new Account(new KeyPair(PrivateKey
+					.fromHexString("deaae199f8e511ec51eb0046cf8d78dc481e20a340d003bbfcc3a66623d09763"))))
+			.recipient(new Account(new KeyPair(PublicKey
+					.fromHexString("36e6fbc1cc5c3ef49d313721650b98d7d7d126a4f731d70071f4f3b4798cdc85"))))
 					.fee(Amount.ZERO).amount(Amount.fromMicroNem(0l))
 					.attachment(AttachmentFactory.createTransferTransactionAttachmentMessage(message))
 					.buildAndSendTransaction();

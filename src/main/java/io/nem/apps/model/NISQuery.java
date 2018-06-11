@@ -59,7 +59,7 @@ public class NISQuery {
 	
 	public static MosaicFeeInformation findMosaicFeeInformationByNIS(String host, String port, MosaicId mosaicId){
 		
-		NemNetworkResponse queryResult = NetworkUtils.get("http://"+host+":"+port+NemAppsLibGlobals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
+		NemNetworkResponse queryResult = NetworkUtils.get("http://"+NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getHost()+":"+NemAppsLibGlobals.getNodeEndpoint().getBaseUrl().getPort()+NemAppsLibGlobals.URL_NAMESPACE_MOSAIC_DEFINITION_PAGE + "?namespace=" + mosaicId.getNamespaceId().toString());
 		
 		
 		JSONObject json = JSONObject.fromObject(queryResult.getResponse());
