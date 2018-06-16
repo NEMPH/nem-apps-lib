@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.nem.core.connect.client.NisApiId;
+import org.nem.core.model.mosaic.MosaicFeeInformation;
+import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.Namespace;
 import org.nem.core.model.ncc.MosaicDefinitionMetaDataPair;
 import org.nem.core.model.ncc.NamespaceMetaDataPair;
+import org.nem.core.model.primitive.Supply;
 import org.nem.core.serialization.Deserializer;
 
 import io.nem.apps.service.NemAppsLibGlobals;
-
 
 /**
  * The Class NamespaceMosaicsApi.
@@ -21,8 +23,10 @@ public class NamespaceMosaicsApi {
 	 * Gets the namespace root page.
 	 *
 	 * @return the namespace root page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<NamespaceMetaDataPair> getNamespaceRootPage() throws InterruptedException, ExecutionException {
 
@@ -37,10 +41,13 @@ public class NamespaceMosaicsApi {
 	/**
 	 * Gets the namespace root page.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 * @return the namespace root page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<NamespaceMetaDataPair> getNamespaceRootPage(String id)
 			throws InterruptedException, ExecutionException {
@@ -56,11 +63,15 @@ public class NamespaceMosaicsApi {
 	/**
 	 * Gets the namespace root page.
 	 *
-	 * @param id the id
-	 * @param pageSize the page size
+	 * @param id
+	 *            the id
+	 * @param pageSize
+	 *            the page size
 	 * @return the namespace root page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<NamespaceMetaDataPair> getNamespaceRootPage(String id, String pageSize)
 			throws InterruptedException, ExecutionException {
@@ -77,10 +88,13 @@ public class NamespaceMosaicsApi {
 	/**
 	 * Gets the namespace.
 	 *
-	 * @param namespace the namespace
+	 * @param namespace
+	 *            the namespace
 	 * @return the namespace
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static Namespace getNamespace(String namespace) throws InterruptedException, ExecutionException {
 
@@ -98,10 +112,13 @@ public class NamespaceMosaicsApi {
 	/**
 	 * Gets the namespace mosaic definition page.
 	 *
-	 * @param namespace the namespace
+	 * @param namespace
+	 *            the namespace
 	 * @return the namespace mosaic definition page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<MosaicDefinitionMetaDataPair> getNamespaceMosaicDefinitionPage(String namespace)
 			throws InterruptedException, ExecutionException {
@@ -112,17 +129,45 @@ public class NamespaceMosaicsApi {
 				NisApiId.NIS_REST_NAMESPACE_MOSAIC_DEFINITION_PAGE, "namespace=" + namespace).get();
 		list = (ArrayList<MosaicDefinitionMetaDataPair>) des.readObjectArray("data", MosaicDefinitionMetaDataPair::new);
 		return list;
+	}
+
+	/**
+	 * Gets the find mosaic fee inforamtion 
+	 * 
+	 * @param mosaicId
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
+	public static MosaicFeeInformation findMosaicFeeInformationByNIS(MosaicId mosaicId)
+			throws InterruptedException, ExecutionException {
+
+		List<MosaicDefinitionMetaDataPair> listOfMosaicDefinitionMetaDatapair = getNamespaceMosaicDefinitionPage(
+				mosaicId.getNamespaceId().toString());
+
+		MosaicDefinitionMetaDataPair metaDataPair = listOfMosaicDefinitionMetaDatapair.stream()
+				.filter(mdPair -> mosaicId.getName().equals(mdPair.getEntity().getId().getName())).findFirst().get();
+
+		MosaicFeeInformation mosaicFeeInfo = new MosaicFeeInformation(
+				Supply.fromValue(Long.valueOf(metaDataPair.getEntity().getProperties().getInitialSupply())),
+				Integer.valueOf(metaDataPair.getEntity().getProperties().getDivisibility()));
+
+		return mosaicFeeInfo;
 
 	}
 
 	/**
 	 * Gets the namespace mosaic definition page.
 	 *
-	 * @param namespace the namespace
-	 * @param id the id
+	 * @param namespace
+	 *            the namespace
+	 * @param id
+	 *            the id
 	 * @return the namespace mosaic definition page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<MosaicDefinitionMetaDataPair> getNamespaceMosaicDefinitionPage(String namespace, String id)
 			throws InterruptedException, ExecutionException {
@@ -139,12 +184,17 @@ public class NamespaceMosaicsApi {
 	/**
 	 * Gets the namespace mosaic definition page.
 	 *
-	 * @param namespace the namespace
-	 * @param id the id
-	 * @param pageSize the page size
+	 * @param namespace
+	 *            the namespace
+	 * @param id
+	 *            the id
+	 * @param pageSize
+	 *            the page size
 	 * @return the namespace mosaic definition page
-	 * @throws InterruptedException the interrupted exception
-	 * @throws ExecutionException the execution exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
 	 */
 	public static List<MosaicDefinitionMetaDataPair> getNamespaceMosaicDefinitionPage(String namespace, String id,
 			String pageSize) throws InterruptedException, ExecutionException {

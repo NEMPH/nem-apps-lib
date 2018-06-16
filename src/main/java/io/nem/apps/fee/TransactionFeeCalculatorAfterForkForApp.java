@@ -1,7 +1,7 @@
 package io.nem.apps.fee;
 
 import java.math.BigInteger;
-
+import java.util.concurrent.ExecutionException;
 import org.nem.core.model.MultisigAggregateModificationTransaction;
 import org.nem.core.model.Transaction;
 import org.nem.core.model.TransactionFeeCalculator;
@@ -15,8 +15,7 @@ import org.nem.core.model.mosaic.MosaicUtils;
 import org.nem.core.model.primitive.Amount;
 import org.nem.core.model.primitive.BlockHeight;
 import org.nem.core.model.primitive.Supply;
-
-import io.nem.apps.model.NISQuery;
+import io.nem.apps.api.NamespaceMosaicsApi;
 
 
 
@@ -95,7 +94,11 @@ public class TransactionFeeCalculatorAfterForkForApp implements TransactionFeeCa
 				.map(m -> {
 					MosaicFeeInformation information = this.mosaicFeeInformationLookup.findById(m.getMosaicId());
 					if (null == information) {
-						information = NISQuery.findMosaicFeeInformationByNIS(m.getMosaicId());
+						try {
+							information = NamespaceMosaicsApi.findMosaicFeeInformationByNIS(m.getMosaicId());
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
 					}
 					if (null == information) {
 						throw new IllegalArgumentException(String.format("unable to find fee information for '%s'", m.getMosaicId()));
