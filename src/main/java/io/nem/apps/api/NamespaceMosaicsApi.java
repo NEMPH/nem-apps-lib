@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.nem.core.connect.client.NisApiId;
+import org.nem.core.model.mosaic.MosaicDefinition;
 import org.nem.core.model.mosaic.MosaicFeeInformation;
 import org.nem.core.model.mosaic.MosaicId;
 import org.nem.core.model.namespace.Namespace;
@@ -36,6 +37,36 @@ public class NamespaceMosaicsApi {
 				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_NAMESPACE_ROOT_PAGE, "").get();
 		list = (ArrayList<NamespaceMetaDataPair>) des.readObjectArray("data", NamespaceMetaDataPair::new);
 		return list;
+	}
+
+	/**
+	 * Gets the mosaic information .
+	 *
+	 * @param namespace
+	 *            the namespace
+	 * @param mosaic
+	 *            the mosaic
+	 * @return the mosaic information
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 * @throws ExecutionException
+	 *             the execution exception
+	 */
+	public static MosaicDefinition getMosaicInformation(String namespace, String mosaic)
+			throws InterruptedException, ExecutionException {
+		Deserializer des;
+		List<MosaicDefinitionMetaDataPair> list;
+		des = NemAppsLibGlobals.CONNECTOR
+				.getAsync(NemAppsLibGlobals.getNodeEndpoint(), NisApiId.NIS_REST_NAMESPACE_MOSAIC_DEFINITION_PAGE, "namespace=" + namespace)
+				.get();
+		list = (ArrayList<MosaicDefinitionMetaDataPair>) des.readObjectArray("data", MosaicDefinitionMetaDataPair::new);
+
+		for (MosaicDefinitionMetaDataPair mosaicDefinitionMetadataPair : list) {
+			if (mosaicDefinitionMetadataPair.getEntity().getId().getName().equals(mosaic)) {
+				return mosaicDefinitionMetadataPair.getEntity();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -132,7 +163,7 @@ public class NamespaceMosaicsApi {
 	}
 
 	/**
-	 * Gets the find mosaic fee inforamtion 
+	 * Gets the find mosaic fee inforamtion
 	 * 
 	 * @param mosaicId
 	 * @return

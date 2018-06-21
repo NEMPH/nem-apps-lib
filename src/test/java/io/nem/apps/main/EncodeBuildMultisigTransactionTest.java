@@ -17,32 +17,6 @@ import io.nem.apps.builders.MultisigTransactionBuilder;
 import io.nem.apps.builders.TransferTransactionBuilder;
 import io.nem.apps.factories.AttachmentFactory;
 
-/**
- * The Class BuildTransactionTest.
- * 
- * 	Test Data
- * 	
-	testcosigner1:
-	TCIUDP-YUDSKD-3MTYLG-HRFIND-Y2SBH3-7FPOEZ-DGNS
-	publickey: db66f96468e54ffd967bf9436c367d88f4d24117c76873263330ae80ede677b2
-	privatekey: bd066f917747eb8e50d69a3bcbed829a3db0a0552581c7862f9eec706a43670d
-	
-	testcosigner2:
-	TBHK36-QDYJPQ-FWINRT-SOHLOO-Q7CO2H-HAEYS3-2KVE
-	public key: bc9b4cca4b8ec1a279f994c7473511a7bec45d8ef31946e65bd559749b17f80c
-	privatekey: 4e865e12d45ccbe6afd9f9b9f7c4ce447f214902f1bf2b5e62dad19a26eb3343
-	
-	testmultisig1
-	TDMP5W-DWY2JN-5F2V3R-IRHZ7G-7IPHZM-DT3WMZ-ZZKM
-	public key: 8d7cda65cf83740c3186202ee0dcd7d2736eb7cd1ec15255e874fed7ed9306b7
-	privatekey: 83808db970cce349e60cbdb8db5bf250dcb1c1c9b6c730e0cc636a99a321ce0d
-	
-	testmultisigrec
-	TCLLRK-CORYST-QK3T7G-6IZHFR-4ADBLE-WBGWRE-2FC4
-	publickey: 092f13a06496c002510a6afc03f5db522664716aaeefdded450106df1624dd3d
-	privatekey: 9eb9ff9bb1979209d6e3a82a513e37f5e9438d5d0606a6d3e5134de920feeaf9
-	
- */
 public class EncodeBuildMultisigTransactionTest extends NemAppsUnitTest {
 
 	/** The sample msg. */

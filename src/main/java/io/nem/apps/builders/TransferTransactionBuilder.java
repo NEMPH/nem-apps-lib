@@ -570,8 +570,8 @@ public class TransferTransactionBuilder {
 				amountFee = this.feeCalculator.calculateMinimumFee(instance);
 			} else {
 				TransactionFeeCalculator globalFeeCalculator = isForMultisig
-						? NemAppsLibGlobals.getGlobalMultisigTransactionFee()
-						: NemAppsLibGlobals.getGlobalTransactionFee();
+						? NemAppsLibGlobals.getGlobalMultisigTransactionFee(this.sender.getAddress().getEncoded())
+						: NemAppsLibGlobals.getGlobalTransactionFee(this.sender.getAddress().getEncoded());
 				amountFee = globalFeeCalculator.calculateMinimumFee(instance);
 			}
 			instance.setFee(amountFee);

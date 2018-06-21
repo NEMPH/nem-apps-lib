@@ -207,7 +207,7 @@ public class MultisigTransactionBuilder {
 			instance = new MultisigTransaction(this.timeStamp, this.sender, this.otherTransaction);
 
 			if (this.fee == null && this.feeCalculator == null) {
-				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee().calculateMinimumFee(instance));
+				instance.setFee(NemAppsLibGlobals.getGlobalMultisigTransactionFee(this.sender.getAddress().getEncoded()).calculateMinimumFee(instance));
 			} else {
 
 				if (this.fee != null) {
@@ -217,7 +217,7 @@ public class MultisigTransactionBuilder {
 					if (this.feeCalculator != null) {
 						feeCalculator = this.feeCalculator;
 					} else {
-						feeCalculator = NemAppsLibGlobals.getGlobalMultisigTransactionFee();
+						feeCalculator = NemAppsLibGlobals.getGlobalMultisigTransactionFee(this.sender.getAddress().getEncoded());
 					}
 					instance.setFee(feeCalculator.calculateMinimumFee(instance));
 				}

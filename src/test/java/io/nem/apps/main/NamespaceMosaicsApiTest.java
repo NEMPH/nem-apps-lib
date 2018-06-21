@@ -40,6 +40,7 @@ import io.nem.apps.api.TransactionApi;
 import io.nem.apps.service.NemAppsLibGlobals;
 import io.nem.apps.util.TransactionSenderUtil;
 
+@Ignore
 public class NamespaceMosaicsApiTest extends NemAppsUnitTest {
 
 	@Test

@@ -49,16 +49,5 @@ public class KeyConvertor {
 		return address.toString();
 	}
 	
-	/**
-	 * get public Key from address.
-	 *
-	 * @param addressString the address string
-	 * @return the public key from address
-	 */
-	public static String getPublicKeyFromAddress(String addressString) {
-		String queryResult = HttpClientUtils.get(Constants.URL_ACCOUNT_GET + "?address=" + addressString);
-		JSONObject queryAccount = JSONObject.fromObject(queryResult);
-		return queryAccount.getJSONObject("account").getString("publicKey");
-	}
 	
 }
