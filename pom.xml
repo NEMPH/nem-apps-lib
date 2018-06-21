@@ -2,25 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nem.apps</groupId>
 	<artifactId>nem-apps-lib</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
-
-	<distributionManagement>
-		<repository>
-			<id>nexus</id>
-			<name>Releases</name>
-			<url>https://nexus.internal.proximax.io/repository/maven-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus</id>
-			<name>Snapshot</name>
-			<url>https://nexus.internal.proximax.io/repository/maven-snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<scm>
-		<connection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</connection>
-		<developerConnection>scm:git:https://github.com/proximax-storage/proximax-nem-apps-lib.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<build>
 		<plugins>
@@ -91,7 +73,7 @@
 		<dependency>
 			<groupId>org.nem.core</groupId>
 			<artifactId>nem-core</artifactId>
-			<version>0.6.96-proximax-SNAPSHOT</version>
+			<version>0.6.95-BETA</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
