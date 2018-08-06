@@ -517,7 +517,11 @@ public class TransferTransactionBuilder {
 		 */
 		@Override
 		public IBuild addMosaic(MosaicId mosaic, Quantity quantity) {
-			this.attachment.addMosaic(mosaic, quantity);
+			if (this.attachment == null) {
+				this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(new Mosaic(mosaic, quantity)));
+			} else {
+				this.attachment.addMosaic(mosaic, quantity);
+			}
 			return this;
 		}
 
@@ -531,7 +535,11 @@ public class TransferTransactionBuilder {
 		@Override
 		public IBuild addMosaics(Mosaic... mosaics) {
 			for (Mosaic mosaic : mosaics) {
-				this.attachment.addMosaic(mosaic);
+				if (this.attachment == null) {
+					this.attachment = (AttachmentFactory.createTransferTransactionAttachmentMosaic(mosaic));
+				} else {
+					this.attachment.addMosaic(mosaic);
+				}
 			}
 			return this;
 		}
